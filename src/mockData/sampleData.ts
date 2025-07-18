@@ -1,215 +1,209 @@
-import type { Scientist } from "../Users/users";
 import type {
   Sample,
-  Milestone,
+  Scientist,
   Tests,
-  TestDuration,
-  TestStatus,
-  SampleType,
-  MilestoneTestEntry
-} from "./types"; // adjust path as needed
+} from "./interfaces"; // Adjust path as needed
 
-// Scientists
 export const mockScientists: Scientist[] = [
-  { id: 1, name: "Dr. Alice Nguyen", department: "R&D" },
-  { id: 2, name: "Dr. Jamal Ortega", department: "Microbiology" },
-  { id: 3, name: "Dr. Lin Zhang", department: "Quality Assurance" }
+  { id: 1, name: "Dr. Alice Nguyen", department: "Food Safety" },
+  { id: 2, name: "Dr. Marcus Lee", department: "Cosmetic Chemistry" },
+  { id: 3, name: "Dr. Priya Patel", department: "Microbiology" },
 ];
 
-// ✅ Sample 1: Food Sample - In Progress
-export const sample1: Sample = {
-  id: 1,
-  name: "Tomato Sauce Batch A",
-  owner: mockScientists[0],
-  outOfSpec: false,
-  testStart: new Date("2025-07-01"),
-  totalSamples: 10,
-  typeOfTest: {
-    typeOfTest: "ph",
-    lengthOfTest: "4-week"
-  },
-  sampleType: "food",
-  testStatus: "in-progress",
-  testDuration: "4-week",
-  dueDate: new Date("2025-07-29")
-};
-
-export const milestones1: Milestone[] = [
+export const mockSamples: Sample[] = [
   {
-    week: "1-week",
-    dueDate: new Date("2025-07-08"),
-    tests: [
-      {
-        testType: { typeOfTest: "ph", lengthOfTest: "4-week" },
-        unit: "pH",
-        testedBy: mockScientists[1],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
+    id: 1,
+    name: "Strawberry Yogurt",
+    owner: mockScientists[0],
+    outOfSpec: false,
+    testStart: new Date("2025-05-01"),
+    totalSamples: 5,
+    typeOfTest: { typeOfTest: "ph", lengthOfTest: "12 weeks" },
+    sampleType: "food",
+    testStatus: "in-progress",
+    testDuration: "12-week",
+    dueDate: new Date("2025-07-24"),
   },
   {
-    week: "2-week",
-    dueDate: new Date("2025-07-15"),
-    tests: [
-      {
-        testType: { typeOfTest: "ph", lengthOfTest: "4-week" },
-        unit: "pH",
-        testedBy: mockScientists[2],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
-  }
-];
-
-// ✅ Sample 2: Cosmetic Sample - Completed
-export const sample2: Sample = {
-  id: 2,
-  name: "Moisturizer Lot B",
-  owner: mockScientists[2],
-  outOfSpec: false,
-  testStart: new Date("2025-06-01"),
-  totalSamples: 5,
-  typeOfTest: {
-    typeOfTest: "stability",
-    lengthOfTest: "8-week"
-  },
-  sampleType: "cosmetic",
-  testStatus: "completed",
-  testDuration: "8-week",
-  dueDate: new Date("2025-07-27")
-};
-
-export const milestones2: Milestone[] = [
-  {
-    week: "4-week",
-    dueDate: new Date("2025-06-29"),
-    tests: [
-      {
-        testType: { typeOfTest: "stability", lengthOfTest: "8-week" },
-        unit: "Color Change",
-        testedBy: mockScientists[0],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
+    id: 2,
+    name: "Herbal Shampoo",
+    owner: mockScientists[1],
+    outOfSpec: true,
+    testStart: new Date("2025-05-10"),
+    totalSamples: 3,
+    typeOfTest: { typeOfTest: "stability", lengthOfTest: "8 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "in-progress",
+    testDuration: "8-week",
+    dueDate: new Date("2025-07-05"),
   },
   {
-    week: "8-week",
-    dueDate: new Date("2025-07-27"),
-    tests: [
-      {
-        testType: { typeOfTest: "stability", lengthOfTest: "8-week" },
-        unit: "Viscosity",
-        testedBy: mockScientists[1],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
-  }
-];
-
-// ❌ Sample 3: Food - Out of Spec
-export const sample3: Sample = {
-  id: 3,
-  name: "Spicy Sauce Batch C",
-  owner: mockScientists[1],
-  outOfSpec: true,
-  testStart: new Date("2025-06-01"),
-  totalSamples: 20,
-  typeOfTest: {
-    typeOfTest: "microbial",
-    lengthOfTest: "12-week"
-  },
-  sampleType: "food",
-  testStatus: "in-progress",
-  testDuration: "12-week",
-  dueDate: new Date("2025-08-24")
-};
-
-export const milestones3: Milestone[] = [
-  {
-    week: "1-week",
-    dueDate: new Date("2025-06-08"),
-    tests: [
-      {
-        testType: { typeOfTest: "microbial", lengthOfTest: "12-week" },
-        unit: "CFU/g",
-        testedBy: mockScientists[2],
-        inSpec: false,
-        isComplete: true
-      }
-    ]
+    id: 3,
+    name: "Chocolate Pudding",
+    owner: mockScientists[2],
+    outOfSpec: false,
+    testStart: new Date("2025-06-01"),
+    totalSamples: 6,
+    typeOfTest: { typeOfTest: "microbial", lengthOfTest: "4 weeks" },
+    sampleType: "food",
+    testStatus: "pending",
+    testDuration: "4-week",
+    dueDate: new Date("2025-07-01"),
   },
   {
-    week: "2-week",
+    id: 4,
+    name: "Aloe Vera Gel",
+    owner: mockScientists[1],
+    outOfSpec: false,
+    testStart: new Date("2025-05-05"),
+    totalSamples: 4,
+    typeOfTest: { typeOfTest: "viscosity", lengthOfTest: "2 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "completed",
+    testDuration: "2-week",
+    dueDate: new Date("2025-05-19"),
+  },
+  {
+    id: 5,
+    name: "Vanilla Ice Cream",
+    owner: mockScientists[0],
+    outOfSpec: true,
+    testStart: new Date("2025-06-10"),
+    totalSamples: 5,
+    typeOfTest: { typeOfTest: "sensory", lengthOfTest: "1 week" },
+    sampleType: "food",
+    testStatus: "in-progress",
+    testDuration: "1-week",
+    dueDate: new Date("2025-06-17"),
+  },
+  {
+    id: 6,
+    name: "Cucumber Cleanser",
+    owner: mockScientists[1],
+    outOfSpec: false,
+    testStart: new Date("2025-05-15"),
+    totalSamples: 6,
+    typeOfTest: { typeOfTest: "microbial", lengthOfTest: "4 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "completed",
+    testDuration: "4-week",
     dueDate: new Date("2025-06-15"),
-    tests: [
-      {
-        testType: { typeOfTest: "microbial", lengthOfTest: "12-week" },
-        unit: "CFU/g",
-        testedBy: mockScientists[2],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
-  }
-];
-
-// ❌ Sample 4: Cosmetic - Out of Spec
-export const sample4: Sample = {
-  id: 4,
-  name: "Face Cream - Lot 004",
-  owner: mockScientists[0],
-  outOfSpec: true,
-  testStart: new Date("2025-05-15"),
-  totalSamples: 15,
-  typeOfTest: {
-    typeOfTest: "stability",
-    lengthOfTest: "12-week"
-  },
-  sampleType: "cosmetic",
-  testStatus: "in-progress",
-  testDuration: "12-week",
-  dueDate: new Date("2025-08-07")
-};
-
-export const milestones4: Milestone[] = [
-  {
-    week: "1-week",
-    dueDate: new Date("2025-05-22"),
-    tests: [
-      {
-        testType: { typeOfTest: "stability", lengthOfTest: "12-week" },
-        unit: "Visual/Color Change",
-        testedBy: mockScientists[1],
-        inSpec: false,
-        isComplete: true
-      }
-    ]
   },
   {
-    week: "2-week",
-    dueDate: new Date("2025-05-29"),
-    tests: [
-      {
-        testType: { typeOfTest: "stability", lengthOfTest: "12-week" },
-        unit: "Odor",
-        testedBy: mockScientists[1],
-        inSpec: true,
-        isComplete: true
-      }
-    ]
-  }
+    id: 7,
+    name: "Almond Milk",
+    owner: mockScientists[2],
+    outOfSpec: false,
+    testStart: new Date("2025-04-20"),
+    totalSamples: 4,
+    typeOfTest: { typeOfTest: "ph", lengthOfTest: "8 weeks" },
+    sampleType: "food",
+    testStatus: "completed",
+    testDuration: "8-week",
+    dueDate: new Date("2025-06-15"),
+  },
+  {
+    id: 8,
+    name: "Rose Lotion",
+    owner: mockScientists[1],
+    outOfSpec: false,
+    testStart: new Date("2025-05-22"),
+    totalSamples: 3,
+    typeOfTest: { typeOfTest: "wateractivity", lengthOfTest: "2 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "completed",
+    testDuration: "2-week",
+    dueDate: new Date("2025-06-05"),
+  },
+  {
+    id: 9,
+    name: "Protein Shake",
+    owner: mockScientists[0],
+    outOfSpec: false,
+    testStart: new Date("2025-06-12"),
+    totalSamples: 5,
+    typeOfTest: { typeOfTest: "microbial", lengthOfTest: "1 week" },
+    sampleType: "food",
+    testStatus: "in-progress",
+    testDuration: "1-week",
+    dueDate: new Date("2025-06-19"),
+  },
+  {
+    id: 10,
+    name: "Honey Facial Mask",
+    owner: mockScientists[1],
+    outOfSpec: true,
+    testStart: new Date("2025-05-18"),
+    totalSamples: 4,
+    typeOfTest: { typeOfTest: "sensory", lengthOfTest: "12 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "in-progress",
+    testDuration: "12-week",
+    dueDate: new Date("2025-08-10"),
+  },
+  {
+    id: 11,
+    name: "Greek Yogurt",
+    owner: mockScientists[0],
+    outOfSpec: false,
+    testStart: new Date("2025-06-01"),
+    totalSamples: 5,
+    typeOfTest: { typeOfTest: "wateractivity", lengthOfTest: "4 weeks" },
+    sampleType: "food",
+    testStatus: "pending",
+    testDuration: "4-week",
+    dueDate: new Date("2025-06-29"),
+  },
+  {
+    id: 12,
+    name: "Charcoal Scrub",
+    owner: mockScientists[1],
+    outOfSpec: false,
+    testStart: new Date("2025-05-25"),
+    totalSamples: 3,
+    typeOfTest: { typeOfTest: "ph", lengthOfTest: "8 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "in-progress",
+    testDuration: "8-week",
+    dueDate: new Date("2025-07-20"),
+  },
+  {
+    id: 13,
+    name: "Fruit Juice Blend",
+    owner: mockScientists[2],
+    outOfSpec: false,
+    testStart: new Date("2025-06-05"),
+    totalSamples: 4,
+    typeOfTest: { typeOfTest: "viscosity", lengthOfTest: "2 weeks" },
+    sampleType: "food",
+    testStatus: "in-progress",
+    testDuration: "2-week",
+    dueDate: new Date("2025-06-19"),
+  },
+  {
+    id: 14,
+    name: "Coconut Conditioner",
+    owner: mockScientists[1],
+    outOfSpec: false,
+    testStart: new Date("2025-06-08"),
+    totalSamples: 6,
+    typeOfTest: { typeOfTest: "stability", lengthOfTest: "8 weeks" },
+    sampleType: "cosmetic",
+    testStatus: "in-progress",
+    testDuration: "8-week",
+    dueDate: new Date("2025-08-03"),
+  },
+  {
+    id: 15,
+    name: "Vanilla Protein Bar",
+    owner: mockScientists[0],
+    outOfSpec: true,
+    testStart: new Date("2025-06-15"),
+    totalSamples: 7,
+    typeOfTest: { typeOfTest: "wateractivity", lengthOfTest: "12 weeks" },
+    sampleType: "food",
+    testStatus: "in-progress",
+    testDuration: "12-week",
+    dueDate: new Date("2025-09-07"),
+  },
 ];
-
-// ✅ Export all
-export const allSamples: Sample[] = [sample1, sample2, sample3, sample4];
-
-export const allMilestones: Record<number, Milestone[]> = {
-  1: milestones1,
-  2: milestones2,
-  3: milestones3,
-  4: milestones4
-};
