@@ -1,3 +1,4 @@
+import Table from "../../Components/Table/Table";
 import { mockSamples } from "../../mockData/sampleData"
 
 export default function DashBoard() {
@@ -10,7 +11,8 @@ export default function DashBoard() {
 
   return (
     <>
-      <h1>Dashboard page</h1>
+      <Table />
+      {/* <h1>Dashboard page</h1>
       <table>
         <thead>
           <tr>
@@ -36,7 +38,7 @@ export default function DashBoard() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </>
   )
 }
