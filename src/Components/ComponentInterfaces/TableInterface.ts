@@ -1,5 +1,5 @@
 export interface TableHeader {
-  header:string[]
+  header:any[]
 }
 
 export interface TableBody {
@@ -8,8 +8,8 @@ export interface TableBody {
 }
 
 export interface Table {
-  header: string;
-  data: string[];
-  tableHeader: TableHeader;
-  tableBody: TableBody;
+  tableTitle: string;
+  data?: string[];
+  tableHeader?: any[];
+  tableBody?: TableBody;
 }

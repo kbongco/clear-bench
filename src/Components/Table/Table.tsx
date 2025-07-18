@@ -1,7 +1,9 @@
+import type { Table } from "../ComponentInterfaces/TableInterface";
 import TableBody from "./TableBody";
 import TableHeader from "./TableHeader";
 
-export default function Table() {
+export default function Table({ tableTitle, data, tableHeader, tableBody }: Table) {
+  console.log(data);
   const testTitles = ["ID", "Name", "Team Name", "Email"];
   const testData = [
   {
@@ -19,11 +21,11 @@ export default function Table() {
 ];
   return (
     <>
-      <h1>Table Component</h1>
+      <h1>{tableTitle}</h1>
       <table>
-      <TableHeader header={testTitles} />
-        <TableBody data={testData} headers={testTitles} />
-        </table>
+        <TableHeader header={tableHeader || []} />
+        <TableBody data={data} headers={tableHeader} />
+      </table>
     </>
   )
 }

@@ -3,6 +3,7 @@ import { mockSamples } from "../../mockData/sampleData"
 
 export default function DashBoard() {
   console.log(mockSamples);
+  const tableTitle = "Sample Dashboard"
   const namedSamples = mockSamples.map((name) => name.name);
   const titles = Object.keys(mockSamples[0]);
   console.log(titles);
@@ -11,7 +12,7 @@ export default function DashBoard() {
 
   return (
     <>
-      <Table />
+      <Table tableTitle={tableTitle} tableHeader={titles} data={mockSamples} />
       {/* <h1>Dashboard page</h1>
       <table>
         <thead>
