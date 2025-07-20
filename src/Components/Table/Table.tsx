@@ -22,7 +22,7 @@ export default function Table({ tableTitle, data, tableHeader, tableBody }: Tabl
   return (
     <>
       <h1>{tableTitle}</h1>
-      <table>
+      <table className="shadow-lg bg-white">
         <TableHeader header={tableHeader || []} />
         <TableBody data={data} headers={tableHeader} />
       </table>
