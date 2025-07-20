@@ -21,7 +21,7 @@ export default function Table({ tableTitle, data, tableHeader, tableBody }: Tabl
 ];
   return (
     <>
-      <h1>{tableTitle}</h1>
+      <h1 className='text-3xl font-bold text-blue-600 text-center mb-4'>{tableTitle}</h1>
       <table className="shadow-lg bg-white">
         <TableHeader header={tableHeader || []} />
         <TableBody data={data} headers={tableHeader} />
