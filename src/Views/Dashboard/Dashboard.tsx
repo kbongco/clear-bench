@@ -7,7 +7,6 @@ import Input from "../../Components/Input/Input";
 export default function DashBoard() {
   const [filteredSamples, setFilteredSamples] = useState(mockSamples);
   const [searchValue, setSearchValue] = useState('');
-  console.log(mockSamples);
   const tableTitle = "Sample Dashboard"
   const filterMe = "Filter By"
   const titles = Object.keys(mockSamples[0]);
@@ -34,8 +33,10 @@ export default function DashBoard() {
   return (
     <>
       <div className='display: flex justify-content: center items-center flex-col'>
-        <Input label={searchLabel} type='text' placeholder='Test' value={searchValue} onChange={handleInputChange} name='Function'/> 
+        <div>
+        <Input label={searchLabel} type='text' placeholder='Search Value' value={searchValue} onChange={handleInputChange} name='Function'/> 
         <Button buttonText={filterMe} onClick={filterBySpecValue} />
+        </div>
         <Table tableTitle={tableTitle} tableHeader={titles} data={filteredSamples} />
       </div>
     </>
