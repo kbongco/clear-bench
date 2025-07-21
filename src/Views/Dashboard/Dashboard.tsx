@@ -13,18 +13,19 @@ export default function DashBoard() {
   const titles = Object.keys(mockSamples[0]);
   const searchLabel = 'Filter by a specific value'
 
-  const testFunction = () => {
-    console.log('passing down works :) ')
-  }
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
   const filterBySpecValue = () => {
-    const filtered = mockSamples.filter(sample => sample.sampleType
-      === searchValue);
-    console.log(filtered);
+    if (searchValue.trim() === '') {
+      setFilteredSamples(mockSamples); 
+      return;
+    }
+  
+    const filtered = mockSamples.filter(sample =>
+      sample.sampleType.toLowerCase().includes(searchValue.toLowerCase())
+    );
     setFilteredSamples(filtered);
     console.log('filtered by spec with value:', searchValue);
   };
