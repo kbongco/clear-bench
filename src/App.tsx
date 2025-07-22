@@ -1,10 +1,12 @@
+import NavBar from './Layout/NavBar/NavBar'
 import DashBoard from './Views/Dashboard/Dashboard'
 
 function App() {
 
   return (
     <>
-<DashBoard/>
+      {/* <DashBoard/> */}
+      <NavBar/>
     </>
   )
 }
