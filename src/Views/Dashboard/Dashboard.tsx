@@ -10,7 +10,7 @@ export default function DashBoard() {
   const [filteredSamples, setFilteredSamples] = useState(mockSamples);
   const [searchValue, setSearchValue] = useState('');
   const [sortValue, setSortValue] = useState('');
-  const tableTitle = "Sample Dashboard"
+  const tableTitle = "All Samples in Test"
   const filterMe = "Filter By"
   const titles = Object.keys(mockSamples[0]);
   const searchLabel = 'Filter by a specific value'
