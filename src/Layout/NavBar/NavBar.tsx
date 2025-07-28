@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faHouse, faFlask, faCheckSquare, faFile, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
 export default function NavBar() {
   return (
     <>
@@ -16,7 +17,8 @@ export default function NavBar() {
                   <FontAwesomeIcon className='text-2xl text-white' icon={faHouse} />
                 </div>
                 <div>
-                  <a href='/' className='text-white text-2x font-bold'>Home</a>
+                  {/* <a href='/' className='text-white text-2x font-bold'>Home</a> */}
+                  <NavLink to='/' className='text-white text-2x font-bold'>Home</NavLink>
                 </div>
               </div>
             </li>
