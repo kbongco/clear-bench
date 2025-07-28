@@ -10,7 +10,6 @@ export default function Home() {
   const outOfSpecSamples = currentUserSamples.filter(sample => sample.outOfSpec === true);
   const currentCompletedSamples = currentUserSamples.filter(sample => sample.testStatus === 'completed');
   const currentTableTitle = 'Your samples currently in test';
-  // const titles = Object.keys(mockSamples[0]);
   console.log(outOfSpecSamples)
   const currentSamplesArr = currentUserSamples.map(sample => {
     return {
