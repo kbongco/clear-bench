@@ -9,7 +9,7 @@ export interface TableBody {
 
 export interface Table {
   tableTitle: string;
-  data?: string[];
+  data?: any[];
   tableHeader?: any[];
   tableBody?: TableBody;
 }

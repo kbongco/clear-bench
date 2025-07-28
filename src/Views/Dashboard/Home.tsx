@@ -1,0 +1,69 @@
+import Card from "../../Components/Card/Card";
+import Table from "../../Components/Table/Table";
+import { mockSamples } from "../../mockData/sampleData";
+import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+export default function Home() {
+  const currentUser = mockSamples[0].owner.name;
+  const currentUserSamples = mockSamples.filter(sample => sample.owner.name === currentUser);
+  const outOfSpecSamples = currentUserSamples.filter(sample => sample.outOfSpec === true);
+  const currentCompletedSamples = currentUserSamples.filter(sample => sample.testStatus === 'completed');
+  const currentTableTitle = 'Your samples currently in test';
+  console.log(outOfSpecSamples)
+  const currentSamplesArr = currentUserSamples.map(sample => {
+    return {
+      id: sample.id,
+      name: sample.name,
+      totalSamples: sample.totalSamples,
+      typeOfTest: sample.typeOfTest,
+      testStatus: sample.testStatus,
+      dueDate: sample.dueDate
+    }
+  })
+  const titles = Object.keys(currentSamplesArr[0]);
+
+  console.log(currentSamplesArr, 'arr');
+
+  const totalSamples = currentUserSamples.length;
+  console.log(currentUserSamples)
+  console.log(mockSamples);
+
+  const testDescription = (
+    <span className="flex items-center gap-2 justify-center">
+      <FontAwesomeIcon className='text-2xl text-white' icon={faFlask} />
+      You have {totalSamples} samples in test
+    </span>
+  );
+
+  const notifications = (
+    <span className="flex items-center gap-2 justify-center">
+      {outOfSpecSamples.length > 0 ? (
+        <>
+          <FontAwesomeIcon className='text-2xl text-white' icon={faBell} />
+          You have {outOfSpecSamples.length} samples that need your attention.
+        </>
+      ) : 'You have no samples that require your attention'}
+    </span>
+  )
+
+  return (
+    <>
+      <div className='ml-16'>
+        <h1 className='text-3xl'>Welcome! {currentUser}</h1>
+        <div className="mt-4 flex gap-4">
+          <Card title='Overview' description={testDescription} />
+          <Card title='Notifications' description={notifications} />
+        </div>
+        <div>
+          <h2 className='text-2xl mt-8'>Your Samples</h2>
+          <Table tableTitle={currentTableTitle} tableHeader={titles} data={currentSamplesArr} />
+        </div>
+        <div>
+          <h2 className='text-2xl mt-8'>Completed Samples</h2>
+          {currentCompletedSamples.length > 0 ? <Table tableTitle='Your completed samples' tableHeader={titles} data={currentCompletedSamples} /> : <p className='text-gray-500'>You have no completed samples.</p>}
+        </div>
+      </div>
+    </>
+  )
+}
