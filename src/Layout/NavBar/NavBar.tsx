@@ -36,7 +36,8 @@ export default function NavBar() {
                   <FontAwesomeIcon className='text-2xl text-white' icon={faFlask} />
                 </div>
                 <div>
-                  <a href='/all-samples' className='text-white text-2x font-bold'>All Samples</a>
+                  <NavLink to ='/view-samples' className='text-white text-2x font-bold'>All Samples</NavLink>
+                  {/* <a href='/all-samples' className='text-white text-2x font-bold'>All Samples</a> */}
                 </div>
               </div>
             </li>

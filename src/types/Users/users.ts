@@ -3,4 +3,5 @@ export interface Scientist {
   name: string;
   teamName: string;
   email: string;
+  managerName?: string; 
 }
