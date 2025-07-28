@@ -21,11 +21,15 @@ export default function Table({ tableTitle, data, tableHeader, tableBody }: Tabl
 ];
   return (
     <>
-      <h1 className='text-3xl font-bold text-blue-600 text-center mb-4'>{tableTitle}</h1>
-      <table className="shadow-lg bg-white">
+  <div className="mx-auto max-w-6xl p-4">
+    <h1 className="text-3xl font-bold text-blue-600 text-center mb-4">{tableTitle}</h1>
+    <div className="overflow-auto max-w-full shadow rounded-lg">
+      <table className="w-full table-auto bg-white">
         <TableHeader header={tableHeader || []} />
         <TableBody data={data} headers={tableHeader} />
       </table>
+    </div>
+  </div>
     </>
   )
 }

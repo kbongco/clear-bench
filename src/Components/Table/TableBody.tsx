@@ -14,7 +14,7 @@ export default function TableBody({ data, headers }:any) {
       {data.map((row, rowIndex) => (
         <tr key={rowIndex}>
           {headers.map((headerKey) => (
-            <td key={String(headerKey)}>
+            <td className='text-center'key={String(headerKey)}>
               {renderCell(row[headerKey])}
             </td>
           ))}
