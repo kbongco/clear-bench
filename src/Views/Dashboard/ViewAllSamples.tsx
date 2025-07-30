@@ -12,7 +12,7 @@ export default function ViewAllSamples({ user, data }: any) {
       testStatus: sample.testStatus,
       dueDate: sample.dueDate
     }
-  })
+  });
 
   console.log(data);
   return (

@@ -4,6 +4,7 @@ import DashBoard from './Views/Dashboard/Dashboard'
 import Home from './Views/Dashboard/Home'
 import { Routes, Route } from 'react-router-dom';
 import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
+import SubmitSamples from './Views/SubmitSamples';
 
 function App() {
   const currentUser = mockSamples[0].owner.name;
@@ -19,7 +20,8 @@ function App() {
       <div className="ml-64">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />}/>
+          <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
+          <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />}/>
         </Routes>
         {/* <DashBoard /> */}
       </div>
