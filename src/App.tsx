@@ -5,8 +5,10 @@ import Home from './Views/Dashboard/Home'
 import { Routes, Route } from 'react-router-dom';
 import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
+import { useState } from 'react';
 
 function App() {
+  const [role, setRole] = useState('scientist');
   const currentUser = mockSamples[0].owner.name;
   const currentUserTeamSamples = mockSamples.filter(sample =>
     sample.owner.name === currentUser || sample.owner.managerName === currentUser
@@ -17,7 +19,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar role={role} setRole={setRole} />
       <div className="ml-64">
         <Routes>
           <Route path="/" element={<Home />} />

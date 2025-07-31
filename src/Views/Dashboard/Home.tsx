@@ -95,7 +95,6 @@ export default function Home() {
         </div>
         <div>
           <h2 className='text-2xl mt-8'>Your Samples</h2>
-          {/* <Table tableTitle={currentTableTitle} tableHeader={titles} data={currentSamplesArr} /> */}
           <Table tableTitle={currentTableTitle} tableHeader={titles} data={allSamples} />
         </div>
         <div>
