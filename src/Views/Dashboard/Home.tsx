@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import Table from "../../Components/Table/Table";
 import { mockSamples } from "../../mockData/sampleData";
@@ -5,6 +6,15 @@ import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Home() {
+  const [allSamples, setAllSamples] = useState<Array<{
+    id: string;
+    name: string;
+    totalSamples: string | number;
+    typeOfTest: string;
+    testStatus: string;
+    dueDate: string;
+  }>>([]);
+
   const currentUser = mockSamples[0].owner.name;
   const currentUserSamples = mockSamples.filter(sample => sample.owner.name === currentUser);
   const outOfSpecSamples = currentUserSamples.filter(sample => sample.outOfSpec === true);
@@ -47,6 +57,34 @@ export default function Home() {
     </span>
   )
 
+  useEffect(() => {
+    const currentSamplesArr = currentUserSamples.map(sample => ({
+      id: sample.id,
+      name: sample.name,
+      totalSamples: sample.totalSamples,
+      typeOfTest: sample.typeOfTest,
+      testStatus: sample.testStatus,
+      dueDate: sample.dueDate
+    }));
+
+    // 2. Get submissions from localStorage
+    const storedSamples = JSON.parse(localStorage.getItem('submittedSamples') || '[]');
+
+    // 3. Map stored samples to same shape (if needed)
+    const formattedStoredSamples = storedSamples.map((sample: any, index: number) => ({
+      id: `local-${index}`, // unique id
+      name: sample.sampleName,
+      totalSamples: sample.totalSamples || 'N/A',
+      typeOfTest: sample.testType,
+      testStatus: 'Pending',
+      dueDate: 'TBD'
+    }));
+
+    // 4. Combine
+    const allSamples = [...currentSamplesArr, ...formattedStoredSamples];
+    setAllSamples(allSamples);
+  },[])
+
   return (
     <>
       <div className='ml-16'>
@@ -57,7 +95,8 @@ export default function Home() {
         </div>
         <div>
           <h2 className='text-2xl mt-8'>Your Samples</h2>
-          <Table tableTitle={currentTableTitle} tableHeader={titles} data={currentSamplesArr} />
+          {/* <Table tableTitle={currentTableTitle} tableHeader={titles} data={currentSamplesArr} /> */}
+          <Table tableTitle={currentTableTitle} tableHeader={titles} data={allSamples} />
         </div>
         <div>
           <h2 className='text-2xl mt-8'>Completed Samples</h2>
