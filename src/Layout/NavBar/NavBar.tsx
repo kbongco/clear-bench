@@ -93,7 +93,7 @@ export default function NavBar() {
             <option value='labtech'>Lab Tech</option>
           </select>
         </div>
-
+        <hr/>
         <div className='flex items-center gap-2'>
           <FontAwesomeIcon className='text-2xl text-white' icon={faRightFromBracket} />
           <h1 className='text-lg text-white font-bold'>Logout</h1>
