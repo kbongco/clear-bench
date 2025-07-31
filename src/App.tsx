@@ -12,6 +12,7 @@ function App() {
     sample.owner.name === currentUser || sample.owner.managerName === currentUser
   );
   console.log(currentUserTeamSamples)
+  console.log(mockSamples)
   
 
   return (

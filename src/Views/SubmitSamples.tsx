@@ -1,6 +1,21 @@
+import { useState } from "react";
 import Input from "../Components/Input/Input";
+import Checkbox from "../Components/Checkbox/Checkbox";
+import { foodTestDropdownOptions } from "../mockData/typeofTest";
+import SelectComponent from "../Components/Select/Select";
 
-export default function SubmitSamples({user}:any) {
+export default function SubmitSamples({ user }: any) {
+  console.log(user);
+  const [formData, setFormData] = useState({
+    sampleName: '',
+    sampleOwner: user,
+    sampleType: '',
+    teamName: '',
+    totalSamples: '',
+    testingSheet: null
+  });
+  
+
   return (
     <>
       <div className='ml-4'>
@@ -15,26 +30,88 @@ export default function SubmitSamples({user}:any) {
             <li>Once all required items have been recieved, you will recieve a notification from the lab tech who picks up your samples</li>
           </ol>
         </div>
+        <p className='text-lg my-4'>To submit your samples, please fill out the form below</p>
         <div>
-          <p className='text-lg my-4'>To submit your samples, please fill out the form below</p>
-          <form className='flex  gap-4'>
-            <Input label='Sample Name' type={""} placeholder={""} value={""} onChange={function (event: React.ChangeEvent<HTMLInputElement>): void {
-              throw new Error("Function not implemented.");
-            }} name={""} />
-            <Input label='Sample Owner' placeholder={user} type={""} value={""} onChange={function (event: React.ChangeEvent<HTMLInputElement>): void {              throw new Error("Function not implemented.");
-            }} name={""} />
-            {/* <label htmlFor="sampleName">Sample Name:</label>
-            <input type="text" id="sampleName" name="sampleName" placeholder="Enter sample name" className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200' />
+        <div>
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+  <div>
+    <Input
+      label="Sample Name"
+      type="text"
+      placeholder="Enter sample name"
+      value={formData.sampleName}
+      onChange={(e) => setFormData({ ...formData, sampleName: e.target.value })}
+      name="sampleName"
+    />
+  </div>
 
-            <label htmlFor="sampleType">Sample Type:</label>
-            <input type="text" id="sampleType" name="sampleType" placeholder="Enter sample type" className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200' />
+  <div>
+    <Input
+      label="Sample Owner"
+      type="text"
+      placeholder=""
+      value={formData.sampleOwner}
+      onChange={() => {}}
+      name="sampleOwner"
+      disabled={true}
+    />
+  </div>
 
-            <label htmlFor="testingSheet">Testing Sheet:</label>
-            <input type="file" id="testingSheet" name="testingSheet" className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200' /> */}
+  <div>
+    <Input
+      label="Team Name"
+      type="text"
+      placeholder="Enter team name"
+      value={formData.teamName}
+      onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
+      name="teamName"
+    />
+  </div>
 
-            <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600'>Submit Samples</button>
-          </form>
-        </div>
+  <div>
+    <Checkbox
+      label="40C"
+      checked={formData.is40C}
+      onChange={(e) => setFormData({ ...formData, is40C: e.target.checked })}
+    />
+  </div>
+
+  <div>
+    <SelectComponent
+      label="Type of test"
+      options={foodTestDropdownOptions}
+      value={formData.testType}
+      onChange={(e) => setFormData({ ...formData, testType: e.target.value })}
+      name="testType"
+    />
+  </div>
+
+  <div>
+    <Input
+      label="Additional Notes"
+      type="text"
+      placeholder="Optional"
+      value={formData.notes}
+      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+      name="notes"
+    />
+  </div>
+
+  <div className="col-span-full">
+    <button
+      type="submit"
+      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+    >
+      Submit Samples
+    </button>
+  </div>
+</form>
+
+
+</div>
+
+</div>
+
       </div>
     </>
   )
