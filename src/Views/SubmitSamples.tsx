@@ -34,7 +34,16 @@ export default function SubmitSamples({ user }: any) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+  // Get existing submissions from localStorage
+  const existingSubmissions = JSON.parse(localStorage.getItem('submittedSamples') || '[]');
+
+  // Add the new formData
+  const updatedSubmissions = [...existingSubmissions, formData];
+
+  // Save the updated list back to localStorage
+  localStorage.setItem('submittedSamples', JSON.stringify(updatedSubmissions));
+
+  console.log('Form submitted:', formData);
 
     // Reset form
     setFormData({
@@ -92,6 +101,14 @@ export default function SubmitSamples({ user }: any) {
           onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
           name="teamName"
         />
+
+        <Input
+          label='Total Number of Samples'
+          type="number"
+          placeholder=""
+          value={formData.totalSamples}
+          onChange={(e) => setFormData({ ...formData, totalSamples: e.target.value })}
+        name="totalSamples"/>
 
         <Input
           label="Start Date"

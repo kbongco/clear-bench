@@ -6,7 +6,7 @@ export default function NavBar() {
     <>
       <div className='w-64 bg-blue-500 fixed h-full'>
         <div className='m-8'>
-          <h1 className='text-2x text-white font-bold'>Sample Management</h1>
+          <h1 className='text-2x text-white font-bold'>Clear Bench</h1>
         </div>
         <hr />
         <div className='flex '>
@@ -17,7 +17,6 @@ export default function NavBar() {
                   <FontAwesomeIcon className='text-2xl text-white' icon={faHouse} />
                 </div>
                 <div>
-                  {/* <a href='/' className='text-white text-2x font-bold'>Home</a> */}
                   <NavLink to='/' className='text-white text-2x font-bold'>Home</NavLink>
                 </div>
               </div>
