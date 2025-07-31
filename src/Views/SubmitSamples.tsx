@@ -3,6 +3,7 @@ import Input from "../Components/Input/Input";
 import Checkbox from "../Components/Checkbox/Checkbox";
 import { foodTestDropdownOptions } from "../mockData/typeofTest";
 import SelectComponent from "../Components/Select/Select";
+import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 
 export default function SubmitSamples({ user }: any) {
   console.log(user);
@@ -14,7 +15,9 @@ export default function SubmitSamples({ user }: any) {
     totalSamples: '',
     testingSheet: null
   });
-  
+
+  const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C']
+
 
   return (
     <>
@@ -32,85 +35,84 @@ export default function SubmitSamples({ user }: any) {
         </div>
         <p className='text-lg my-4'>To submit your samples, please fill out the form below</p>
         <div>
-        <div>
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-  <div>
-    <Input
-      label="Sample Name"
-      type="text"
-      placeholder="Enter sample name"
-      value={formData.sampleName}
-      onChange={(e) => setFormData({ ...formData, sampleName: e.target.value })}
-      name="sampleName"
-    />
-  </div>
+          <div>
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+              <div>
+                <Input
+                  label="Sample Name"
+                  type="text"
+                  placeholder="Enter sample name"
+                  value={formData.sampleName}
+                  onChange={(e) => setFormData({ ...formData, sampleName: e.target.value })}
+                  name="sampleName"
+                />
+              </div>
 
-  <div>
-    <Input
-      label="Sample Owner"
-      type="text"
-      placeholder=""
-      value={formData.sampleOwner}
-      onChange={() => {}}
-      name="sampleOwner"
-      disabled={true}
-    />
-  </div>
+              <div>
+                <Input
+                  label="Sample Owner"
+                  type="text"
+                  placeholder=""
+                  value={formData.sampleOwner}
+                  onChange={() => { }}
+                  name="sampleOwner"
+                  disabled={true}
+                />
+              </div>
 
-  <div>
-    <Input
-      label="Team Name"
-      type="text"
-      placeholder="Enter team name"
-      value={formData.teamName}
-      onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
-      name="teamName"
-    />
-  </div>
+              <div>
+                <Input
+                  label="Team Name"
+                  type="text"
+                  placeholder="Enter team name"
+                  value={formData.teamName}
+                  onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
+                  name="teamName"
+                />
+              </div>
 
-  <div>
-    <Checkbox
-      label="40C"
-      checked={formData.is40C}
-      onChange={(e) => setFormData({ ...formData, is40C: e.target.checked })}
-    />
-  </div>
+              <div>
+                <CheckboxGroup
+                  options={sampleConditions}
+                  onChange={(selected) => console.log('Selected tests:', selected)}
+                />
+              </div>
 
-  <div>
-    <SelectComponent
-      label="Type of test"
-      options={foodTestDropdownOptions}
-      value={formData.testType}
-      onChange={(e) => setFormData({ ...formData, testType: e.target.value })}
-      name="testType"
-    />
-  </div>
+              <div>
+                <SelectComponent
+                  label="Type of test"
+                  options={foodTestDropdownOptions}
+                  value={formData.testType}
+                  onChange={(e) => setFormData({ ...formData, testType: e.target.value })}
+                  name="testType"
+                />
+              </div>
 
-  <div>
-    <Input
-      label="Additional Notes"
-      type="text"
-      placeholder="Optional"
-      value={formData.notes}
-      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-      name="notes"
-    />
-  </div>
+              <div>
+                <Input
+                  label="Additional Notes"
+                  type="text"
+                  placeholder="Optional"
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  name="notes"
+                />
+              </div>
 
-  <div className="col-span-full">
-    <button
-      type="submit"
-      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-    >
-      Submit Samples
-    </button>
-  </div>
-</form>
+              <div className="col-span-full">
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Submit Samples
+                </button>
+              </div>
+            </form>
 
 
-</div>
+          </div>
 
-</div>
+        </div>
 
       </div>
     </>
