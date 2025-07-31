@@ -12,12 +12,14 @@ export default function Checkbox({ label, value, checked, onChange }: CheckboxPr
 
   return (
     <div className='flex items-center gap-2'>
+      <div>
       <input
         type="checkbox"
         value={value}
         checked={checked}
         onChange={handleChange}
-      />
+        />
+        </div>
       <label className='text-md'>{label}</label>
     </div>
   );

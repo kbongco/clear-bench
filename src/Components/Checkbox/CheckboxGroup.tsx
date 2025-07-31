@@ -29,13 +29,15 @@ export default function CheckboxGroup({ options, onChange, labelTitle }: Checkbo
         {labelTitle || "Select Options"}
       </label>
       {options.map((option) => (
+        <div>
         <Checkbox
           key={option}
           label={option}
           value={option}
           checked={selectedOptions.includes(option)}
           onChange={handleCheckboxChange}
-        />
+          />
+          </div>
       ))}
     </div>
   );
