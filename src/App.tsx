@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import { useState } from 'react';
+import ApproveSamples from './Views/ApprovSamples';
 
 function App() {
   const [role, setRole] = useState('scientist');
@@ -15,6 +16,9 @@ function App() {
   );
   console.log(currentUserTeamSamples)
   console.log(mockSamples)
+
+  const submittedSamples = localStorage.getItem('submittedSamples')
+  console.log(submittedSamples)
   
 
   return (
@@ -24,7 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
-          <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />}/>
+          <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
+          <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
         </Routes>
         {/* <DashBoard /> */}
       </div>

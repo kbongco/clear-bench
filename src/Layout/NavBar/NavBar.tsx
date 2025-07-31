@@ -28,7 +28,7 @@ export default function NavBar({ role, setRole }: NavbarProps) {
           </li>
           <li className='m-8'>
             <div className='flex gap-4 items-center'>
-              <FontAwesomeIcon className='text-2xl text-white' icon={faFlask} />
+              <FontAwesomeIcon className='text-2xl text-white' icon={faFile} />
               <NavLink to='/view-samples' className='text-white text-lg font-bold'>All Samples</NavLink>
             </div>
           </li>
@@ -38,12 +38,6 @@ export default function NavBar({ role, setRole }: NavbarProps) {
               <a href='/current-samples' className='text-white text-lg font-bold'>Current Samples</a>
             </div>
           </li>
-          {/* <li className='m-8'>
-            <div className='flex gap-4 items-center'>
-              <FontAwesomeIcon className='text-2xl text-white' icon={faCheckSquare} />
-              <a href='/submit-samples' className='text-white text-lg font-bold'>Submit Samples</a>
-            </div>
-          </li> */}
           {role === 'scientist' ? (
   <li className='m-8'>
     <div className='flex gap-4 items-center'>
