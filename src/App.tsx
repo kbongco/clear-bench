@@ -7,9 +7,12 @@ import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import { useState } from 'react';
 import ApproveSamples from './Views/ApprovSamples';
+import { useRoleStore } from './store/useRoleStore';
 
 function App() {
-  const [role, setRole] = useState('scientist');
+  const role = useRoleStore((state) => state.role);
+  console.log(role,'test')
+  // const [role, setRole] = useState('scientist');
   const currentUser = mockSamples[0].owner.name;
   const currentUserTeamSamples = mockSamples.filter(sample =>
     sample.owner.name === currentUser || sample.owner.managerName === currentUser
@@ -23,7 +26,7 @@ function App() {
 
   return (
     <>
-      <NavBar role={role} setRole={setRole} />
+      <NavBar/>
       <div className="ml-64">
         <Routes>
           <Route path="/" element={<Home />} />
