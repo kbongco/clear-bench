@@ -5,7 +5,7 @@ import { mockSamples } from "../../mockData/sampleData";
 import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Home() {
+export default function ScientistHome() {
   const [allSamples, setAllSamples] = useState<Array<{
     id: string;
     name: string;
@@ -95,7 +95,6 @@ export default function Home() {
         </div>
         <div>
           <h2 className='text-2xl mt-8'>Your Samples</h2>
-          {/* <Table tableTitle={currentTableTitle} tableHeader={titles} data={currentSamplesArr} /> */}
           <Table tableTitle={currentTableTitle} tableHeader={titles} data={allSamples} />
         </div>
         <div>

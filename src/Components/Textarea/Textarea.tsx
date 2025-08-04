@@ -1,4 +1,6 @@
-export default function TextArea({label, name}: any) {
+import type { TextAreaInterface } from "../ComponentInterfaces/TextAreaInterface";
+
+export default function TextArea({label,  name}: TextAreaInterface) {
   return ( 
     <>
       <div className='flex flex-col'>
@@ -6,7 +8,6 @@ export default function TextArea({label, name}: any) {
       <textarea
         name={name}
         className="resize-none w-full h-32 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder={`Enter ${label.toLowerCase()}`}
         rows={4}
         cols={50}
         />

@@ -11,6 +11,52 @@ export const mockScientists: Scientist[] = [
   { id: 4, name: "Dr. Jamal Rivera", department: "Food Safety", managerName: "Dr. Alice Nguyen" },
 ];
 
+export const mockLabTechs: LabTech[] = [
+  {
+    id: 'lt001',
+    name: 'Dr. Sarah Lin',
+    email: 's.lin@clearbenchlab.com',
+    department: 'Microbiology',
+    assignedSamples: [
+      '1',  // Strawberry Yogurt (ph)
+      '10', // Honey Facial Mask (sensory)
+      '12', // Charcoal Scrub (ph)
+      '15', // Vanilla Protein Bar (wateractivity but overloading)
+      '16', // Blueberry Muffin (ph)
+      '19', // Kombucha Tea (ph)
+    ],
+  },
+  {
+    id: 'lt002',
+    name: 'James Patel',
+    email: 'j.patel@clearbenchlab.com',
+    department: 'Biochemistry',
+    assignedSamples: [
+      '2',  // Herbal Shampoo (stability, misfit but overloaded)
+      '3',  // Chocolate Pudding (microbial)
+      '6',  // Cucumber Cleanser (microbial)
+      '7',  // Almond Milk (ph, could go either)
+      '9',  // Protein Shake (microbial)
+      '17', // Organic Apple Sauce (microbial)
+      '20', // Herbal Detox Drink (microbial)
+    ],
+  },
+  {
+    id: 'lt003',
+    name: 'Amina Youssef',
+    email: 'a.youssef@clearbenchlab.com',
+    department: 'Genetics',
+    assignedSamples: [
+      '4',  // Aloe Vera Gel (viscosity)
+      '8',  // Rose Lotion (wateractivity)
+      '11', // Greek Yogurt (wateractivity)
+      '13', // Fruit Juice Blend (viscosity)
+      '14', // Coconut Conditioner (stability)
+      '18', // Gluten-Free Bread (sensory, stretch)
+    ],
+  },
+];
+
 export const mockSamples: Sample[] = [
   {
     id: 1,
