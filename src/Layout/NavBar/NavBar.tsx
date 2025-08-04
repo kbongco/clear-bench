@@ -12,7 +12,7 @@ export default function NavBar() {
       <div>
         <div className='m-8'>
           <h1 className='text-2xl text-white font-bold'>Clear Bench</h1>
-        </div>
+      </div>
         <hr />
         <ul className='m-4 flex flex-col'>
           <li className='m-8'>

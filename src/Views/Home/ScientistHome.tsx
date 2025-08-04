@@ -5,7 +5,7 @@ import { mockSamples } from "../../mockData/sampleData";
 import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Home() {
+export default function ScientistHome() {
   const [allSamples, setAllSamples] = useState<Array<{
     id: string;
     name: string;

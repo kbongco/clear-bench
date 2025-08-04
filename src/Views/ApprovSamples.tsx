@@ -1,10 +1,15 @@
 import { useState } from "react";
 import Card from "../Components/Card/Card";
 import Table from "../Components/Table/Table";
+import Modal from "../Components/Modal/Modal";
+import TextArea from "../Components/Textarea/Textarea";
 
 export default function ApproveSamples({ data }: any) {
   // parse JSON string data or empty array
   const [rows, setRows] = useState(() => JSON.parse(data || "[]"));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSample, setSelectedSample] = useState(null);
+  const [labTechComment, setLabTechComment] = useState("");
 
   const labTechNotes = (
     <span>
@@ -17,7 +22,7 @@ export default function ApproveSamples({ data }: any) {
   );
 
   // Headers including approve/reject columns
-  const headers = ['Name', 'Owner', 'Status', 'Team Name', 'Approve', 'Reject'];
+  const headers = ['Name', 'Owner', 'Status', 'Team Name', 'Update Status'];
 
   // Map original data to desired shape, add status if missing
   const dataToApprove = rows.map(row => ({
@@ -27,10 +32,11 @@ export default function ApproveSamples({ data }: any) {
     teamName: row.teamName,
   }));
 
-  const handleAction = (index: number, status: string) => {
-    const updated = [...rows];
-    updated[index].status = status;
-    setRows(updated);
+  const handleStatusUpdate = (index: number, newStatus: string) => {
+    const updatedRows = [...rows];
+    updatedRows[index].status = newStatus;
+    setRows(updatedRows);
+    setIsModalOpen(false);
   };
 
   // Custom render row with buttons
@@ -42,18 +48,10 @@ export default function ApproveSamples({ data }: any) {
       <td className="text-center px-4 py-2">{row.teamName}</td>
       <td className="text-center px-4 py-2">
         <button
-          onClick={() => handleAction(index, 'Approved')}
+          onClick={() => { setIsModalOpen(true), console.log('Clicked'), setSelectedSample(row), console.log(row,'test') }}
           className="bg-green-500 text-white px-2 py-1 rounded"
         >
-          Approve
-        </button>
-      </td>
-      <td className="text-center px-4 py-2">
-        <button
-          onClick={() => handleAction(index, 'Rejected')}
-          className="bg-red-500 text-white px-2 py-1 rounded"
-        >
-          Reject
+          Approve/Reject
         </button>
       </td>
     </tr>
@@ -62,7 +60,7 @@ export default function ApproveSamples({ data }: any) {
   return (
     <div className="ml-4">
       <Card title="Reference sheet" description={labTechNotes} />
-      <div>
+      <div className="mt-6">
         <Table
           tableTitle="Approve Samples"
           data={dataToApprove}
@@ -70,6 +68,45 @@ export default function ApproveSamples({ data }: any) {
           renderRow={renderRow}
         />
       </div>
+
+      {/* Modal for Approve/Reject */}
+      {selectedSample && (
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2 className="text-xl font-semibold mb-4">Approve or Reject</h2>
+          <p>
+            Are you sure you want to take action on{" "}
+            <strong>{selectedSample.name}</strong> from{" "}
+            <strong>{selectedSample.owner}</strong>?
+          </p>
+            <TextArea
+              label="Reject"
+  value={labTechComment}
+  onChange={(e) => setLabTechComment(e.target.value)}
+  placeholder="Enter reason for Rejection (if applicable)"
+  className="w-full p-2 border border-gray-300 rounded mt-2"
+/>
+          <div className="mt-4 flex justify-end gap-2">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleStatusUpdate(selectedSample.originalIndex, "Approved")}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            >
+              Approve
+            </button>
+            <button
+              onClick={() => handleStatusUpdate(selectedSample.originalIndex, "Rejected")}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Reject
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
