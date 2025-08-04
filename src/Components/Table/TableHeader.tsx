@@ -5,7 +5,7 @@ export default function TableHeader({ header }: TableHeader) {
     <thead>
       <tr>
         {header.map((key) => (
-          <th key={key} className="bg-blue-100 border text-left px-4 py-4">
+          <th key={key} className="bg-blue-100 border border-gray-300 text-left px-4 py-2">
             {key}
           </th>
         ))}

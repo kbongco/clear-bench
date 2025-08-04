@@ -3,8 +3,8 @@ import type { SelectInterface } from "../ComponentInterfaces/SelectInterface"
 export default function SelectComponent({label,name, onChange, value, options, id}:SelectInterface) {
   return ( 
     <>
-      <div>
-        <label>{label}</label>
+      <div className='flex flex-col'>
+        <label className='font-bold'>{label}</label>
         <select
         id={id}
         name={name}
@@ -14,7 +14,7 @@ export default function SelectComponent({label,name, onChange, value, options, i
           {options.map((option) => {
             return (
               <option key={option.id} value={option.value}>
-                {option.value}
+                {option.label}
               </option>
             )
           })}
