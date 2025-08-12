@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
-from schemas import Scientist
+from schemas import Scientist, LabTech
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import crud
@@ -14,11 +14,12 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
+
 
 @app.get("/")
 def read_root():
@@ -28,6 +29,16 @@ def read_root():
 def get_scientists():
   return crud.get_scientists()
 
+@app.get('/lab-techs', response_model=List[LabTech])
+def get_labtech():
+  return crud.get_labtechs()
+
+app.get('/scientists/{scientist_id}', response_model=Scientist)
+def read_scientist(scientist_id: int):
+    scientist = crud.get_scientist(scientist_id)
+    if scientist is None:
+        raise HTTPException(status_code=404, detail="Scientist not found")
+    return scientist
 
 
 # Example endpoint to get samples

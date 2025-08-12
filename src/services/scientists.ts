@@ -3,5 +3,7 @@ export async function getScientists() {
   if (!response.ok) {
     throw new Error('Unable to fetch scientists ');
   }
-  return response.json();
+  const data = await response.json();
+  console.log(data, 'json');
+  return data;
 }

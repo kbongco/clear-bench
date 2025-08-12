@@ -7,6 +7,8 @@ import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import ApproveSamples from './Views/ApprovSamples';
 import { useRoleStore } from './store/useRoleStore';
+import ScientistContainer from './Containers/ScientistContainer';
+
 
 function App() {
   const role = useRoleStore((state) => state.role);
@@ -31,6 +33,7 @@ function App() {
       <div className="ml-64">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/scientists" element={<ScientistContainer />} />
           <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
           <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
           <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
