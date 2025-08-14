@@ -1,8 +1,12 @@
 export default function ManagerView({ scientist, labTechs }: any) {
-  console.log(scientist);
+  const directReports = scientist.filter(s => s.manager_id === 1);
+  console.log(directReports, 'mem')
   return ( 
     <>
-      <h1>This is the scientist manager view</h1>
+      <section className=''>
+      <h1 className='text-center p-16'>Your Current Team</h1>
+      </section>
+      
     </>
   )
 } 
