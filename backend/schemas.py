@@ -6,6 +6,7 @@ class Scientist(BaseModel):
   id: int
   name: str
   department: str
+  email: str
   manager_id: Optional[int]
 
 class LabTech(BaseModel):
