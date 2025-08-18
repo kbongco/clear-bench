@@ -33,12 +33,24 @@ def get_scientists():
 def get_labtech():
   return crud.get_labtechs()
 
-app.get('/scientists/{scientist_id}', response_model=Scientist)
-def read_scientist(scientist_id: int):
-    scientist = crud.get_scientist(scientist_id)
-    if scientist is None:
+@app.get('/scientists/{scientist_id}/samples', response_model=List[dict])
+def get_scientist_samples(scientist_id: int):
+    # Check if scientist exists
+    scientist_exist = any(s.id == scientist_id for s in crud.get_scientists())
+    if not scientist_exist:
         raise HTTPException(status_code=404, detail="Scientist not found")
-    return scientist
+    
+    # Get samples for that scientist
+    samples = crud.get_samples_by_scientist(scientist_id)
+    return samples
+
+
+# app.get('/scientists/{scientist_id}/samples', response_model=List[dict])
+# def read_scientist_samples(scientist_id: int):
+#     samples = crud.get_samples_by_scientist(scientist_id)
+#     if samples is None:
+#         raise HTTPException(status_code=404, detail="Scientist not found")
+#     return samples
 
 
 # Example endpoint to get samples
