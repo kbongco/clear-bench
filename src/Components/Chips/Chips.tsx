@@ -19,7 +19,9 @@ export default function Chips({manager}:any) {
               className="w-12 h-12 rounded-full"
             />
             <h2 className="text-lg font-semibold">{manager?.name || "Manager"}</h2>
+            <a href={`mailto:${manager?.email}`} className="text-gray hover:text-gray-200">
             <FontAwesomeIcon icon={faEnvelope} />
+            </a>
           </div>
           <span className="text-gray-500">{isOpen ? "▲" : "▼"}</span>
         </div>
