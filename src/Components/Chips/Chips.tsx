@@ -5,12 +5,33 @@ import { useState } from 'react';
 export default function Chips({ manager, samples }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const currentSamples = samples.filter(((s: any) => manager.id === s.scientist_id));
+  console.log(manager, 'manager in chips')
 
 
   return (
     <>
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-4">
-        <div
+      <div>
+        <h1>Chip Component</h1>
+      {/* <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-4">
+        {manager.map((m: any) => (
+          <div
+          className="flex items-center justify-between cursor-pointer gap-4"
+          onClick={() => setIsOpen(!isOpen)}
+          >
+            <div className='flex items-center space-x-3 '>
+            <img
+              src={m.avatar || "https://i.pravatar.cc/100?img=1"}
+              alt={m.name || "Manager"}
+              className="w-12 h-12 rounded-full"
+            />
+            <h2 className="text-lg font-semibold">{m.name || "Manager"}</h2>
+            <a href={`mailto:${m.email}`} className="text-gray hover:text-gray-200">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </a>
+            </div>
+          </div>
+        ))} */}
+        {/* <div
           className="flex items-center justify-between cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -26,8 +47,8 @@ export default function Chips({ manager, samples }: any) {
             </a>
           </div>
           <span className="text-gray-500">{isOpen ? "▲" : "▼"}</span>
-        </div>
-        {isOpen && (
+        </div> */}
+        {/* {isOpen && (
           <div className=''>
             <div className="mt-4 space-y-2">
             <h2>Recent samples in test</h2>
@@ -49,7 +70,7 @@ export default function Chips({ manager, samples }: any) {
               )}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </>)
 }

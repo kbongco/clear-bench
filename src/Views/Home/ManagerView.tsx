@@ -8,32 +8,45 @@ export default function ManagerView({ scientist, labTechs, samples }: any) {
 
   console.log(samples, 'sam')
 
-  const manager = scientist.find(s => s.manager_id === 1);
-  console.log(manager, 'manager');
+  const manager = scientist.filter(s => s.manager_id === 1);
+  // Need to dynamically set the manager id above ^^ 
 
-  const directReports = labTechs.filter(lt => lt.manager_id === manager?.id);
-  console.log(directReports, 'direct');
-  console.log(samples, 'sci-samps2');
 
-  const scientistSamples = Object.keys(samples)
-  .flatMap((key) => 
-    samples[key]
-      .filter((s: any) => s.scientist_id === manager?.id) // filter samples for this manager
-      .map((s: any) => ({
-        ...s,
-        scientist: scientist.find((sc: any) => sc.id === s.scientist_id),
-        labTech: labTechs.find((lt: any) => lt.id === s.lab_tech_id)
-      }))
-  );
+const scientistWithSamples = manager.map(sc => {
+  const scSamples = Object.keys(samples)
+    .flatMap(key =>
+      samples[key]
+        .filter((s: any) => s.scientist_id === sc.id) // samples for this scientist
+        .map((s: any) => ({
+          ...s,
+          scientist: sc,
+          labTech: labTechs.find((lt: any) => lt.id === s.lab_tech_id)
+        }))
+    );
 
-console.log(scientistSamples, 'sci-samps');
+  return {
+    ...sc,
+    samples: scSamples
+  };
+});
+
+console.log(scientistWithSamples, 'scientistWithSamples');
+
+
+
+  // Chips should be individual for each manager
+  // Right now the chip only takes in X amount of information
+  // We need to make it dynamic and just not take in everything
+  // We need to do the data manipulation in this Manager View
+  // Inside the Chip component we need a picutre and the data 
+  // Make it similar to the card component 
 
 return (
   <>
     <div className='p-4'>
       <h1 className='text-center text-2xl'>Current Direct Reports</h1>
     </div>
-    <Chips manager={manager} samples={scientistSamples} />
+    <Chips manager={manager} samples={scientistWithSamples} />
     {/* <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-4">
       <div
         className="flex items-center justify-between cursor-pointer"
