@@ -15,11 +15,14 @@ function App() {
   console.log(role,'test')
   // const [role, setRole] = useState('scientist');
   const currentUser = mockSamples[0].owner.name;
+  console.log(mockSamples);
   const currentLabTech = mockLabTechs[0].name;
   console.log(currentLabTech, 'current');
   const currentUserTeamSamples = mockSamples.filter(sample =>
     sample.owner.name === currentUser || sample.owner.managerName === currentUser
   );
+
+  console.log(currentUser,'use');
   console.log(currentUserTeamSamples)
   console.log(mockSamples)
 
