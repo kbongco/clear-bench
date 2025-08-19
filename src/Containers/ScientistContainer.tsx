@@ -9,7 +9,7 @@ export default function ScientistContainer() {
   const [labTechs, setLabTechs] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [samples, setSamples] = useState({});
+  const [samples, setSamples] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {

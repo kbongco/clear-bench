@@ -3,20 +3,37 @@ import Chips from "../../Components/Chips/Chips";
 
 
 
-export default function ManagerView({ scientist, labTechs }: any) {
+export default function ManagerView({ scientist, labTechs, samples }: any) {
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log(samples, 'sam')
 
   const manager = scientist.find(s => s.manager_id === 1);
   console.log(manager, 'manager');
 
   const directReports = labTechs.filter(lt => lt.manager_id === manager?.id);
   console.log(directReports, 'direct');
-  return (
-    <>
-      <div className='p-4'>
-        <h1 className='text-center text-2xl'>Current Direct Reports</h1>
-      </div>
-      <Chips manager={manager} />
+  console.log(samples, 'sci-samps2');
+
+  const scientistSamples = Object.keys(samples)
+  .flatMap((key) => 
+    samples[key]
+      .filter((s: any) => s.scientist_id === manager?.id) // filter samples for this manager
+      .map((s: any) => ({
+        ...s,
+        scientist: scientist.find((sc: any) => sc.id === s.scientist_id),
+        labTech: labTechs.find((lt: any) => lt.id === s.lab_tech_id)
+      }))
+  );
+
+console.log(scientistSamples, 'sci-samps');
+
+return (
+  <>
+    <div className='p-4'>
+      <h1 className='text-center text-2xl'>Current Direct Reports</h1>
+    </div>
+    <Chips manager={manager} samples={scientistSamples} />
     {/* <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-4">
       <div
         className="flex items-center justify-between cursor-pointer"
@@ -58,6 +75,6 @@ export default function ManagerView({ scientist, labTechs }: any) {
         </div>
       )}
       </div> */}
-      </>
-  );
+  </>
+);
 }
