@@ -44,9 +44,11 @@ def get_scientist_samples(scientist_id: int):
     samples = crud.get_samples_by_scientist(scientist_id)
     return samples
 
-@app.get("/samples/results/{sample_id}", response_model=List[dict])
+@app.get("/samples/results/{sample_id}")
 def get_sample_results(sample_id: int):
     data = crud.get_samples_result_by_id(sample_id)
     if not data:
         raise HTTPException(status_code=404, detail="Sample not found")
     return data
+
+

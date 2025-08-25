@@ -278,18 +278,43 @@ def get_scientist_id(scientist_id: int) -> Scientist:
     return None
 
 def get_samples_result_by_id(sample_id: int) -> Optional[List[dict]]:
+    # Find sample
     sample = next((s for s in samples_db if s["id"] == sample_id), None)
     if not sample:
-        return None 
+        return None
+
+    # Find related result
     result = next((r for r in results_db if r["sample_id"] == sample_id), None)
+
+    # Find test results
     test_results = [tr for tr in test_results_db if result and tr["result_id"] == result["id"]]
-    data_list = []
-    data_list.append({"type": "sample", **sample})
 
-    if result:
-        data_list.append({"type": "result", **result})
+    # Find scientist + lab tech
+    scientist = next((sc for sc in scientists_db if sc["id"] == sample["scientist_id"]), None)
+    lab_tech = next((lt for lt in labtechs_db if lt["id"] == sample["lab_tech_id"]), None)
 
-    for tr in test_results:
-        data_list.append({"type": "test_result", **tr})
+    # Wrap in a list so it matches List[dict]
+    return [{
+        "sample": {
+            **sample,
+            "scientist": scientist,
+            "lab_tech": lab_tech,
+        },
+        "results": [
+            {
+                "id": tr["id"],
+                "result_id": tr["result_id"],
+                "parameter_name": tr["parameter_name"],
+                "measured_value": tr["measured_value"],
+                "unit": tr["unit"],
+                "expected_range_min": tr["expected_range_min"],
+                "expected_range_max": tr["expected_range_max"],
+                "specification_limit": tr["specification_limit"],
+                "is_within_spec": tr["is_within_spec"],
+                "notes": tr["notes"]
+            }
+            for tr in test_results
+        ]
+    }]
 
-    return data_list
+
