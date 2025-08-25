@@ -39,8 +39,6 @@ export default function ScientistContainer() {
     fetchData();
   }, []);
 
-  console.log(scientist, labTechs, 'scie');
-  console.log(samples,'send')
 
   if (loading) return <div>Loading scientists...</div>;
   if (error) return <div>Error: {error}</div>;
