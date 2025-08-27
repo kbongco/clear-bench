@@ -5,6 +5,7 @@ import Tabs from "../Components/Tabs/Tabs";
 export default function SampleView({ data }: any) {
   console.log(data[0]?.sample?.out_of_spec, 'datas');
   const sample = data?.[0]?.sample;
+  console.log(data?.[0]?.sample, 'sample');
 
   if (!sample) {
     return <p>Loading...</p>;
@@ -35,13 +36,22 @@ export default function SampleView({ data }: any) {
         <div className="grid grid-cols-3 gap-4 text-2xl pt-5">
           <h2>{scientistName}</h2>
           <h2>{labTechName}</h2>
-          <div/>
+          <div />
         </div>
       </div>
 
       <div className='p-10'>
         <Tabs>
-          <TabLayout title="Overview"><div className='py-10'>This is a test of the Content that is here</div></TabLayout>
+          <TabLayout title="Overview">
+            <div className='py-10'>
+              <h1 className='text-3xl'>{data[0]?.sample?.name}</h1>
+              <h2 className='text-3xl py-2'>{data[0]?.sample?.test_start} - {data[0]?.sample?.due_date}</h2>
+              <h3 className='text-3xl'>Type of Test: {data[0]?.sample.sample_type}</h3>
+            </div>
+            <div className='py-5'>
+              <h3 className='text-3xl'>Current Status: {data[0]?.sample.test_status}</h3>
+            </div>
+          </TabLayout>
           <TabLayout title="Results"><div className='py-10'>This is a test of the Content that is here</div></TabLayout>
           <TabLayout title="Graphs"><div className='py-10'>This is a test of the Content that is here</div></TabLayout>
           <TabLayout title="History"><div className='py-10'>This is a test of the Content that is here</div></TabLayout>
