@@ -1,4 +1,5 @@
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
+import Tabs from "../Components/Tabs/Tabs";
 
 export default function SampleView({ data }: any) {
   // console.log(data[0].sample.name, 'data')
@@ -37,6 +38,10 @@ export default function SampleView({ data }: any) {
           <h2>{labTechName}</h2>
           <div></div> {/* empty div to maintain grid structure */}
         </div>
+      </div>
+
+      <div className='p-10'>
+        <Tabs/>
       </div>
     </>
   )
