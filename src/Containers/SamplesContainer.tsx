@@ -8,7 +8,7 @@ export default function SamplesContainer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = 1; 
+        const id = 2; 
         const resultsData = await getSampleResults(id);
         setSampleResults(resultsData);
         console.log(sampleResults,'sample')

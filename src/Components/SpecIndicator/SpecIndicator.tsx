@@ -10,7 +10,7 @@ export default function SpecIndicator({ stats }: SpecIndicatorProps) {
         <div>
           <h2 className='text-3xl'>{stats === 'False' ? 'Currently In Spec' : "Out of Spec"}</h2>
           {stats !== 'False' && (
-            <p className="text-red-600 font-bold mt-2">Needs attention!</p>
+            <p className="text-red-600 font-bold">Needs attention!</p>
           )}
         </div>
       </div>

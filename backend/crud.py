@@ -262,6 +262,47 @@ labtechs_db = [
   {"id": 3, "name": "Amina Youssef"},
 ]
 
+# Add test results for Sample A1
+test_results_db.extend([
+    {
+        "id": 5,
+        "result_id": 11,  # unique ID for this sample’s result
+        "parameter_name": "pH",
+        "measured_value": 6.8,
+        "unit": "",
+        "expected_range_min": 6.5,
+        "expected_range_max": 7.5,
+        "specification_limit": 6.5,
+        "is_within_spec": True,
+        "notes": "Within expected pH range."
+    },
+    {
+        "id": 6,
+        "result_id": 11,
+        "parameter_name": "Concentration",
+        "measured_value": 105.0,
+        "unit": "mg/L",
+        "expected_range_min": 100.0,
+        "expected_range_max": 110.0,
+        "specification_limit": 110.0,
+        "is_within_spec": True,
+        "notes": "Concentration within acceptable range."
+    },
+    {
+        "id": 7,
+        "result_id": 11,
+        "parameter_name": "Viscosity",
+        "measured_value": 1500,
+        "unit": "cP",
+        "expected_range_min": 1000,
+        "expected_range_max": 2000,
+        "specification_limit": 2000,
+        "is_within_spec": True,
+        "notes": "Viscosity normal."
+    }
+])
+
+
 def get_scientists() -> List[Scientist]:
   return [Scientist(**s) for s in scientists_db]
 
