@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useParams } from 'react-router-dom';
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import Table from "../Components/Table/Table";
 import TabLayout from "../Components/Tabs/TabLayout";
@@ -94,3 +95,5 @@ export default function SampleView({ data }: any) {
   )
 
 }
+
+

@@ -35,7 +35,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
-          <Route path='/sample-results' element={<SamplesContainer/>}/>
+          {/* <Route path='/sample-results' element={<SamplesContainer />} /> */}
+          <Route path='/sample-results/:id' element={<SamplesContainer/>}/>
           <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
           <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
           <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
