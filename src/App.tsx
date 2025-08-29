@@ -14,7 +14,6 @@ import SamplesContainer from './Containers/SamplesContainer';
 function App() {
   const role = useRoleStore((state) => state.role);
   console.log(role,'test')
-  // const [role, setRole] = useState('scientist');
   const currentUser = mockSamples[0].owner.name;
   console.log(mockSamples);
   const currentLabTech = mockLabTechs[0].name;
@@ -35,13 +34,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
-          {/* <Route path='/sample-results' element={<SamplesContainer />} /> */}
           <Route path='/sample-results/:id' element={<SamplesContainer/>}/>
           <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
           <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
           <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
         </Routes>
-        {/* <DashBoard /> */}
       </div>
     </>
   )
