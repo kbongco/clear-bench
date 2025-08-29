@@ -118,6 +118,8 @@ test_results_db = [
     }
 ]
 
+from datetime import date
+
 samples_db = [
     {
         "id": 1,
@@ -129,7 +131,8 @@ samples_db = [
         "test_start": date(2025, 8, 1),
         "due_date": date(2025, 8, 15),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 5
     },
     {
         "id": 2,
@@ -141,7 +144,8 @@ samples_db = [
         "test_start": date(2025, 7, 20),
         "due_date": date(2025, 8, 3),
         "test_duration": "2 weeks",
-        "out_of_spec": True
+        "out_of_spec": True,
+        "totalBottles": 3
     },
     {
         "id": 3,
@@ -153,7 +157,8 @@ samples_db = [
         "test_start": date(2025, 8, 10),
         "due_date": date(2025, 8, 24),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 4
     },
     {
         "id": 4,
@@ -165,7 +170,8 @@ samples_db = [
         "test_start": date(2025, 8, 5),
         "due_date": date(2025, 8, 19),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 2
     },
     {
         "id": 5,
@@ -177,7 +183,8 @@ samples_db = [
         "test_start": date(2025, 7, 25),
         "due_date": date(2025, 8, 8),
         "test_duration": "2 weeks",
-        "out_of_spec": True
+        "out_of_spec": True,
+        "totalBottles": 6
     },
     {
         "id": 6,
@@ -189,7 +196,8 @@ samples_db = [
         "test_start": date(2025, 8, 2),
         "due_date": date(2025, 8, 16),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 4
     },
     {
         "id": 7,
@@ -201,7 +209,8 @@ samples_db = [
         "test_start": date(2025, 8, 12),
         "due_date": date(2025, 8, 26),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 3
     },
     {
         "id": 8,
@@ -213,7 +222,8 @@ samples_db = [
         "test_start": date(2025, 7, 28),
         "due_date": date(2025, 8, 11),
         "test_duration": "2 weeks",
-        "out_of_spec": True
+        "out_of_spec": True,
+        "totalBottles": 5
     },
     {
         "id": 9,
@@ -225,7 +235,8 @@ samples_db = [
         "test_start": date(2025, 8, 3),
         "due_date": date(2025, 8, 17),
         "test_duration": "2 weeks",
-        "out_of_spec": False
+        "out_of_spec": False,
+        "totalBottles": 2
     },
     {
         "id": 10,
@@ -237,9 +248,11 @@ samples_db = [
         "test_start": date(2025, 8, 14),
         "due_date": date(2025, 8, 28),
         "test_duration": "2 weeks",
-        "out_of_spec": False
-    },
+        "out_of_spec": False,
+        "totalBottles": 1
+    }
 ]
+
 
 
 scientists_db = [
@@ -306,8 +319,17 @@ test_results_db.extend([
 def get_scientists() -> List[Scientist]:
   return [Scientist(**s) for s in scientists_db]
 
-def get_samples_by_scientist(scientist_id: int) -> List[dict]:
-    return [s for s in samples_db if s["scientist_id"] == scientist_id]
+# def get_samples_by_scientist(scientist_id: int) -> List[dict]:
+#     return [s for s in samples_db if s["scientist_id"] == scientist_id]
+
+def get_samples_by_scientist(scientist_id: int, status: Optional[str] = None, out_of_spec: Optional[bool] = None) -> dict:
+  results = [s for s in samples_db if s["scientist_id"] == scientist_id]
+
+  if status: 
+    results = [s for s in results if s["test_status"] == status]
+  if out_of_spec is not None:
+    results = [s for s in results if s["out_of_spec"] == out_of_spec]
+  return {"total": len(results), "samples": results}
 
 def get_labtechs() -> List[LabTech]:
   return [LabTech(**l) for l in labtechs_db]
