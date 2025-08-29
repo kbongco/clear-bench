@@ -2,6 +2,121 @@ from typing import List
 from schemas import Scientist
 from schemas import LabTech
 from datetime import date
+from datetime import datetime
+from typing import Optional
+
+results_db = [
+    {
+        "id": 1,
+        "sample_id": 2,  # Sample A2
+        "test_completed_date": datetime(2025, 8, 3, 14, 30),
+        "tested_by": 2,
+        "reviewed_by": 1,
+        "reviewed_date": datetime(2025, 8, 4, 10, 0),
+        "overall_status": "fail",
+        "is_out_of_spec": True,
+        "test_method": "HPLC",
+        "instrument_used": "Agilent 1100",
+        "batch_number": "BATCH-2025-08-01",
+        "analyst_comments": "Peak shift observed.",
+        "reviewer_comments": "Confirmed out of spec.",
+        "created_at": datetime(2025, 8, 3, 14, 35),
+        "updated_at": datetime(2025, 8, 4, 10, 5),
+        "raw_data_file_path": "/data/results/sample_A2_raw.csv",
+    },
+    {
+        "id": 2,
+        "sample_id": 5,  # Sample D1
+        "test_completed_date": datetime(2025, 8, 8, 16, 0),
+        "tested_by": 2,
+        "reviewed_by": 4,
+        "reviewed_date": datetime(2025, 8, 9, 9, 30),
+        "overall_status": "fail",
+        "is_out_of_spec": True,
+        "test_method": "GC-MS",
+        "instrument_used": "Shimadzu GCMS-QP2020",
+        "batch_number": "BATCH-2025-07-25",
+        "analyst_comments": "Detected unexpected peaks.",
+        "reviewer_comments": "Confirm contamination present.",
+        "created_at": datetime(2025, 8, 8, 16, 5),
+        "updated_at": datetime(2025, 8, 9, 9, 40),
+        "raw_data_file_path": "/data/results/sample_D1_raw.csv",
+    },
+    {
+        "id": 3,
+        "sample_id": 8,  # Sample F1
+        "test_completed_date": datetime(2025, 8, 11, 13, 45),
+        "tested_by": 2,
+        "reviewed_by": 6,
+        "reviewed_date": datetime(2025, 8, 12, 11, 15),
+        "overall_status": "fail",
+        "is_out_of_spec": True,
+        "test_method": "HPLC",
+        "instrument_used": "Waters Alliance",
+        "batch_number": "BATCH-2025-07-28",
+        "analyst_comments": "Impurity level exceeded.",
+        "reviewer_comments": "Agreed, requires retest.",
+        "created_at": datetime(2025, 8, 11, 13, 50),
+        "updated_at": datetime(2025, 8, 12, 11, 20),
+        "raw_data_file_path": "/data/results/sample_F1_raw.csv",
+    }
+]
+
+test_results_db = [
+    # Linked to result 1 (Sample A2)
+    {
+        "id": 1,
+        "result_id": 1,
+        "parameter_name": "pH",
+        "measured_value": 6.2,
+        "unit": "",
+        "expected_range_min": 6.5,
+        "expected_range_max": 7.5,
+        "specification_limit": 6.5,
+        "is_within_spec": False,
+        "notes": "Low pH detected."
+    },
+    {
+        "id": 2,
+        "result_id": 1,
+        "parameter_name": "Concentration",
+        "measured_value": 120.5,
+        "unit": "mg/L",
+        "expected_range_min": 100.0,
+        "expected_range_max": 110.0,
+        "specification_limit": 110.0,
+        "is_within_spec": False,
+        "notes": "Exceeds upper limit."
+    },
+
+    # Linked to result 2 (Sample D1)
+    {
+        "id": 3,
+        "result_id": 2,
+        "parameter_name": "Impurity Level",
+        "measured_value": 0.25,
+        "unit": "%",
+        "expected_range_min": 0.0,
+        "expected_range_max": 0.1,
+        "specification_limit": 0.1,
+        "is_within_spec": False,
+        "notes": "Excess impurity detected."
+    },
+
+    # Linked to result 3 (Sample F1)
+    {
+        "id": 4,
+        "result_id": 3,
+        "parameter_name": "Moisture",
+        "measured_value": 15.0,
+        "unit": "%",
+        "expected_range_min": 10.0,
+        "expected_range_max": 14.0,
+        "specification_limit": 14.0,
+        "is_within_spec": False,
+        "notes": "Above moisture threshold."
+    }
+]
 
 samples_db = [
     {
@@ -147,6 +262,47 @@ labtechs_db = [
   {"id": 3, "name": "Amina Youssef"},
 ]
 
+# Add test results for Sample A1
+test_results_db.extend([
+    {
+        "id": 5,
+        "result_id": 11,  # unique ID for this sample’s result
+        "parameter_name": "pH",
+        "measured_value": 6.8,
+        "unit": "",
+        "expected_range_min": 6.5,
+        "expected_range_max": 7.5,
+        "specification_limit": 6.5,
+        "is_within_spec": True,
+        "notes": "Within expected pH range."
+    },
+    {
+        "id": 6,
+        "result_id": 11,
+        "parameter_name": "Concentration",
+        "measured_value": 105.0,
+        "unit": "mg/L",
+        "expected_range_min": 100.0,
+        "expected_range_max": 110.0,
+        "specification_limit": 110.0,
+        "is_within_spec": True,
+        "notes": "Concentration within acceptable range."
+    },
+    {
+        "id": 7,
+        "result_id": 11,
+        "parameter_name": "Viscosity",
+        "measured_value": 1500,
+        "unit": "cP",
+        "expected_range_min": 1000,
+        "expected_range_max": 2000,
+        "specification_limit": 2000,
+        "is_within_spec": True,
+        "notes": "Viscosity normal."
+    }
+])
+
+
 def get_scientists() -> List[Scientist]:
   return [Scientist(**s) for s in scientists_db]
 
@@ -161,3 +317,45 @@ def get_scientist_id(scientist_id: int) -> Scientist:
     if s["id"] == scientist_id:
       return Scientist(**s)
     return None
+
+def get_samples_result_by_id(sample_id: int) -> Optional[List[dict]]:
+    # Find sample
+    sample = next((s for s in samples_db if s["id"] == sample_id), None)
+    if not sample:
+        return None
+
+    # Find related result
+    result = next((r for r in results_db if r["sample_id"] == sample_id), None)
+
+    # Find test results
+    test_results = [tr for tr in test_results_db if result and tr["result_id"] == result["id"]]
+
+    # Find scientist + lab tech
+    scientist = next((sc for sc in scientists_db if sc["id"] == sample["scientist_id"]), None)
+    lab_tech = next((lt for lt in labtechs_db if lt["id"] == sample["lab_tech_id"]), None)
+
+    # Wrap in a list so it matches List[dict]
+    return [{
+        "sample": {
+            **sample,
+            "scientist": scientist,
+            "lab_tech": lab_tech,
+        },
+        "results": [
+            {
+                "id": tr["id"],
+                "result_id": tr["result_id"],
+                "parameter_name": tr["parameter_name"],
+                "measured_value": tr["measured_value"],
+                "unit": tr["unit"],
+                "expected_range_min": tr["expected_range_min"],
+                "expected_range_max": tr["expected_range_max"],
+                "specification_limit": tr["specification_limit"],
+                "is_within_spec": tr["is_within_spec"],
+                "notes": tr["notes"]
+            }
+            for tr in test_results
+        ]
+    }]
+
+

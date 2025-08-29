@@ -8,6 +8,7 @@ import SubmitSamples from './Views/SubmitSamples';
 import ApproveSamples from './Views/ApprovSamples';
 import { useRoleStore } from './store/useRoleStore';
 import ScientistContainer from './Containers/ScientistContainer';
+import SamplesContainer from './Containers/SamplesContainer';
 
 
 function App() {
@@ -22,12 +23,9 @@ function App() {
     sample.owner.name === currentUser || sample.owner.managerName === currentUser
   );
 
-  console.log(currentUser,'use');
-  console.log(currentUserTeamSamples)
-  console.log(mockSamples)
 
   const submittedSamples = localStorage.getItem('submittedSamples')
-  console.log(submittedSamples)
+
   
 
   return (
@@ -37,6 +35,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
+          {/* <Route path='/sample-results' element={<SamplesContainer />} /> */}
+          <Route path='/sample-results/:id' element={<SamplesContainer/>}/>
           <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
           <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
           <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
