@@ -16,6 +16,7 @@ class LabTech(BaseModel):
 class NewSample(BaseModel):
   name: str
   scientist_id: int
+  team_name: Optional[str]
   sample_type: Optional[str]
   test_start: Optional[date]
   test_duration: Optional[str]

@@ -4,6 +4,7 @@ import { foodTestDropdownOptions } from "../mockData/typeofTest";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
+import { createSample } from "../services/samples";
 
 export default function SubmitSamples({ user }: any) {
   const initialFormData = {
@@ -31,27 +32,33 @@ export default function SubmitSamples({ user }: any) {
     { label: '1 year', value: '1-year' }
   ];
 
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  // Get existing submissions from localStorage
-  const existingSubmissions = JSON.parse(localStorage.getItem('submittedSamples') || '[]');
-
-  // Add the new formData
-  const updatedSubmissions = [...existingSubmissions, formData];
-
-  // Save the updated list back to localStorage
-  localStorage.setItem('submittedSamples', JSON.stringify(updatedSubmissions));
-
-  console.log('Form submitted:', formData);
-
-    // Reset form
-    setFormData({
-      ...initialFormData,
-      sampleOwner: user,
-      startDate: new Date().toLocaleDateString()
-    });
-  };
+    try {
+      const payload = {
+        name: formData.sampleName,
+        scientist_id: formData.sampleOwner.id,
+        sample_type: formData.sampleType,
+        team_name: formData.teamName,
+        total_samples: parseInt(formData.totalSamples, 10),
+        test_type: formData.testType,
+        test_duration: formData.testDuration,
+        start_date: formData.startDate,
+        notes: formData.notes,
+        temperature: formData.sampleConditions
+      }
+      const result = await createSample(payload);
+      console.log(result,'rest');
+      setFormData({
+        ...initialFormData,
+        sampleOwner: user,
+        startDate: new Date().toLocaleDateString()
+      });
+      alert("Sample created successfully!");
+    } catch {
+      alert("failed");
+    }
+  }
 
   return (
     <div className='ml-4'>
@@ -88,7 +95,7 @@ export default function SubmitSamples({ user }: any) {
           type="text"
           placeholder=""
           value={formData.sampleOwner}
-          onChange={() => {}}
+          onChange={() => { }}
           name="sampleOwner"
           disabled={true}
         />
@@ -108,7 +115,7 @@ export default function SubmitSamples({ user }: any) {
           placeholder=""
           value={formData.totalSamples}
           onChange={(e) => setFormData({ ...formData, totalSamples: e.target.value })}
-        name="totalSamples"/>
+          name="totalSamples" />
 
         <Input
           label="Start Date"

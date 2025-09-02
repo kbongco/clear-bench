@@ -17,3 +17,25 @@ export async function getSampleResults(id: number) {
   console.log(data, 'json');
   return data;
 }
+
+export async function createSample(sampleData: any) {
+  try {
+    const response = await fetch("http://localhost:8000/samples", {
+      method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sampleData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create sample");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
