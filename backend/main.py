@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException
-from typing import List
-from schemas import Scientist, LabTech
+from fastapi import FastAPI, HTTPException, Query
+from typing import List, Optional
+from schemas import Scientist, LabTech, SamplesResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import crud
@@ -20,7 +20,6 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
-
 @app.get("/")
 def read_root():
     return {"message": "Hello from FastAPI backend!"}
@@ -33,16 +32,13 @@ def get_scientists():
 def get_labtech():
   return crud.get_labtechs()
 
-@app.get('/scientists/{scientist_id}/samples', response_model=List[dict])
-def get_scientist_samples(scientist_id: int):
-    # Check if scientist exists
-    scientist_exist = any(s.id == scientist_id for s in crud.get_scientists())
-    if not scientist_exist:
-        raise HTTPException(status_code=404, detail="Scientist not found")
-    
-    # Get samples for that scientist
-    samples = crud.get_samples_by_scientist(scientist_id)
-    return samples
+@app.get('/scientists/{scientist_id}/samples', response_model=SamplesResponse)
+def get_scientist_samples(
+    scientist_id: int,
+    status: Optional[str] = Query(None),
+    out_of_spec: Optional[bool] = Query(None)
+):
+    return crud.get_samples_by_scientist(scientist_id, status, out_of_spec)
 
 @app.get("/samples/results/{sample_id}")
 def get_sample_results(sample_id: int):

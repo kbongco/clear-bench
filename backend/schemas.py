@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional
+from typing import Optional, List
 
 class Scientist(BaseModel):
   id: int
@@ -15,19 +15,21 @@ class LabTech(BaseModel):
 
 
 class Sample(BaseModel):
-  name: str
-  scientist_id: str
-  lab_tech_id: Optional[int]
-  sample_type: Optional[str]
-  test_status: Optional[str]
-  test_start: Optional[date]
-  due_data: Optional[date]
-  test_duration: Optional[str]
-  out_of_spec: Optional[bool] = False
+    id: int
+    name: str
+    scientist_id: int
+    lab_tech_id: Optional[int]
+    sample_type: Optional[str]
+    test_status: Optional[str]
+    test_start: Optional[date]
+    due_date: Optional[date]
+    test_duration: Optional[str]
+    out_of_spec: Optional[bool] = False
+    totalBottles: Optional[int] = 1
 
-
-class getSample(BaseModel):
-  id: int
+class SamplesResponse(BaseModel):
+    total: int
+    samples: List[Sample]
 
 class TestResultBase(BaseModel):
     parameter_name: str
