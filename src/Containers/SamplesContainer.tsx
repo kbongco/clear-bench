@@ -11,7 +11,7 @@ export default function SamplesContainer() {
   console.log(sampleId)
 
 if (!sampleId) {
-  return <p>Invalid sample ID</p>; // handle missing/invalid ID
+  return <p>Invalid sample ID</p>; 
 }
 
 useEffect(() => {
@@ -25,20 +25,6 @@ useEffect(() => {
   };
   fetchData();
 }, [sampleId]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const id = 2 ; 
-  //       const resultsData = await getSampleResults(id);
-  //       setSampleResults(resultsData);
-  //       console.log(sampleResults,'sample')
-  //     } catch (err: any) {
-  //       console.error(err.message);
-  //     }
-  //   }
-  //   fetchData();
-  // }, [])
 
   return ( 
     <>
