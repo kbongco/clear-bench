@@ -1,6 +1,8 @@
 from typing import List
 from schemas import Scientist
 from schemas import LabTech
+from schemas import NewSample
+from schemas import Sample
 from datetime import date
 from datetime import datetime
 from typing import Optional
@@ -341,18 +343,11 @@ def get_scientist_id(scientist_id: int) -> Scientist:
     return None
 
 def get_samples_result_by_id(sample_id: int) -> Optional[List[dict]]:
-    # Find sample
     sample = next((s for s in samples_db if s["id"] == sample_id), None)
     if not sample:
         return None
-
-    # Find related result
     result = next((r for r in results_db if r["sample_id"] == sample_id), None)
-
-    # Find test results
     test_results = [tr for tr in test_results_db if result and tr["result_id"] == result["id"]]
-
-    # Find scientist + lab tech
     scientist = next((sc for sc in scientists_db if sc["id"] == sample["scientist_id"]), None)
     lab_tech = next((lt for lt in labtechs_db if lt["id"] == sample["lab_tech_id"]), None)
 
@@ -379,5 +374,18 @@ def get_samples_result_by_id(sample_id: int) -> Optional[List[dict]]:
             for tr in test_results
         ]
     }]
+def get_next_id():
+    if not samples_db:
+        return 1
+    return max(s["id"] for s in samples_db) + 1
+
+
+def create_sample(sample_data: NewSample) -> Sample:
+    new_sample = {
+        "id": get_next_id(),
+        **sample_data.dict()
+    }
+    samples_db.append(new_sample)
+    return Sample(**new_sample)
 
 
