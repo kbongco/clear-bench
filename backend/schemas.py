@@ -14,15 +14,16 @@ class LabTech(BaseModel):
   name: str
 
 class NewSample(BaseModel):
-  name: str
-  scientist_id: int
-  team_name: Optional[str]
-  sample_type: Optional[str]
-  test_start: Optional[date]
-  test_duration: Optional[str]
-  totalBottles: int = 1
-  temperature: Optional[str]
-  notes: Optional[str]
+    name: str
+    scientist_id: int
+    team_name: Optional[str] = None
+    sample_type: Optional[str] = None
+    test_start: Optional[date] = None
+    test_duration: Optional[str] = None
+    totalBottles: int = 1
+    temperature: List[str] = []  
+    notes: Optional[str] = None
+
 
 class Sample(BaseModel):
     id: int
@@ -36,7 +37,7 @@ class Sample(BaseModel):
     test_duration: Optional[str] = None
     out_of_spec: Optional[bool] = False
     totalBottles: int = 1
-    temperature: Optional[str] = None
+    temperature: Optional[List[str]] = [] 
     notes: Optional[str] = None
 
 class SampleCreateResponse(BaseModel):

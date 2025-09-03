@@ -7,6 +7,7 @@ import TextArea from "../Components/Textarea/Textarea";
 import { createSample } from "../services/samples";
 
 export default function SubmitSamples({ user }: any) {
+  console.log(user);
   const initialFormData = {
     sampleName: '',
     sampleOwner: user,
@@ -23,6 +24,7 @@ export default function SubmitSamples({ user }: any) {
   const [formData, setFormData] = useState(initialFormData);
 
   const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C', 'All of the above'];
+  const isoDate = new Date(formData.startDate).toISOString().split("T")[0];
   const testDuration = [
     { label: '2-week', value: '2-week' },
     { label: '4-week', value: '4-week' },
@@ -37,13 +39,13 @@ export default function SubmitSamples({ user }: any) {
     try {
       const payload = {
         name: formData.sampleName,
-        scientist_id: formData.sampleOwner.id,
+        scientist_id: 1, // Temporary fix to test POST request
         sample_type: formData.sampleType,
         team_name: formData.teamName,
         total_samples: parseInt(formData.totalSamples, 10),
         test_type: formData.testType,
         test_duration: formData.testDuration,
-        start_date: formData.startDate,
+        test_start: isoDate,
         notes: formData.notes,
         temperature: formData.sampleConditions
       }
