@@ -10,8 +10,8 @@ export default function SubmitSamples({ user }: any) {
   const initialFormData = {
     sampleName: '',
     sampleOwner: user,
-    sampleType: '',
     testType: '',
+    sampleType: 'Food',
     teamName: '',
     totalSamples: '',
     testingSheet: null,
