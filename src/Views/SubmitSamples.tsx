@@ -5,6 +5,7 @@ import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
 import { createSample } from "../services/samples";
+import Toast from "../Components/Toast/Toast";
 
 export default function SubmitSamples({ user }: any) {
   console.log(user);
@@ -22,6 +23,8 @@ export default function SubmitSamples({ user }: any) {
     sampleConditions: [] as string[],
   };
   const [formData, setFormData] = useState(initialFormData);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
 
   const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C', 'All of the above'];
   const isoDate = new Date(formData.startDate).toISOString().split("T")[0];
@@ -56,9 +59,10 @@ export default function SubmitSamples({ user }: any) {
         sampleOwner: user,
         startDate: new Date().toLocaleDateString()
       });
-      alert("Sample created successfully!");
+      setToast({ message: "Sample has been submitted! successfully", type:'success' });
     } catch {
-      alert("failed");
+      setToast({ message: 'Failed to submit sample, you are missing some stuff', type:'error' });
+
     }
   }
 
@@ -78,7 +82,13 @@ export default function SubmitSamples({ user }: any) {
       </div>
 
       <p className='text-lg my-4'>To submit your samples, please fill out the form below:</p>
-
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <form
         className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
         onSubmit={handleSubmit}
