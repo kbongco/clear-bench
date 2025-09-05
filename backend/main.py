@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException, Query
 from typing import List, Optional
-from schemas import Scientist, LabTech, SamplesResponse
+from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import crud
+from crud import samples_db
+
 
 app = FastAPI()
 
@@ -46,5 +48,24 @@ def get_sample_results(sample_id: int):
     if not data:
         raise HTTPException(status_code=404, detail="Sample not found")
     return data
+
+@app.post("/samples", response_model=SampleCreateResponse)
+def api_create_sample(sample: NewSample):
+    new_sample = Sample(
+        id=len(samples_db) + 1,
+        name=sample.name,
+        scientist_id=sample.scientist_id,
+        sample_type=sample.sample_type,
+        test_start=sample.test_start,
+        test_duration=sample.test_duration,
+        totalBottles=sample.totalBottles,
+        temperature=sample.temperature,
+        notes=sample.notes,
+        test_status="pending",
+        due_date=None,
+        lab_tech_id=None,
+    )
+    samples_db.append(new_sample.dict())
+    return {"message": "Sample created successfully", "sample": new_sample}
 
 

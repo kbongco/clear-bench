@@ -4,13 +4,16 @@ import { foodTestDropdownOptions } from "../mockData/typeofTest";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
+import { createSample } from "../services/samples";
+import Toast from "../Components/Toast/Toast";
 
 export default function SubmitSamples({ user }: any) {
+  console.log(user);
   const initialFormData = {
     sampleName: '',
     sampleOwner: user,
-    sampleType: '',
     testType: '',
+    sampleType: 'Food',
     teamName: '',
     totalSamples: '',
     testingSheet: null,
@@ -20,8 +23,11 @@ export default function SubmitSamples({ user }: any) {
     sampleConditions: [] as string[],
   };
   const [formData, setFormData] = useState(initialFormData);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
 
   const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C', 'All of the above'];
+  const isoDate = new Date(formData.startDate).toISOString().split("T")[0];
   const testDuration = [
     { label: '2-week', value: '2-week' },
     { label: '4-week', value: '4-week' },
@@ -31,27 +37,34 @@ export default function SubmitSamples({ user }: any) {
     { label: '1 year', value: '1-year' }
   ];
 
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  // Get existing submissions from localStorage
-  const existingSubmissions = JSON.parse(localStorage.getItem('submittedSamples') || '[]');
+    try {
+      const payload = {
+        name: formData.sampleName,
+        scientist_id: 1, // Temporary fix to test POST request
+        sample_type: formData.sampleType,
+        team_name: formData.teamName,
+        total_samples: parseInt(formData.totalSamples, 10),
+        test_type: formData.testType,
+        test_duration: formData.testDuration,
+        test_start: isoDate,
+        notes: formData.notes,
+        temperature: formData.sampleConditions
+      }
+      const result = await createSample(payload);
+      console.log(result,'rest');
+      setFormData({
+        ...initialFormData,
+        sampleOwner: user,
+        startDate: new Date().toLocaleDateString()
+      });
+      setToast({ message: "Sample has been submitted! successfully", type:'success' });
+    } catch {
+      setToast({ message: 'Failed to submit sample, you are missing some stuff', type:'error' });
 
-  // Add the new formData
-  const updatedSubmissions = [...existingSubmissions, formData];
-
-  // Save the updated list back to localStorage
-  localStorage.setItem('submittedSamples', JSON.stringify(updatedSubmissions));
-
-  console.log('Form submitted:', formData);
-
-    // Reset form
-    setFormData({
-      ...initialFormData,
-      sampleOwner: user,
-      startDate: new Date().toLocaleDateString()
-    });
-  };
+    }
+  }
 
   return (
     <div className='ml-4'>
@@ -69,7 +82,13 @@ export default function SubmitSamples({ user }: any) {
       </div>
 
       <p className='text-lg my-4'>To submit your samples, please fill out the form below:</p>
-
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <form
         className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
         onSubmit={handleSubmit}
@@ -88,7 +107,7 @@ export default function SubmitSamples({ user }: any) {
           type="text"
           placeholder=""
           value={formData.sampleOwner}
-          onChange={() => {}}
+          onChange={() => { }}
           name="sampleOwner"
           disabled={true}
         />
@@ -108,7 +127,7 @@ export default function SubmitSamples({ user }: any) {
           placeholder=""
           value={formData.totalSamples}
           onChange={(e) => setFormData({ ...formData, totalSamples: e.target.value })}
-        name="totalSamples"/>
+          name="totalSamples" />
 
         <Input
           label="Start Date"
