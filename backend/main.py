@@ -68,4 +68,9 @@ def api_create_sample(sample: NewSample):
     samples_db.append(new_sample.dict())
     return {"message": "Sample created successfully", "sample": new_sample}
 
-
+@app.patch('/samples/{sample_id}', response_model=Sample)
+def api_update_sample(sample_id: int, sample_update: NewSample):
+    updated_sample = crud.update_sample(sample_id, sample_update)
+    if not updated_sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+    return updated_sample

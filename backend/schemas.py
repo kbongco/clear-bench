@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import date
 from typing import Optional, List
+from enum import Enum
 
 class Scientist(BaseModel):
   id: int
@@ -43,6 +44,28 @@ class Sample(BaseModel):
 class SampleCreateResponse(BaseModel):
     message: str
     sample: Sample
+
+class SampleStatus(str, Enum):
+    pending = "pending"
+    in_progress = "in_progress"
+    rejected = "rejected"
+    completed = "completed"
+    reviewed = "reviewed"
+    archived = "archived"
+
+class UpdateSample(BaseModel):
+  name: Optional[str] = None
+  scientist_id: Optional[int] = None
+  lab_tech_id: int 
+  sample_type: Optional[str] = None
+  test_status: SampleStatus = SampleStatus.pending
+  test_start: Optional[date] = None
+  due_date: Optional[date] = None
+  test_duration: Optional[str] = None
+  out_of_spec: Optional[bool] = None
+  totalBottles: int = 1
+  temperature: Optional[List[str]] = []
+  notes: Optional[str] = None
 
 class SamplesResponse(BaseModel):
     total: int

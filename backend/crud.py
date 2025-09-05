@@ -1,5 +1,6 @@
 from typing import List
 from schemas import Scientist
+from schemas import UpdateSample
 from schemas import LabTech
 from schemas import NewSample
 from schemas import Sample
@@ -389,3 +390,10 @@ def create_sample(sample_data: NewSample) -> Sample:
     return Sample(**new_sample)
 
 
+def update_sample(sample_id:int, sample_update: UpdateSample) -> Optional[Sample]:
+    for s in samples_db:
+        if s["id"] == sample_id:
+            update_data = sample_update.dict(exclude_unset=True)
+            s.update(update_data)
+            return Sample(**s)
+    return None
