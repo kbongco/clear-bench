@@ -54,17 +54,8 @@ class SampleStatus(str, Enum):
     archived = "archived"
 
 class UpdateSample(BaseModel):
-  name: Optional[str] = None
-  scientist_id: Optional[int] = None
-  lab_tech_id: int 
-  sample_type: Optional[str] = None
-  test_status: SampleStatus = SampleStatus.pending
-  test_start: Optional[date] = None
-  due_date: Optional[date] = None
-  test_duration: Optional[str] = None
-  out_of_spec: Optional[bool] = None
-  totalBottles: int = 1
-  temperature: Optional[List[str]] = []
+  lab_tech_id: int
+  test_status: Optional[SampleStatus] = None
   notes: Optional[str] = None
 
 class SamplesResponse(BaseModel):

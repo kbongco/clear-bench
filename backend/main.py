@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query
 from typing import List, Optional
-from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse
+from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import crud
@@ -69,7 +69,7 @@ def api_create_sample(sample: NewSample):
     return {"message": "Sample created successfully", "sample": new_sample}
 
 @app.patch('/samples/{sample_id}', response_model=Sample)
-def api_update_sample(sample_id: int, sample_update: NewSample):
+def api_update_sample(sample_id: int, sample_update: UpdateSample):
     updated_sample = crud.update_sample(sample_id, sample_update)
     if not updated_sample:
         raise HTTPException(status_code=404, detail="Sample not found")
