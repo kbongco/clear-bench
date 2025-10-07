@@ -39,3 +39,14 @@ export async function createSample(sampleData: any) {
     throw err;
   }
 }
+
+export async function getPendingSamples(scientistId: number) {
+    const response = await fetch(
+      `http://localhost:8000/scientists/${scientistId}/samples?status=pending`
+    );
+    if (!response.ok) {
+      throw new Error("Unable to fetch pending samples");
+    }
+  
+    return response.json();
+}

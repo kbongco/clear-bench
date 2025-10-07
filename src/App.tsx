@@ -2,16 +2,21 @@ import NavBar from './Layout/NavBar/NavBar'
 import { mockLabTechs, mockSamples } from './mockData/sampleData';
 import DashBoard from './Views/Dashboard/Dashboard'
 import Home from './Views/Home/Home'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import ApproveSamples from './Views/ApprovSamples';
 import { useRoleStore } from './store/useRoleStore';
 import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
+import LabTechContainer from './Containers/LabTechContainer';
+import Login from './Views/Home/Login';
 
 
 function App() {
+  const location = useLocation();
+  const hideNavBarRoutes = ["/login"];
+  const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
   const role = useRoleStore((state) => state.role);
   console.log(role,'test')
   // const [role, setRole] = useState('scientist');
@@ -30,21 +35,26 @@ function App() {
 
   return (
     <>
-      <NavBar/>
-      <div className="ml-64">
+      {shouldShowNavBar && <NavBar />}
+      <div className={shouldShowNavBar ? "ml-64" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
-          {/* <Route path='/sample-results' element={<SamplesContainer />} /> */}
-          <Route path='/sample-results/:id' element={<SamplesContainer/>}/>
-          <Route path='/view-samples' element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />} />
-          <Route path='/submit-samples' element={<SubmitSamples user={currentUser} />} />
-          <Route path='/approve-samples' element={<ApproveSamples data={submittedSamples} />}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/sample-results/:id" element={<SamplesContainer />} />
+          <Route
+            path="/view-samples"
+            element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />}
+          />
+          <Route
+            path="/submit-samples"
+            element={<SubmitSamples user={currentUser} />}
+          />
+          <Route path="/approve-samples" element={<LabTechContainer />} />
         </Routes>
-        {/* <DashBoard /> */}
       </div>
     </>
-  )
+  );
 }
 
 export default App
