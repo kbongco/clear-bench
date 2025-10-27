@@ -21,9 +21,8 @@ export default function Login() {
   );
   return ( 
     <>
-      <h1>This is the login page </h1>
-      <div>
-        <Card title={title} description={description} />
+      <div className='flex'>
+        <Card title={title} description={description} footer='Test' />
       </div>
     </>
   )
