@@ -1,6 +1,6 @@
 import type { InputProps } from "../ComponentInterfaces/InputInterface";
 
-export default function Input({ label, type, placeholder, value, onChange, name, disabled }: InputProps) {
+export default function Input({ label, type, placeholder, value, onChange, name, disabled, required }: InputProps) {
   return (
     <>
       <div className='flex flex-col gap-2 mb-4'>
@@ -12,6 +12,7 @@ export default function Input({ label, type, placeholder, value, onChange, name,
           onChange={onChange}
           name={name}
           disabled={disabled}
+          required={required}
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>

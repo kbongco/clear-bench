@@ -5,11 +5,12 @@ import Modal from "../Components/Modal/Modal";
 import TextArea from "../Components/Textarea/Textarea";
 
 export default function ApproveSamples({ data }: any) {
-  // parse JSON string data or empty array
-  const [rows, setRows] = useState(() => JSON.parse(data || "[]"));
+  const [sampleRows, setSampleRows] = useState(data?.samples || []);
+  // const [rows, setRows] = useState(() => JSON.parse(data || "[]"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSample, setSelectedSample] = useState(null);
   const [labTechComment, setLabTechComment] = useState("");
+  console.log(data, 'dah')
 
   const labTechNotes = (
     <span>
@@ -25,19 +26,30 @@ export default function ApproveSamples({ data }: any) {
   const headers = ['Name', 'Owner', 'Status', 'Team Name', 'Update Status'];
 
   // Map original data to desired shape, add status if missing
-  const dataToApprove = rows.map(row => ({
-    name: row.sampleName,
-    owner: row.sampleOwner,
-    status: row.status || 'pending',
-    teamName: row.teamName,
+  // const dataToApprove = rows.map(row => ({
+  //   name: row.sampleName,
+  //   owner: row.sampleOwner,
+  //   status: row.status || 'pending',
+  //   teamName: row.teamName,
+  // }));
+
+  const sampleDataTable = sampleRows.map(row => ({
+    name: row.name,
+    status: row.test_status,
+    sampleType: row.sample_type
   }));
 
-  const handleStatusUpdate = (index: number, newStatus: string) => {
-    const updatedRows = [...rows];
-    updatedRows[index].status = newStatus;
-    setRows(updatedRows);
-    setIsModalOpen(false);
-  };
+  console.log(sampleRows,'rows')
+
+  console.log(sampleDataTable, 'samp')
+  console.log(data.samples);
+
+  // const handleStatusUpdate = (index: number, newStatus: string) => {
+  //   const updatedRows = [...rows];
+  //   updatedRows[index].status = newStatus;
+  //   setRows(updatedRows);
+  //   setIsModalOpen(false);
+  // };
 
   // Custom render row with buttons
   const renderRow = (row: any, index: number) => (
@@ -57,20 +69,22 @@ export default function ApproveSamples({ data }: any) {
     </tr>
   );
 
+
   return (
-    <div className="ml-4">
+    // <h1>Test</h1>
+    <div className="ml-4 pt-4">
       <Card title="Reference sheet" description={labTechNotes} />
       <div className="mt-6">
-        <Table
+        {/* <Table
           tableTitle="Approve Samples"
           data={dataToApprove}
           tableHeader={headers}
           renderRow={renderRow}
-        />
+        /> */}
       </div>
 
       {/* Modal for Approve/Reject */}
-      {selectedSample && (
+      {/* {selectedSample && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2 className="text-xl font-semibold mb-4">Approve or Reject</h2>
           <p>
@@ -106,7 +120,7 @@ export default function ApproveSamples({ data }: any) {
             </button>
           </div>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 }

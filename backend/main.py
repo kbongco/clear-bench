@@ -1,10 +1,11 @@
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
 from typing import List, Optional
-from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse
+from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import crud
 from crud import samples_db
+from auth import authenticate_user
 
 
 app = FastAPI()
@@ -29,6 +30,10 @@ def read_root():
 @app.get("/scientists", response_model=List[Scientist])
 def get_scientists():
   return crud.get_scientists()
+
+@app.get("/protected")
+async def protected_route(current_user: str = Depends(authenticate_user)):
+    return {"message": f"Hello {current_user}, this is a protected route!"}
 
 @app.get('/lab-techs', response_model=List[LabTech])
 def get_labtech():
@@ -68,4 +73,9 @@ def api_create_sample(sample: NewSample):
     samples_db.append(new_sample.dict())
     return {"message": "Sample created successfully", "sample": new_sample}
 
-
+@app.patch('/samples/{sample_id}', response_model=Sample)
+def api_update_sample(sample_id: int, sample_update: UpdateSample):
+    updated_sample = crud.update_sample(sample_id, sample_update)
+    if not updated_sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+    return updated_sample
