@@ -8,11 +8,15 @@ import crud
 from crud import samples_db
 from auth import authenticate_user
 from database import get_db, Base, engine
-
+import models
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
+
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
 
 # Allow React app (usually running on localhost:3000) to access backend
 origins = [
