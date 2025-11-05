@@ -2,13 +2,21 @@ from fastapi import FastAPI, HTTPException, Query, Depends
 from typing import List, Optional
 from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample
 from fastapi import FastAPI
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 import crud
 from crud import samples_db
 from auth import authenticate_user
-
+from database import get_db, Base, engine
+import models
 
 app = FastAPI()
+
+# Base.metadata.create_all(bind=engine)
+
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
 
 # Allow React app (usually running on localhost:3000) to access backend
 origins = [
@@ -30,6 +38,11 @@ def read_root():
 @app.get("/scientists", response_model=List[Scientist])
 def get_scientists():
   return crud.get_scientists()
+
+@app.get("/test-db")
+def test_db(db: Session = Depends(get_db)):
+    return {"status": "✅ Database connection working"}
+
 
 @app.get("/protected")
 async def protected_route(current_user: str = Depends(authenticate_user)):

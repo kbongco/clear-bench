@@ -13,6 +13,9 @@ dist-ssr
 *.local
 __pycache__/
 *.py[cod]
+.env
+../logfile
+init_db.py
 
 # Editor directories and files
 .vscode/*
