@@ -1,6 +1,8 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Float, Text
+from sqlalchemy import Column, Integer, String, Date, DateTime, Boolean, ForeignKey, Float, Text, func
 from sqlalchemy.orm import relationship
 from database import Base
+from datetime import date, datetime
+
 
 # ---------------------
 # Scientist Model
@@ -62,22 +64,33 @@ class Result(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     sample_id = Column(Integer, ForeignKey("samples.id"), nullable=False)
-    test_completed_date = Column(Date, nullable=True)
+
+    # Datetime fields
+    test_completed_date = Column(DateTime, nullable=True)
+    reviewed_date = Column(DateTime, nullable=True)
+
     tested_by = Column(Integer, ForeignKey("lab_techs.id"), nullable=True)
     reviewed_by = Column(Integer, ForeignKey("scientists.id"), nullable=True)
-    reviewed_date = Column(Date, nullable=True)
+
     overall_status = Column(String, nullable=False)
     is_out_of_spec = Column(Boolean, default=False)
+    
     test_method = Column(String, nullable=True)
     instrument_used = Column(String, nullable=True)
     batch_number = Column(String, nullable=True)
+    
     analyst_comments = Column(Text, nullable=True)
     reviewer_comments = Column(Text, nullable=True)
+
     raw_data_file_path = Column(String, nullable=True)
 
+    # ✅ NEW TIMESTAMPS
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    # Relationships
     sample = relationship("Sample", back_populates="results")
     test_results = relationship("TestResult", back_populates="result")
-
 
 # ---------------------
 # TestResult Model
