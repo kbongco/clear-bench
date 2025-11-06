@@ -38,7 +38,7 @@ class LabTech(Base):
 class Sample(Base):
     __tablename__ = "samples"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     scientist_id = Column(Integer, ForeignKey("scientists.id"), nullable=False)
     lab_tech_id = Column(Integer, ForeignKey("lab_techs.id"), nullable=True)

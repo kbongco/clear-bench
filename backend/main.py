@@ -8,7 +8,7 @@ import models
 from database import get_db, Base, engine
 from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample
 from auth import authenticate_user
-
+import crud
 
 app = FastAPI()
 
