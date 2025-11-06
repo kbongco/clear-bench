@@ -16,6 +16,8 @@ __pycache__/
 .env
 ../logfile
 init_db.py
+backend/reset_tables.py
+logfile
 
 # Editor directories and files
 .vscode/*
