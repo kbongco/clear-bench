@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Date, DateTime, Boolean, Foreign
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import date, datetime
+from sqlalchemy.types import JSON
 
 
 # ---------------------
@@ -48,12 +49,13 @@ class Sample(Base):
     test_duration = Column(String, nullable=True)
     out_of_spec = Column(Boolean, default=False)
     totalBottles = Column(Integer, default=1)
-    temperature = Column(Text)  # store JSON string list
+    temperature = Column(JSON, default=list)  
     notes = Column(Text, nullable=True)
 
     scientist = relationship("Scientist", back_populates="samples")
     lab_tech = relationship("LabTech", back_populates="samples")
     results = relationship("Result", back_populates="sample")
+
 
 
 # ---------------------
