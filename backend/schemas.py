@@ -1,19 +1,31 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import date
 from typing import Optional, List
 from enum import Enum
 
+# --------------------
+# Scientist & LabTech
+# --------------------
 class Scientist(BaseModel):
-  id: int
-  name: str
-  department: str
-  email: str
-  manager_id: Optional[int]
+    id: int
+    name: str
+    department: str
+    email: str
+    manager_id: Optional[int] = None
+
+    model_config = {"from_attributes": True}
+
 
 class LabTech(BaseModel):
-  id: int
-  name: str
+    id: int
+    name: str
 
+    model_config = {"from_attributes": True}
+
+
+# --------------------
+# Sample Schemas
+# --------------------
 class NewSample(BaseModel):
     name: str
     scientist_id: int
@@ -22,7 +34,7 @@ class NewSample(BaseModel):
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
     totalBottles: int = 1
-    temperature: List[str] = []  
+    temperature: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
 
 
@@ -38,12 +50,17 @@ class Sample(BaseModel):
     test_duration: Optional[str] = None
     out_of_spec: Optional[bool] = False
     totalBottles: int = 1
-    temperature: Optional[List[str]] = [] 
+    temperature: List[str] = Field(default_factory=list)  # ✅ JSON list
     notes: Optional[str] = None
+
+    # ✅ Pydantic v2 ORM mode
+    model_config = {"from_attributes": True}
+
 
 class SampleCreateResponse(BaseModel):
     message: str
     sample: Sample
+
 
 class SampleStatus(str, Enum):
     pending = "pending"
@@ -53,15 +70,21 @@ class SampleStatus(str, Enum):
     reviewed = "reviewed"
     archived = "archived"
 
+
 class UpdateSample(BaseModel):
-  lab_tech_id: int
-  test_status: Optional[SampleStatus] = None
-  notes: Optional[str] = None
+    lab_tech_id: int
+    test_status: Optional[SampleStatus] = None
+    notes: Optional[str] = None
+
 
 class SamplesResponse(BaseModel):
     total: int
     samples: List[Sample]
 
+
+# --------------------
+# Result & Test Results
+# --------------------
 class TestResultBase(BaseModel):
     parameter_name: str
     measured_value: float
@@ -81,8 +104,7 @@ class TestResult(TestResultBase):
     id: int
     result_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class ResultBase(BaseModel):
@@ -91,7 +113,7 @@ class ResultBase(BaseModel):
     tested_by: Optional[int] = None
     reviewed_by: Optional[int] = None
     reviewed_date: Optional[date] = None
-    overall_status: str  # pass, fail, inconclusive, pending_review
+    overall_status: str
     is_out_of_spec: bool
     test_method: Optional[str] = None
     instrument_used: Optional[str] = None
@@ -102,14 +124,13 @@ class ResultBase(BaseModel):
 
 
 class ResultCreate(ResultBase):
-    test_results: list[TestResultCreate] = []
+    test_results: List[TestResultCreate] = Field(default_factory=list)
 
 
 class Result(ResultBase):
     id: int
     created_at: date
     updated_at: date
-    test_results: list[TestResult] = []
+    test_results: List[TestResult] = Field(default_factory=list)
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
