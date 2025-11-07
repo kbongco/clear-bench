@@ -101,12 +101,14 @@ def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session =
     db.refresh(sample)
     return sample
 
-
-@app.get("/test-db")
-def test_db(db: Session = Depends(get_db)):
-    return {"status": "✅ Database connection working"}
+# @app.post('/samples/results/{sample_id}', response_model=Resul)
 
 
-@app.get("/protected")
-async def protected_route(current_user: str = Depends(authenticate_user)):
-    return {"message": f"Hello {current_user}, this is a protected route!"}
+# @app.get("/test-db")
+# def test_db(db: Session = Depends(get_db)):
+#     return {"status": "✅ Database connection working"}
+
+
+# @app.get("/protected")
+# async def protected_route(current_user: str = Depends(authenticate_user)):
+#     return {"message": f"Hello {current_user}, this is a protected route!"}

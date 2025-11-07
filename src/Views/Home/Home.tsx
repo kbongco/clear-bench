@@ -10,6 +10,7 @@ import { useRoleStore } from "../../store/useRoleStore";
 
 export default function Home() {
   const role = useRoleStore((state) => state.role);
+  console.log(role);
 
   return (
     <>
