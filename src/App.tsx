@@ -11,6 +11,7 @@ import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
+import Landing from './Views/LandingPage';
 
 
 function App() {
@@ -34,9 +35,10 @@ function App() {
   
 
   return (
+    // className={shouldShowNavBar ? "ml-64" : ""}
     <>
-      {shouldShowNavBar && <NavBar />}
-      <div className={shouldShowNavBar ? "ml-64" : ""}>
+      {/* {shouldShowNavBar && <NavBar />} */}
+      <div >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
@@ -51,6 +53,7 @@ function App() {
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
+          <Route path='/landing-page' element={<Landing/>}/>
         </Routes>
       </div>
     </>
