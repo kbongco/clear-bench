@@ -11,6 +11,7 @@ import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
+import SampleView from './Views/SampleDetails/SampleView';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
   const hideNavBarRoutes = ["/login"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
   const role = useRoleStore((state) => state.role);
-  console.log(role,'test')
+  console.log(role, 'test')
   // const [role, setRole] = useState('scientist');
   const currentUser = mockSamples[0].owner.name;
   console.log(mockSamples);
@@ -31,7 +32,7 @@ function App() {
 
   const submittedSamples = localStorage.getItem('submittedSamples')
 
-  
+
 
   return (
     <>
@@ -51,6 +52,7 @@ function App() {
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
+          <Route path='/view-results' element={<SampleView />} />
         </Routes>
       </div>
     </>
