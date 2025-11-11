@@ -157,11 +157,6 @@ export default function Landing() {
               Learn more about the dev
             </button>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-purple-100 text-sm">
-            <span>✓ No credit card required</span>
-            <span>✓ 14-day free trial</span>
-            <span>✓ Cancel anytime</span>
-          </div>
 
           {/* Hero Image Placeholder */}
           <div className="mt-16 bg-white rounded-xl shadow-2xl p-4 max-w-5xl mx-auto">
@@ -254,6 +249,8 @@ export default function Landing() {
                 <li>• Academic research groups coordinating experiments</li>
                 <li>• Teams moving away from spreadsheets or paper logs</li>
                 <li>• Solo scientists and small labs who want clarity without enterprise LIMS complexity</li>
+                <li>• You're interested in trying an early-stage tool built by a solo developer preparing to scale</li>
+                
 
               </ul>
             </div>
@@ -262,72 +259,85 @@ export default function Landing() {
               <div className="text-green-500 text-3xl mb-4">❌</div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900">ClearBench is not for you if..</h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Clear sample tracking & audit trails</li>
-                <li>• Centralized, structured data (no spreadsheet drama)</li>
-                <li>• Real-time status for scientists</li>
-                <li>• Workflows that support lab techs — not stress them</li>
-                <li>• Predictable timelines & clean handoffs</li>
+                <li>• You require full GMP/GLP validated workflows</li>
+                <li>• You need 21 CFR Part 11 compliant audit trails & e-signatures</li>
+                <li>• You expect automated instrument + barcode system integration</li>
+                <li>• You need enterprise-level support, SLAs, and onboarding</li>
+                <li>• You require multi-site governance & advanced permissioning</li>
+                <li>• You want a 1:1 replacement for enterprise LIMS platforms</li>
+                <li>• You prefer fully-established products over fast-evolving MVPs</li>
+                <li>• You're not interested in trying an early-stage tool built by a solo developer preparing to scale</li>
+
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-xl text-gray-600">Choose the perfect plan for your team</p>
-          </div>
+{/* Build Status / Roadmap */}
+<section id="progress" className="py-20 px-4 bg-white">
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-4xl font-bold text-gray-900 mb-4">
+      Actively Building — No Pricing Yet
+    </h2>
+    <p className="text-xl text-gray-600 mb-12">
+      ClearBench is a real-world lab workflow tool in active development — built solo, built to scale.
+      Instead of pricing tiers, I'm focused on shipping features, refining UX, and validating real lab workflows.
+    </p>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`rounded-xl p-8 relative transition-all duration-300 hover:scale-105 ${plan.popular
-                  ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-xl'
-                  : 'bg-white border-2 border-gray-200'
-                  }`}
-              >
-                {plan.popular && (
-                  <div className="absolute top-0 right-0 bg-yellow-400 text-gray-900 px-4 py-1 rounded-bl-lg rounded-tr-lg text-sm font-semibold">
-                    POPULAR
-                  </div>
-                )}
-                <h3 className={`text-2xl font-bold mb-2 ${plan.popular ? 'text-white' : 'text-gray-900'}`}>
-                  {plan.name}
-                </h3>
-                <p className={`mb-6 ${plan.popular ? 'text-purple-100' : 'text-gray-600'}`}>
-                  {plan.description}
-                </p>
-                <div className="mb-6">
-                  <span className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-gray-900'}`}>
-                    {plan.price}
-                  </span>
-                  <span className={plan.popular ? 'text-purple-100' : 'text-gray-600'}>
-                    {plan.period}
-                  </span>
-                </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className={`flex items-center ${plan.popular ? 'text-white' : 'text-gray-700'}`}>
-                      <span className={`mr-2 ${plan.popular ? 'text-white' : 'text-green-500'}`}>✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button className={`w-full px-6 py-3 rounded-lg font-semibold transition ${plan.popular
-                  ? 'bg-white text-purple-600 hover:bg-gray-50'
-                  : 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}>
-                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Start Free Trial'}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    {/* Current Features */}
+    <div className="text-left mb-10">
+      <h3 className="text-2xl font-semibold text-gray-900 mb-4">✅ Current Features</h3>
+      <ul className="space-y-2 text-gray-700">
+        <li>• Sample intake & tracking</li>
+        <li>• Scientist & lab tech workflows</li>
+        <li>• Result logging structure</li>
+        <li>• Modern full-stack architecture (FastAPI + React + Postgres)</li>
+      </ul>
+    </div>
+
+    {/* In Progress */}
+    <div className="text-left mb-10">
+      <h3 className="text-2xl font-semibold text-gray-900 mb-4">🚧 In Progress</h3>
+      <ul className="space-y-2 text-gray-700">
+        <li>• Audit trails & user permissions</li>
+        <li>• Turnaround time tracking</li>
+        <li>• Lab-friendly reporting & export</li>
+        <li>• Deployment + CI/CD scalability</li>
+      </ul>
+    </div>
+
+    {/* Future Goals */}
+    <div className="text-left mb-12">
+      <h3 className="text-2xl font-semibold text-gray-900 mb-4">🌱 Future Goals</h3>
+      <ul className="space-y-2 text-gray-700">
+        <li>• Notifications & automations</li>
+        <li>• Instrument & ELN integrations</li>
+        <li>• Collaborative roles & audit workflows</li>
+      </ul>
+    </div>
+
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="#"
+        className="px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700 transition"
+      >
+        View Roadmap
+      </a>
+      <a
+        href="#"
+        className="px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"
+      >
+        See Source Code
+      </a>
+    </div>
+
+    <p className="text-gray-500 text-sm mt-6">
+      🚀 Transparent build — this is a working product in motion, not marketing vapor.
+    </p>
+  </div>
+</section>
+
 
       {/* FAQ */}
       <section className="py-20 px-4 bg-gray-50">
