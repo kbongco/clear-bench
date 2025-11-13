@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 // import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CheckCircle, Clock, AlertCircle, XCircle, Beaker } from 'lucide-react';
+import SampleInfoCard from './SampleDetailComponents/SampleInfoCard';
 
 export default function SampleView () {
   const [activeBottle, setActiveBottle] = useState('bottle-1');
   const [activeTest, setActiveTest] = useState('pH');
 
-  // Sample data
   const sampleInfo = {
     id: 'SMP-2024-001234',
-    name: 'Mayonnaise',
+    name: 'Ground Beef Sample - Lot #4527',
     type: 'Food',
     collectionDate: '2024-11-08',
     receivedDate: '2024-11-09',
     priority: 'High',
-    labTech: 'Dr. Sarah Chen',
-    sampleOwner: 'Dr Alice Chen',
-    location: 'Site A - Building 3'
+    analyst: 'Dr. Sarah Chen',
+    location: 'Processing Plant - Line 2'
   };
 
   const status = {
@@ -329,47 +328,8 @@ export default function SampleView () {
           <h1 className="text-3xl font-bold text-gray-900">Sample Details</h1>
           <p className="text-gray-600 mt-1">View and manage sample test results across multiple bottles</p>
         </div>
-
         {/* Sample Information Card */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Sample Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div>
-              <p className="text-sm text-gray-600">Sample ID</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.id}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Sample Name</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.name}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Type</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.type}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Collection Date</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.collectionDate}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Received Date</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.receivedDate}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Priority</p>
-              <span className="inline-block px-3 py-1 text-sm font-medium bg-red-100 text-red-800 rounded-full">
-                {sampleInfo.priority}
-              </span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Lab Tech</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.analyst}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Location</p>
-              <p className="text-lg font-medium text-gray-900">{sampleInfo.location}</p>
-            </div>
-          </div>
-        </div>
+        <SampleInfoCard sampleInfo={sampleInfo} />
 
         {/* Overall Status Card */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
