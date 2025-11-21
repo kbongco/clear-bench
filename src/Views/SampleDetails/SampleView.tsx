@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 // import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CheckCircle, Clock, AlertCircle, XCircle, Beaker } from 'lucide-react';
-import SampleInfoCard from './SampleDetailComponents/SampleInfoCard';
-import { getBottleTestStats, getStatusColor } from '../../utils/sampleView';
+// import SampleInfoCard from './SampleDetailComponents/SampleInfoCard';
+import {  getStatusColor } from '../../utils/sampleView';
 import { bottles, sampleInfo, status } from '../../mockData/sampleDetails';
+import SampleInfoCard from './SampleInfoCard';
+import SampleStatus from './SampleStatus';
 
 export default function SampleView () {
   const [activeBottle, setActiveBottle] = useState('bottle-1');
   const [activeTest, setActiveTest] = useState('pH');
 
-  const getStatusIcon = (status) => {
-    switch (status.toLowerCase()) {
-      case 'completed':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'in progress':
-        return <Clock className="w-4 h-4 text-yellow-500" />;
-      case 'pending':
-        return <AlertCircle className="w-4 h-4 text-gray-400" />;
-      case 'failed':
-        return <XCircle className="w-4 h-4 text-red-500" />;
-      default:
-        return null;
-    }
-  };
+  // const getStatusIcon = (status) => {
+  //   switch (status.toLowerCase()) {
+  //     case 'completed':
+  //       return <CheckCircle className="w-4 h-4 text-green-500" />;
+  //     case 'in progress':
+  //       return <Clock className="w-4 h-4 text-yellow-500" />;
+  //     case 'pending':
+  //       return <AlertCircle className="w-4 h-4 text-gray-400" />;
+  //     case 'failed':
+  //       return <XCircle className="w-4 h-4 text-red-500" />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   // Get current active test
   const currentBottle = bottles[activeBottle];
@@ -42,36 +44,10 @@ export default function SampleView () {
           <h1 className="text-3xl font-bold text-gray-900">Sample Details</h1>
           <p className="text-gray-600 mt-1">View and manage sample test results across multiple bottles</p>
         </div>
-        {/* Sample Information Card */}
         <SampleInfoCard sampleInfo={sampleInfo} />
+        <SampleStatus status={status} />
 
-        {/* Overall Status Card */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Overall Testing Status</h2>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              {getStatusIcon(status.overall)}
-              <span className={`px-4 py-2 rounded-full font-medium ${getStatusColor(status.overall)}`}>
-                {status.overall}
-              </span>
-            </div>
-            <div className="flex-1">
-              <div className="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Progress</span>
-                <span>{status.completedTests} of {status.totalTests} tests completed</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
-                <div 
-                  className="bg-blue-600 h-3 rounded-full transition-all duration-300"
-                  style={{ width: `${status.progress}%` }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottles/Conditions Tabs */}
-        <div className="bg-white rounded-lg shadow-md mb-6">
+        {/* <div className="bg-white rounded-lg shadow-md mb-6">
           <div className="border-b border-gray-200">
             <div className="flex overflow-x-auto">
               {Object.entries(bottles).map(([key, bottle]) => {
@@ -102,7 +78,7 @@ export default function SampleView () {
             </div>
           </div>
 
-          {/* Bottle Details */}
+
           <div className="p-6 bg-gray-50 border-b border-gray-200">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
@@ -124,7 +100,7 @@ export default function SampleView () {
             </div>
           </div>
 
-          {/* Test Tabs within Bottle */}
+
           <div className="border-b border-gray-200">
             <div className="flex overflow-x-auto px-6">
               {Object.entries(currentTests).map(([key, test]) => (
@@ -146,16 +122,15 @@ export default function SampleView () {
             </div>
           </div>
 
-          {/* Test Details */}
+
           <div className="p-6">
             {currentTests[activeTest] && (
               <div>
-                {/* Check if this is a time-series test */}
                 {currentTests[activeTest].isTimeSeries ? (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Time-Series Test Results</h3>
                     
-                    {/* Test Info Summary */}
+
                     <div className="bg-gray-50 rounded-lg p-4 mb-6">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
@@ -179,7 +154,7 @@ export default function SampleView () {
                       </div>
                     </div>
 
-                    {/* Time Series Table */}
+    
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead className="bg-gray-100 border-b-2 border-gray-200">
@@ -224,8 +199,7 @@ export default function SampleView () {
                       </table>
                     </div>
 
-                    {/* Time Series Chart */}
-                    {/* {currentTests[activeTest].timeSeriesData.filter(d => d.result !== null).length > 1 && (
+                    {currentTests[activeTest].timeSeriesData.filter(d => d.result !== null).length > 1 && (
                       <div className="mt-6">
                         <h4 className="text-md font-semibold text-gray-900 mb-3">Trend Over Time</h4>
                         <ResponsiveContainer width="100%" height={250}>
@@ -244,10 +218,10 @@ export default function SampleView () {
                           </LineChart>
                         </ResponsiveContainer>
                       </div>
-                    )} */}
+                    )}
                   </div>
                 ) : (
-                  // Regular single-result test display
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Test Results</h3>
@@ -303,7 +277,7 @@ export default function SampleView () {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Trends Chart */}
         {/* <div className="bg-white rounded-lg shadow-md p-6">

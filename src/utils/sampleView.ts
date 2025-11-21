@@ -13,8 +13,8 @@
     }
   };
 
-  export const getBottleTestStats = (bottleKey) => {
-    const tests = Object.values(bottles[bottleKey].tests);
-    const completed = tests.filter(t => t.status.toLowerCase() === 'completed').length;
-    return { completed, total: tests.length };
-  };
+  // export const getBottleTestStats = (bottleKey) => {
+  //   const tests = Object.values(bottles[bottleKey].tests);
+  //   const completed = tests.filter(t => t.status.toLowerCase() === 'completed').length;
+  //   return { completed, total: tests.length };
+  // };
