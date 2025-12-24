@@ -40,3 +40,14 @@ export interface Milestone {
   dueDate: Date;
   tests: MilestoneTestEntry[];
 }
+
+export interface SampleInfo {
+  id: string;                // Sample code like SMP-2024-001234
+  name: string;              // Sample name / description
+  type: string;              // Sample category (Food, Water, etc.)
+  collectionDate: string;    // ISO date string
+  receivedDate: string;      // ISO date string
+  priority: 'Low' | 'Medium' | 'High'; // Priority enum
+  analyst: string;           // Assigned scientist / analyst
+  location: string;          // Storage or source location
+}
