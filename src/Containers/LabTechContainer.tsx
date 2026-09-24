@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
 import ApproveSamples from "../Views/ApprovSamples";
-import { getPendingSamples, getSamples } from "../services/samples";
+import { getPendingSamples } from "../services/samples";
 
 export default function LabTechContainer() {
   const [pendingSamples, setPendingSamples] = useState([]);
-  const [allSamples, setAllSamples] = useState([])
-  const labTechID = 1;
-  const scientistID = 1;
 
   useEffect(() => {
+    // TODO: replace with the logged-in user once auth is in place
     const scientistID = 1;
-    async function getData(scientistID: any) {
+    async function getData(scientistID: number) {
       try {
-        const all = await getSamples(scientistID);
         const pending = await getPendingSamples(scientistID);
-        setPendingSamples(all);
-        setAllSamples(pending);
-
-        
+        setPendingSamples(pending);
       } catch (err) {
         console.error(err);
       }
@@ -25,8 +19,6 @@ export default function LabTechContainer() {
     getData(scientistID);
   }, []);
 
-  console.log(pendingSamples, 'pend');
-  console.log(allSamples, 'all');
   return (
     <>
       <ApproveSamples data={pendingSamples} />

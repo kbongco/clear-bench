@@ -72,7 +72,7 @@ class SampleStatus(str, Enum):
 
 
 class UpdateSample(BaseModel):
-    lab_tech_id: int
+    lab_tech_id: Optional[int] = None
     test_status: Optional[SampleStatus] = None
     notes: Optional[str] = None
 

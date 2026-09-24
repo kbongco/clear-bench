@@ -1,7 +1,7 @@
 export interface Scientist {
   id: number;
   name: string;
-  teamName: string;
+  department: string;
   email: string;
   managerName?: string; 
 }

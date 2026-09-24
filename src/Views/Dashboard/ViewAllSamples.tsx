@@ -14,7 +14,6 @@ export default function ViewAllSamples({ user, data }: any) {
     }
   });
 
-  console.log(data);
   return (
     <>
       <h1>View All Samples</h1>

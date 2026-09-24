@@ -20,7 +20,6 @@ export default function ScientistHome() {
   const outOfSpecSamples = currentUserSamples.filter(sample => sample.outOfSpec === true);
   const currentCompletedSamples = currentUserSamples.filter(sample => sample.testStatus === 'completed');
   const currentTableTitle = 'Your samples currently in test';
-  console.log(outOfSpecSamples)
   const currentSamplesArr = currentUserSamples.map(sample => {
     return {
       id: sample.id,
@@ -33,11 +32,7 @@ export default function ScientistHome() {
   })
   const titles = Object.keys(currentSamplesArr[0]);
 
-  console.log(currentSamplesArr, 'arr');
-
   const totalSamples = currentUserSamples.length;
-  console.log(currentUserSamples)
-  console.log(mockSamples);
 
   const testDescription = (
     <span className="flex items-center gap-2 justify-center">

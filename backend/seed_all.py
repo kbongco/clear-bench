@@ -30,15 +30,15 @@ labtechs_db = [
 ]
 
 samples_db = [
-    {"name": "Sample A1", "scientist_id": 1, "lab_tech_id": 1, "sample_type": "Food Safety", "test_status": "in-progress", "test_start": date(2025,8,1), "due_date": date(2025,8,15), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 5},
+    {"name": "Sample A1", "scientist_id": 1, "lab_tech_id": 1, "sample_type": "Food Safety", "test_status": "in_progress", "test_start": date(2025,8,1), "due_date": date(2025,8,15), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 5},
     {"name": "Sample A2", "scientist_id": 1, "lab_tech_id": 2, "sample_type": "Food Safety", "test_status": "completed", "test_start": date(2025,7,20), "due_date": date(2025,8,3), "test_duration": "2 weeks", "out_of_spec": True, "totalBottles": 3},
     {"name": "Sample B1", "scientist_id": 2, "lab_tech_id": 3, "sample_type": "Cosmetics", "test_status": "pending", "test_start": date(2025,8,10), "due_date": date(2025,8,24), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 4},
-    {"name": "Sample C1", "scientist_id": 3, "lab_tech_id": 1, "sample_type": "Microbiology", "test_status": "in-progress", "test_start": date(2025,8,5), "due_date": date(2025,8,19), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 2},
+    {"name": "Sample C1", "scientist_id": 3, "lab_tech_id": 1, "sample_type": "Microbiology", "test_status": "in_progress", "test_start": date(2025,8,5), "due_date": date(2025,8,19), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 2},
     {"name": "Sample D1", "scientist_id": 4, "lab_tech_id": 2, "sample_type": "Food Safety", "test_status": "completed", "test_start": date(2025,7,25), "due_date": date(2025,8,8), "test_duration": "2 weeks", "out_of_spec": True, "totalBottles": 6},
-    {"name": "Sample D2", "scientist_id": 4, "lab_tech_id": 3, "sample_type": "Food Safety", "test_status": "in-progress", "test_start": date(2025,8,2), "due_date": date(2025,8,16), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 4},
+    {"name": "Sample D2", "scientist_id": 4, "lab_tech_id": 3, "sample_type": "Food Safety", "test_status": "in_progress", "test_start": date(2025,8,2), "due_date": date(2025,8,16), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 4},
     {"name": "Sample E1", "scientist_id": 5, "lab_tech_id": 1, "sample_type": "Food Safety", "test_status": "pending", "test_start": date(2025,8,12), "due_date": date(2025,8,26), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 3},
     {"name": "Sample F1", "scientist_id": 6, "lab_tech_id": 2, "sample_type": "Food Safety", "test_status": "completed", "test_start": date(2025,7,28), "due_date": date(2025,8,11), "test_duration": "2 weeks", "out_of_spec": True, "totalBottles": 5},
-    {"name": "Sample G1", "scientist_id": 7, "lab_tech_id": 3, "sample_type": "Food Safety", "test_status": "in-progress", "test_start": date(2025,8,3), "due_date": date(2025,8,17), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 2},
+    {"name": "Sample G1", "scientist_id": 7, "lab_tech_id": 3, "sample_type": "Food Safety", "test_status": "in_progress", "test_start": date(2025,8,3), "due_date": date(2025,8,17), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 2},
     {"name": "Sample H1", "scientist_id": 10, "lab_tech_id": 1, "sample_type": "Food Safety", "test_status": "pending", "test_start": date(2025,8,14), "due_date": date(2025,8,28), "test_duration": "2 weeks", "out_of_spec": False, "totalBottles": 1}
 ]
 

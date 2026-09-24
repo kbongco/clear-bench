@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Depends
 from typing import List, Optional
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,12 +11,14 @@ from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, Samp
 from auth import authenticate_user
 import crud
 
-app = FastAPI()
-
 # Create tables on startup
-@app.on_event("startup")
-def on_startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 origins = ["http://localhost:3000"]
@@ -94,7 +97,7 @@ def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session =
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
     
-    for field, value in sample_update.dict(exclude_unset=True).items():
+    for field, value in sample_update.model_dump(exclude_unset=True).items():
         setattr(sample, field, value)
     
     db.commit()

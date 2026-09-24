@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faHouse, faFlask, faCheckSquare, faFile, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faHouse, faFlask, faCheckSquare, faFile, faRightFromBracket, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 import { useRoleStore } from '../../store/useRoleStore';
 
@@ -26,9 +26,9 @@ export default function NavBar() {
           <li className='m-8'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faBell} />
-              <a href='/notifications' className='text-white text-lg font-bold'>
+              <NavLink to='/notifications' className='text-white text-lg font-bold'>
                 Notifications
-              </a>
+              </NavLink>
             </div>
           </li>
           <li className='m-8'>
@@ -41,10 +41,18 @@ export default function NavBar() {
           </li>
           <li className='m-8'>
             <div className='flex gap-4 items-center'>
+              <FontAwesomeIcon className='text-2xl text-white' icon={faUsers} />
+              <NavLink to='/scientists' className='text-white text-lg font-bold'>
+                Team
+              </NavLink>
+            </div>
+          </li>
+          <li className='m-8'>
+            <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faFlask} />
-              <a href='/current-samples' className='text-white text-lg font-bold'>
+              <NavLink to='/current-samples' className='text-white text-lg font-bold'>
                 Current Samples
-              </a>
+              </NavLink>
             </div>
           </li>
 
@@ -53,18 +61,18 @@ export default function NavBar() {
             <li className='m-8'>
               <div className='flex gap-4 items-center'>
                 <FontAwesomeIcon className='text-2xl text-white' icon={faCheckSquare} />
-                <a href='/submit-samples' className='text-white text-lg font-bold'>
+                <NavLink to='/submit-samples' className='text-white text-lg font-bold'>
                   Submit Samples
-                </a>
+                </NavLink>
               </div>
             </li>
           ) : (
             <li className='m-8'>
               <div className='flex gap-4 items-center'>
                 <FontAwesomeIcon className='text-2xl text-white' icon={faCheckSquare} />
-                <a href='/approve-samples' className='text-white text-lg font-bold'>
+                <NavLink to='/approve-samples' className='text-white text-lg font-bold'>
                   Approve Samples
-                </a>
+                </NavLink>
               </div>
             </li>
           )}
@@ -72,9 +80,9 @@ export default function NavBar() {
           <li className='m-8'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faFile} />
-              <a href='/generate-report' className='text-white text-lg font-bold'>
+              <NavLink to='/generate-report' className='text-white text-lg font-bold'>
                 Generate Report
-              </a>
+              </NavLink>
             </div>
           </li>
         </ul>

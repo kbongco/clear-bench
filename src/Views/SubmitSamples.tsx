@@ -8,7 +8,6 @@ import { createSample } from "../services/samples";
 import Toast from "../Components/Toast/Toast";
 
 export default function SubmitSamples({ user }: any) {
-  console.log(user);
   const initialFormData = {
     sampleName: '',
     sampleOwner: user,
@@ -45,15 +44,14 @@ export default function SubmitSamples({ user }: any) {
         scientist_id: 1, // Temporary fix to test POST request
         sample_type: formData.sampleType,
         team_name: formData.teamName,
-        total_samples: parseInt(formData.totalSamples, 10),
+        totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_type: formData.testType,
         test_duration: formData.testDuration,
         test_start: isoDate,
         notes: formData.notes,
         temperature: formData.sampleConditions
       }
-      const result = await createSample(payload);
-      console.log(result,'rest');
+      await createSample(payload);
       setFormData({
         ...initialFormData,
         sampleOwner: user,

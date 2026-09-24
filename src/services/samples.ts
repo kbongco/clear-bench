@@ -1,26 +1,26 @@
+import { API_URL } from './config';
+
 export async function getSamples(id:string) {
-  const response = await fetch(`http://localhost:8000/scientists/${id}/samples`);
+  const response = await fetch(`${API_URL}/scientists/${id}/samples`);
   if (!response.ok) {
     throw new Error('Unable to fetch samples');
   }
   const data = await response.json();
-  console.log(data, 'json');
   return data;
 }
 
 export async function getSampleResults(id: number) {
-  const response = await fetch(`http://localhost:8000/samples/results/${id}`);
+  const response = await fetch(`${API_URL}/samples/results/${id}`);
   if (!response.ok) {
     throw new Error('Unable to fetch sample results');
   }
   const data = await response.json();
-  console.log(data, 'json');
   return data;
 }
 
 export async function createSample(sampleData: any) {
   try {
-    const response = await fetch("http://localhost:8000/samples", {
+    const response = await fetch(`${API_URL}/samples`, {
       method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export async function createSample(sampleData: any) {
 
 export async function getPendingSamples(scientistId: number) {
     const response = await fetch(
-      `http://localhost:8000/scientists/${scientistId}/samples?status=pending`
+      `${API_URL}/scientists/${scientistId}/samples?status=pending`
     );
     if (!response.ok) {
       throw new Error("Unable to fetch pending samples");
