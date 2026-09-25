@@ -22,7 +22,6 @@ export default function DashBoard() {
     const sortedSamples = sortSamples(filteredSamples, e.target.value);
     setFilteredSamples(sortedSamples);
     setSortValue(e.target.value);
-    console.log('Sorted by:', e.target.value);
   };
   const sortSamples = (samples: any, sortBy: string): any[] => {
     switch (sortBy) {
@@ -53,7 +52,6 @@ export default function DashBoard() {
       sample.sampleType.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredSamples(filtered);
-    console.log('filtered by spec with value:', searchValue);
   };
 
 
@@ -68,10 +66,7 @@ export default function DashBoard() {
             name="Sort"
             value={sortValue}
             options={sortOptions}
-            onChange={(e) => {
-              setSortValue(e.target.value);
-              console.log('Sort selected:', e.target.value);
-            }} />
+            onChange={handleSortChange} />
         </div>
         <Table tableTitle={tableTitle} tableHeader={titles} data={filteredSamples} />
       </div>

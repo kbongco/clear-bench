@@ -13,7 +13,7 @@ export default function SelectComponent({label,name, onChange, value, options, i
           value={value}>
           {options.map((option) => {
             return (
-              <option key={option.id} value={option.value}>
+              <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             )

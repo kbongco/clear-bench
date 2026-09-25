@@ -10,7 +10,6 @@ export default function ApproveSamples({ data }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSample, setSelectedSample] = useState(null);
   const [labTechComment, setLabTechComment] = useState("");
-  console.log(data, 'dah')
 
   const labTechNotes = (
     <span>
@@ -39,10 +38,6 @@ export default function ApproveSamples({ data }: any) {
     sampleType: row.sample_type
   }));
 
-  console.log(sampleRows,'rows')
-
-  console.log(sampleDataTable, 'samp')
-  console.log(data.samples);
 
   // const handleStatusUpdate = (index: number, newStatus: string) => {
   //   const updatedRows = [...rows];
@@ -60,7 +55,7 @@ export default function ApproveSamples({ data }: any) {
       <td className="text-center px-4 py-2">{row.teamName}</td>
       <td className="text-center px-4 py-2">
         <button
-          onClick={() => { setIsModalOpen(true), console.log('Clicked'), setSelectedSample(row), console.log(row,'test') }}
+          onClick={() => { setIsModalOpen(true); setSelectedSample(row); }}
           className="bg-green-500 text-white px-2 py-1 rounded"
         >
           Approve/Reject

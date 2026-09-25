@@ -8,16 +8,16 @@ from schemas import Scientist, LabTech, Sample, NewSample, UpdateSample
 
 def get_scientists(db: Session) -> List[Scientist]:
     db_scientists = db.query(models.Scientist).all()
-    return [Scientist.from_orm(s) for s in db_scientists]
+    return [Scientist.model_validate(s) for s in db_scientists]
 
 def get_scientist_by_id(scientist_id: int, db: Session) -> Optional[Scientist]:
     s = db.query(models.Scientist).filter(models.Scientist.id == scientist_id).first()
-    return Scientist.from_orm(s) if s else None
+    return Scientist.model_validate(s) if s else None
 
 
 def get_labtechs(db: Session) -> List[LabTech]:
     db_labtechs = db.query(models.LabTech).all()
-    return [LabTech.from_orm(l) for l in db_labtechs]
+    return [LabTech.model_validate(l) for l in db_labtechs]
 
 
 # def get_samples_by_scientist(
@@ -34,7 +34,7 @@ def get_labtechs(db: Session) -> List[LabTech]:
 #         query = query.filter(models.Sample.out_of_spec == out_of_spec)
     
 #     samples = query.all()
-#     return {"total": len(samples), "samples": [Sample.from_orm(s) for s in samples]}
+#     return {"total": len(samples), "samples": [Sample.model_validate(s) for s in samples]}
 
 from schemas import Sample
 
@@ -56,14 +56,14 @@ def get_samples_by_scientist(
 
     return {
         "total": len(results),
-        "samples": [Sample.from_orm(s) for s in results]  # ✅ convert to Pydantic
+        "samples": [Sample.model_validate(s) for s in results]  # ✅ convert to Pydantic
     }
 
 
 
 def get_sample_by_id(sample_id: int, db: Session) -> Optional[Sample]:
     s = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
-    return Sample.from_orm(s) if s else None
+    return Sample.model_validate(s) if s else None
 
 def create_sample(sample_data: NewSample, db: Session) -> Sample:
     new_sample = models.Sample(
@@ -83,20 +83,20 @@ def create_sample(sample_data: NewSample, db: Session) -> Sample:
     db.add(new_sample)
     db.commit()
     db.refresh(new_sample)
-    return Sample.from_orm(new_sample)
+    return Sample.model_validate(new_sample)
 
 def update_sample(sample_id: int, sample_update: UpdateSample, db: Session) -> Optional[Sample]:
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         return None
     
-    update_data = sample_update.dict(exclude_unset=True)
+    update_data = sample_update.model_dump(exclude_unset=True)
     for field, value in update_data.items():
         setattr(sample, field, value)
     
     db.commit()
     db.refresh(sample)
-    return Sample.from_orm(sample)
+    return Sample.model_validate(sample)
 
 def get_samples_result_by_id(sample_id: int, db: Session) -> Optional[List[dict]]:
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
@@ -106,6 +106,6 @@ def get_samples_result_by_id(sample_id: int, db: Session) -> Optional[List[dict]
     results = db.query(models.Result).filter(models.Result.sample_id == sample_id).all()
     
     return [{
-        "sample": Sample.from_orm(sample),
+        "sample": Sample.model_validate(sample),
         "results": [r.__dict__ for r in results]
     }]

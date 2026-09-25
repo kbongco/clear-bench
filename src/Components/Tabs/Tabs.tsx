@@ -6,7 +6,7 @@ export default function Tabs({ children, preSelectedTabs }: any) {
   
   const [selectedTabIndex, setSelectedTabIndex] = useState(preSelectedTabs || 0);
   
-  const childrenArray = React.Children.toArray(children) as ReactElement[];
+  const childrenArray = React.Children.toArray(children) as ReactElement<{ title: string }>[];
   
 
   if (childrenArray.length === 0) {

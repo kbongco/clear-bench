@@ -8,7 +8,6 @@ export default function SamplesContainer() {
   const [sampleResults, setSampleResults] = useState([]);
 
   const sampleId = id ? parseInt(id, 10) : undefined;
-  console.log(sampleId)
 
 if (!sampleId) {
   return <p>Invalid sample ID</p>; 
