@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Depends
 from typing import List, Optional
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
 
 import models
@@ -67,11 +67,10 @@ def get_all_samples(
     if status:
       query = query.filter(models.Sample.test_status == status)
     if department:
-        query = query.join(models.Sample.scientist).filter(models.Scientist.department == department)
+      query = query.join(models.Sample.scientist).filter(models.Scientist.department == department)
     samples = query.order_by(models.Sample.due_date).all()
     return {"total": len(samples), "samples": samples}
     
-
 @app.get('/lab-techs', response_model=List[LabTech])
 def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
