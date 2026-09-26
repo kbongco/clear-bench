@@ -40,3 +40,34 @@ export interface Milestone {
   dueDate: Date;
   tests: MilestoneTestEntry[];
 }
+
+export interface SampleAPI {
+  id: number;
+  name: string;
+  scientist_id: number;
+  lab_tech_id: number | null;
+  sample_type: string | null;
+  test_status: string | null;
+  test_start: string | null;
+  due_date: string | null;
+  test_duration: string | null;
+  out_of_spec: boolean | null;
+  totalBottles: number;
+  temperature: string[];
+  notes: string | null;
+}
+
+export interface ScientistSummary {
+  id: number;
+  name: string;
+  department: string | null;
+}
+
+export interface SampleWithOwner extends SampleAPI {
+  scientist: ScientistSummary;
+}
+
+export interface AllSamplesResponse {
+  total: number;
+  samples: SampleWithOwner[];
+}
