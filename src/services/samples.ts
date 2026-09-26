@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-import { AllSamplesResponse } from '../types/Samples/sample';
+import type { AllSamplesResponse } from '../types/Samples/sample';  
 
 export async function getSamples(id:string) {
   const response = await fetch(`${API_URL}/scientists/${id}/samples`);
