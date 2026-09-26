@@ -29,3 +29,6 @@ logfile
 *.njsproj
 *.sln
 *.sw?
+
+# Test runner cache
+.pytest_cache/
