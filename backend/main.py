@@ -7,7 +7,7 @@ from datetime import datetime
 
 import models
 from database import get_db, Base, engine
-from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample
+from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample, AllSamplesResponse
 from auth import authenticate_user
 import crud
 
@@ -55,7 +55,22 @@ def get_scientist_samples(
         out_of_spec=out_of_spec
     )
 
-
+# TODO: once auth exists, scope results to the current user's access
+# instead of trusting the status/department query params.
+@app.get('/samples', response_model=AllSamplesResponse)
+def get_all_samples(
+    status: Optional[str] = Query(None),
+    department: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+):
+    query = db.query(models.Sample).options(joinedload(models.Sample.scientist))
+    if status:
+      query = query.filter(models.Sample.test_status == status)
+    if department:
+        query = query.join(models.Sample.scientist).filter(models.Scientist.department == department)
+    samples = query.order_by(models.Sample.due_date).all()
+    return {"total": len(samples), "samples": samples}
+    
 
 @app.get('/lab-techs', response_model=List[LabTech])
 def get_labtechs(db: Session = Depends(get_db)):
