@@ -14,7 +14,7 @@ export default function ScientistSamplesContainer() {
         const scientists = await getScientists();
         const currentDepartment = scientists.find((sci) => sci.id === CURRENT_SCIENTIST_ID);
         setDepartment(currentDepartment?.department ?? '');
-      } catch (error) {
+      } catch {
         setError('Is the back end running properly?')
       } finally {
         setLoading(false);

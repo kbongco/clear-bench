@@ -3,7 +3,7 @@ import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
 
-export default function ScientistAllSamples({department}:any) {
+export default function ScientistAllSamples({ department }: { department: string }) {
   const statusOptions: Options[] = [
     { value: "", label: "All statuses" },
     { value: "in_progress", label: "In progress" },
