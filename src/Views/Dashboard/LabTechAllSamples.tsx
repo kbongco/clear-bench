@@ -6,6 +6,7 @@ import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
 import { formatStatus } from "../../utils/formatStatus";
 import { filterSamples } from "../../utils/filterSamples";
+import toSampleRows from "../../utils/toSampleRows";
 
 export default function LabTechAllSamples({
   samples,
@@ -40,13 +41,7 @@ export default function LabTechAllSamples({
     [samples, search],
   );
 
-  const rows = searchedSamples.map((sample) => ({
-    Name: sample.name,
-    Scientist: sample.scientist.name,
-    Team: sample.scientist.department ?? "-",
-    Status: formatStatus(sample.test_status),
-    Due: sample.due_date ?? "-",
-  }));
+  const rows = toSampleRows(searchedSamples);
 
   const tableHeaders = ["Name", "Scientist", "Team", "Status", "Due"];
   return (
