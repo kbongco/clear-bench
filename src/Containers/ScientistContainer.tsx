@@ -7,6 +7,7 @@ import type { ScientistSummary } from "../types/Samples/sample";
 
 export default function ScientistContainer() {
   const [scientist, setScientists] = useState<ScientistSummary[]>([]);
+  const [labTechs, setLabTechs] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [samples, setSamples] = useState([]);

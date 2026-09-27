@@ -21,7 +21,10 @@ export default function ScientistSamplesContainer() {
       }
     }
     fetchData();
-  },[])
+  }, [])
+  
+  if (loading) return <p>Loading…</p>;
+  if (error) return <p>{error}</p>;
   return (<>
     <ScientistAllSamples department={ department} />
   </>)
