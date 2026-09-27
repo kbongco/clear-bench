@@ -23,6 +23,7 @@ const statusOptions: Options[] = [
   { value: 'completed', label: 'Completed' },
   { value: 'needs_attention', label: 'Needs attention' },
 ];
+  const searchedSamples = useMemo(() => filterSamples(samples, search), [samples, search]);  
   
   const rows = samples.map((sample) => ({
   Name: sample.name ?? '-',
@@ -32,10 +33,7 @@ const statusOptions: Options[] = [
   Due: sample.due_date ?? '-',
   }));
   
-  const searchedSamples = useMemo(() => {
-    filterSamples(samples, search);
-  }, [samples, search]
-)
+
   
   const tableHeaders = ['Name', 'Scientist', 'Team', 'Status', 'Due'];
   return (<>
@@ -47,7 +45,7 @@ const statusOptions: Options[] = [
         <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
         </div>
       <div>
-        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={searchedSamples} />
+        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
       </div>
     </div>
   </>)
