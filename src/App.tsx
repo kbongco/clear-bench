@@ -8,6 +8,7 @@ import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
+import AllSamplesContainer from './Containers/AllSamplesContainer';
 
 
 function App() {
@@ -29,15 +30,16 @@ function App() {
           <Route path="/scientists" element={<ScientistContainer />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sample-results/:id" element={<SamplesContainer />} />
-          <Route
+          {/* <Route
             path="/view-samples"
             element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />}
-          />
+          /> */}
           <Route
             path="/submit-samples"
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
+          <Route path='/view-samples' element={<AllSamplesContainer/>}/>
         </Routes>
       </div>
     </>
