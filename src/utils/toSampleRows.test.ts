@@ -21,11 +21,7 @@ function makeSample(overrides: Partial<SampleWithOwner>): SampleWithOwner {
     ...overrides,
   };
 }
-
-// a normal sample: all defaults
 const sample = makeSample({});
-
-// only the field this test is about
 const noDueDate = makeSample({ due_date: null });
 const inProgress = makeSample({ test_status: 'in_progress' });
 
@@ -39,6 +35,15 @@ describe('toSampleRows', () => {       // a group of related tests
 
   const rows = toSampleRows([inProgress]);
 
-  expect(rows[0].Status).toBe('In progress');
-});
+    expect(rows[0].Status).toBe('In progress');
+    
+  });
+  
+  it('returns no team', () => {
+      const noTeam = makeSample({
+    scientist: { id: 1, name: 'Dr. Alice Nguyen', department:''},
+  });
+    const rows = toSampleRows([noTeam]);
+    expect(rows[0].Team).toBe("")
+  })
 });
