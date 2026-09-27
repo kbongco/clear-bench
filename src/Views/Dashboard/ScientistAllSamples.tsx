@@ -11,22 +11,21 @@ export default function ScientistAllSamples() {
     { value: "pending", label: "Pending" },
   ];
 
-  const tableHeaders = ["Name", "Scientist", "Team", "Status", "Due"];
+  const tableHeaders = ["Name", "Scientist", "Status", "Due"];
   return (
-    <>
       <div className="flex justify-around flex-col pt-4">
         <div className="flex justify-around">
           <Input
-            type={""}
-            placeholder={""}
+            type={"text"}
+            placeholder={"Search by name or scientist"}
             value={""}
             onChange={() => {}}
             name={""}
             label="Search Items"
           />
           <SelectComponent
-            label={"Team"}
-            name={"Team"}
+            label={"Status"}
+            name={"Status"}
             onChange={() => {}}
             value={""}
             options={statusOptions}
@@ -34,12 +33,11 @@ export default function ScientistAllSamples() {
         </div>
         <div>
           <Table
-            tableTitle="Your samples"
+            tableTitle="Your team's samples"
             tableHeader={tableHeaders}
             data={[]}
           />
         </div>
       </div>
-    </>
   );
 }
