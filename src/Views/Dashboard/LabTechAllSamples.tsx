@@ -24,8 +24,8 @@ const statusOptions: Options[] = [
   { value: 'needs_attention', label: 'Needs attention' },
 ];
   const searchedSamples = useMemo(() => filterSamples(samples, search), [samples, search]);  
-  
-  const rows = samples.map((sample) => ({
+
+  const rows = searchedSamples.map((sample) => ({
   Name: sample.name ?? '-',
   Scientist: sample.scientist.name ?? '-',
   Team: sample.scientist.department ?? '-',
