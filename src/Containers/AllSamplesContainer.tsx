@@ -5,14 +5,13 @@ import LabTechAllSamples from "../Views/Dashboard/LabTechAllSamples";
 
 export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
-  const currentUser = mockSamples[0].owner.name;
 
   if (role === 'labtech') {
     return <LabTechAllSamples/>
   }
 
 const currentUserTeamSamples = mockSamples.filter(sample =>
-  sample.owner.name === currentUser || sample.owner.managerName === currentUser
+  sample.owner.name === user || sample.owner.managerName === user
 );
   return <ViewAllSamples user={user} data={currentUserTeamSamples} />;
 }

@@ -6,7 +6,7 @@ export default function ViewAllSamples({ user, data }: any) {
     return {
       id: sample.id,
       name: sample.name,
-    owner: sample.owner.name,
+      owner: sample.owner.name,
       totalSamples: sample.totalSamples,
       typeOfTest: sample.typeOfTest,
       testStatus: sample.testStatus,
