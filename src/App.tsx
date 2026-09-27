@@ -39,7 +39,7 @@ function App() {
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
-          <Route path='/view-samples' element={<AllSamplesContainer/>}/>
+          <Route path='/view-samples' element={<AllSamplesContainer user={currentUser}} />}/>
         </Routes>
       </div>
     </>
