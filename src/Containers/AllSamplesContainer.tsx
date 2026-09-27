@@ -16,19 +16,23 @@ export default function AllSamplesContainer({ user }: { user: string }) {
   const [status, setStatus] = useState('')
   const [error, setError] = useState<string | null>("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const samplesData = await getAllSamples({status, department});
-        setLabTechSamples(samplesData.samples);
-      } catch (err) {
-        setError("Could not load samples. Is the backend running?");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [status, department]);
+useEffect(() => {
+  let ignore = false;                     
+
+  const fetchData = async () => {
+    try {
+      const samplesData = await getAllSamples({ status, department });
+      if (!ignore) setLabTechSamples(samplesData.samples);   
+    } catch (err) {
+      if (!ignore) setError("Could not load samples. Is the backend running?");
+    } finally {
+      if (!ignore) setLoading(false);
+    }
+  };
+  fetchData();
+
+  return () => { ignore = true; };       
+}, [status, department]);
   
 useEffect(() => {
   const fetchTeams = async () => {
