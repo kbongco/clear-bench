@@ -1,6 +1,7 @@
 import type { Options } from "../../Components/ComponentInterfaces/SelectInterface";
 import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
+import Table from "../../Components/Table/Table";
 
 export default function LabTechAllSamples() {
   const teamOptions: Options[] = [
@@ -16,13 +17,19 @@ const statusOptions: Options[] = [
   { value: 'completed', label: 'Completed' },
   { value: 'needs_attention', label: 'Needs attention' },
 ];
+  
+  const tableHeaders = ['Name', 'Scientist', 'Team', 'Status', 'Due'];
   return (<>
     <h1>All Samples Here</h1>
-    <div className='flex justify-around'>
-
-    <Input type={""} placeholder={""} value={""} onChange={() => { }} name={""} label={""} />
+    <div className='flex justify-around flex-col'>
+      <div className='flex justify-around'>
+    <Input type={""} placeholder={""} value={""} onChange={() => { }} name={""} label="Search Items" />
     <SelectComponent label={"Team"} name={""} onChange={() => { }} value={""} options={teamOptions} />
-    <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
+        <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
+        </div>
+      <div>
+        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={[]} />
+      </div>
     </div>
   </>)
 }
