@@ -9,6 +9,8 @@ import type { SampleWithOwner } from "../types/Samples/sample";
 export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>('')
   
     useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +26,8 @@ export default function AllSamplesContainer({ user }: { user: string }) {
 
 
   if (role === 'labtech') {
+  if (loading) return <p>Loading samples…</p>;
+  if (error) return <p>{error}</p>;
     return <LabTechAllSamples samples={labTechSamples}/>
   }
 
