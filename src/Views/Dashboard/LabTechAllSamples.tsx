@@ -3,6 +3,7 @@ import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
+import { formatStatus } from "../../utils/formatStatus";
 
 export default function LabTechAllSamples({ samples }: { samples: SampleWithOwner[] }) {
   const teamOptions: Options[] = [
@@ -20,11 +21,11 @@ const statusOptions: Options[] = [
 ];
   
   const rows = samples.map((sample) => ({
-  Name: sample.name,
-  Scientist: sample.scientist.name,
-  Team: sample.scientist.department,
-  Status: sample.test_status,
-  Due: sample.due_date,
+  Name: sample.name ?? '-',
+  Scientist: sample.scientist.name ?? '-',
+  Team: sample.scientist.department ?? '-',
+  Status: formatStatus(sample.test_status) ?? '-',
+  Due: sample.due_date ?? '-',
 }));
   
   const tableHeaders = ['Name', 'Scientist', 'Team', 'Status', 'Due'];
