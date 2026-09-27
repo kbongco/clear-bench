@@ -2,7 +2,6 @@ import NavBar from './Layout/NavBar/NavBar'
 import { mockSamples } from './mockData/sampleData';
 import Home from './Views/Home/Home'
 import { Routes, Route, useLocation } from 'react-router-dom';
-import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
@@ -16,9 +15,6 @@ function App() {
   const hideNavBarRoutes = ["/login"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
   const currentUser = mockSamples[0].owner.name;
-  const currentUserTeamSamples = mockSamples.filter(sample =>
-    sample.owner.name === currentUser || sample.owner.managerName === currentUser
-  );
 
 
   return (
@@ -35,7 +31,7 @@ function App() {
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
-          <Route path='/view-samples' element={<AllSamplesContainer user={currentUser}} />}/>
+          <Route path='/view-samples' element={<AllSamplesContainer user={currentUser} />} />
         </Routes>
       </div>
     </>
