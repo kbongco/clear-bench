@@ -41,7 +41,7 @@ useEffect(() => {
       const uniqueTeams = [...new Set(scientists.map((s: { department: string | null }) => s.department).filter(Boolean))] as string[];
       setTeams(uniqueTeams);
     } catch (err) {
-      console.error(err);   // the page still works without the list, so don't block it
+      console.error(err); 
     }
   };
   fetchTeams();
