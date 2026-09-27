@@ -1,11 +1,15 @@
+import { useMemo, useState } from "react";
 import type { Options } from "../../Components/ComponentInterfaces/SelectInterface";
 import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
 import { formatStatus } from "../../utils/formatStatus";
+import { filterSamples } from "../../utils/filterSamples";
 
 export default function LabTechAllSamples({ samples }: { samples: SampleWithOwner[] }) {
+  const [search, setSearch] = useState('');
+  
   const teamOptions: Options[] = [
   { value: '', label: 'All teams' },
   { value: 'Food', label: 'Food' },
@@ -26,19 +30,24 @@ const statusOptions: Options[] = [
   Team: sample.scientist.department ?? '-',
   Status: formatStatus(sample.test_status) ?? '-',
   Due: sample.due_date ?? '-',
-}));
+  }));
+  
+  const searchedSamples = useMemo(() => {
+    filterSamples(samples, search);
+  }, [samples, search]
+)
   
   const tableHeaders = ['Name', 'Scientist', 'Team', 'Status', 'Due'];
   return (<>
     <h1>All Samples Here</h1>
     <div className='flex justify-around flex-col'>
       <div className='flex justify-around'>
-    <Input type={""} placeholder={""} value={""} onChange={() => { }} name={""} label="Search Items" />
+    <Input type={""} placeholder={""} value={search} onChange={(e) => {setSearch(e.target.value) }} name={""} label="Search Items" />
     <SelectComponent label={"Team"} name={""} onChange={() => { }} value={""} options={teamOptions} />
         <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
         </div>
       <div>
-        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
+        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={searchedSamples} />
       </div>
     </div>
   </>)
