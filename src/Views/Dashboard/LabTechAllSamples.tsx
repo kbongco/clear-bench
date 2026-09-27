@@ -4,9 +4,8 @@ import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
-import { formatStatus } from "../../utils/formatStatus";
 import { filterSamples } from "../../utils/filterSamples";
-import toSampleRows from "../../utils/toSampleRows";
+import { toSampleRows } from "../../utils/toSampleRows";
 
 export default function LabTechAllSamples({
   samples,

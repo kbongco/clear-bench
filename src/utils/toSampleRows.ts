@@ -1,8 +1,8 @@
 import type { SampleWithOwner } from "../types/Samples/sample";
 import { formatStatus } from "./formatStatus";
 
-export default function toSampleRows(samples: SampleWithOwner[]) {
-return samples.map((sample) => ({
+export function toSampleRows(samples: SampleWithOwner[]) {
+  return samples.map((sample) => ({
     Name: sample.name,
     Scientist: sample.scientist.name,
     Team: sample.scientist.department ?? "-",
