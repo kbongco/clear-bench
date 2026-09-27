@@ -2,8 +2,9 @@ import type { Options } from "../../Components/ComponentInterfaces/SelectInterfa
 import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
+import type { SampleWithOwner } from "../../types/Samples/sample";
 
-export default function LabTechAllSamples() {
+export default function LabTechAllSamples({ samples }: { samples: SampleWithOwner[] }) {
   const teamOptions: Options[] = [
   { value: '', label: 'All teams' },
   { value: 'Food', label: 'Food' },
