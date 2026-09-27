@@ -21,9 +21,6 @@ function makeSample(overrides: Partial<SampleWithOwner>): SampleWithOwner {
     ...overrides,
   };
 }
-const sample = makeSample({});
-const noDueDate = makeSample({ due_date: null });
-const inProgress = makeSample({ test_status: "in_progress" });
 
 describe("toSampleRows", () => {
   // a group of related tests
