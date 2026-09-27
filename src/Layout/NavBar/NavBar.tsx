@@ -8,14 +8,14 @@ export default function NavBar() {
   const setRole = useRoleStore((state) => state.setRole);
 
   return (
-    <div className='w-64 bg-blue-500 fixed h-full flex flex-col justify-between'>
+    <div className='w-64 bg-blue-500 fixed h-full overflow-y-auto flex flex-col justify-between'>
       <div>
         <div className='m-8'>
           <h1 className='text-2xl text-white font-bold'>Clear Bench</h1>
       </div>
         <hr />
         <ul className='m-4 flex flex-col'>
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faHouse} />
               <NavLink to='/' className='text-white text-lg font-bold'>
@@ -23,7 +23,7 @@ export default function NavBar() {
               </NavLink>
             </div>
           </li>
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faBell} />
               <NavLink to='/notifications' className='text-white text-lg font-bold'>
@@ -31,7 +31,7 @@ export default function NavBar() {
               </NavLink>
             </div>
           </li>
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faFile} />
               <NavLink to='/view-samples' className='text-white text-lg font-bold'>
@@ -39,7 +39,7 @@ export default function NavBar() {
               </NavLink>
             </div>
           </li>
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faUsers} />
               <NavLink to='/scientists' className='text-white text-lg font-bold'>
@@ -47,7 +47,7 @@ export default function NavBar() {
               </NavLink>
             </div>
           </li>
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faFlask} />
               <NavLink to='/current-samples' className='text-white text-lg font-bold'>
@@ -58,7 +58,7 @@ export default function NavBar() {
 
           {/* Conditionally render based on role */}
           {role === 'scientist' ? (
-            <li className='m-8'>
+            <li className='mx-8 my-4'>
               <div className='flex gap-4 items-center'>
                 <FontAwesomeIcon className='text-2xl text-white' icon={faCheckSquare} />
                 <NavLink to='/submit-samples' className='text-white text-lg font-bold'>
@@ -67,7 +67,7 @@ export default function NavBar() {
               </div>
             </li>
           ) : (
-            <li className='m-8'>
+            <li className='mx-8 my-4'>
               <div className='flex gap-4 items-center'>
                 <FontAwesomeIcon className='text-2xl text-white' icon={faCheckSquare} />
                 <NavLink to='/approve-samples' className='text-white text-lg font-bold'>
@@ -77,7 +77,7 @@ export default function NavBar() {
             </li>
           )}
 
-          <li className='m-8'>
+          <li className='mx-8 my-4'>
             <div className='flex gap-4 items-center'>
               <FontAwesomeIcon className='text-2xl text-white' icon={faFile} />
               <NavLink to='/generate-report' className='text-white text-lg font-bold'>

@@ -22,7 +22,12 @@ class LabTech(BaseModel):
 
     model_config = {"from_attributes": True}
 
+class ScientistSummary(BaseModel):
+  id: int
+  name: str
+  department: Optional[str] = None
 
+  model_config = {"from_attributes": True}
 # --------------------
 # Sample Schemas
 # --------------------
@@ -81,6 +86,12 @@ class SamplesResponse(BaseModel):
     total: int
     samples: List[Sample]
 
+class SampleWithOwner(Sample):
+  scientist: ScientistSummary
+
+class AllSamplesResponse(BaseModel):
+  total: int
+  samples: List[SampleWithOwner]
 
 # --------------------
 # Result & Test Results
