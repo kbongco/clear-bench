@@ -2,12 +2,12 @@ import NavBar from './Layout/NavBar/NavBar'
 import { mockSamples } from './mockData/sampleData';
 import Home from './Views/Home/Home'
 import { Routes, Route, useLocation } from 'react-router-dom';
-import ViewAllSamples from './Views/Dashboard/ViewAllSamples';
 import SubmitSamples from './Views/SubmitSamples';
 import ScientistContainer from './Containers/ScientistContainer';
 import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
+import AllSamplesContainer from './Containers/AllSamplesContainer';
 
 
 function App() {
@@ -15,9 +15,6 @@ function App() {
   const hideNavBarRoutes = ["/login"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
   const currentUser = mockSamples[0].owner.name;
-  const currentUserTeamSamples = mockSamples.filter(sample =>
-    sample.owner.name === currentUser || sample.owner.managerName === currentUser
-  );
 
 
   return (
@@ -30,14 +27,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/sample-results/:id" element={<SamplesContainer />} />
           <Route
-            path="/view-samples"
-            element={<ViewAllSamples user={currentUser} data={currentUserTeamSamples} />}
-          />
-          <Route
             path="/submit-samples"
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
+          <Route path='/view-samples' element={<AllSamplesContainer user={currentUser} />} />
         </Routes>
       </div>
     </>
