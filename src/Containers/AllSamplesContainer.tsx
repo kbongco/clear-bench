@@ -24,7 +24,7 @@ export default function AllSamplesContainer({ user }: { user: string }) {
 
 
   if (role === 'labtech') {
-    return <LabTechAllSamples data={labTechSamples}/>
+    return <LabTechAllSamples samples={labTechSamples}/>
   }
 
 const currentUserTeamSamples = mockSamples.filter(sample =>
