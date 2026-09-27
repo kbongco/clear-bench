@@ -10,7 +10,7 @@ import { getScientists } from "../services/scientists";
 export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
-  const [department, setDepartment] = useState<any>([])
+  const [department, setDepartment] = useState('');
   const [teams, setTeams] = useState<string[]>([]);  
   const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState('')
