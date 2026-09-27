@@ -5,10 +5,12 @@ import LabTechAllSamples from "../Views/Dashboard/LabTechAllSamples";
 import { useEffect, useState } from "react";
 import { getAllSamples } from "../services/samples";
 import type { SampleWithOwner } from "../types/Samples/sample";
+import { getScientists } from "../services/scientists";
 
 export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
+  const [department, setDepartment] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState('')
   const [error, setError] = useState<string | null>("");
@@ -16,7 +18,7 @@ export default function AllSamplesContainer({ user }: { user: string }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const samplesData = await getAllSamples({status});
+        const samplesData = await getAllSamples({status, department});
         setLabTechSamples(samplesData.samples);
       } catch (err) {
         setError("Could not load samples. Is the backend running?");
@@ -25,12 +27,23 @@ export default function AllSamplesContainer({ user }: { user: string }) {
       }
     };
     fetchData();
-  }, [status]);
+  }, [status, department]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const departmentData = await getScientists();
+        
+      } catch (error) {
+        setError("No scientists")
+      }
+    }
+  },[])
 
   if (role === "labtech") {
     if (loading) return <p>Loading samples…</p>;
     if (error) return <p>{error}</p>;
-    return <LabTechAllSamples samples={labTechSamples} status={status} onStatusChange={setStatus} />;
+    return <LabTechAllSamples samples={labTechSamples} status={status} onStatusChange={setStatus} department={department} onDepartmentChange={setDepartment} />;
   }
 
   const currentUserTeamSamples = mockSamples.filter(

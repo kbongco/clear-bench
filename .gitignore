@@ -32,3 +32,5 @@ logfile
 
 # Test runner cache
 .pytest_cache/
+venv/
+.env/

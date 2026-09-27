@@ -7,7 +7,7 @@ import type { SampleWithOwner } from "../../types/Samples/sample";
 import { formatStatus } from "../../utils/formatStatus";
 import { filterSamples } from "../../utils/filterSamples";
 
-export default function LabTechAllSamples({ samples, status, onStatusChange }: { samples: SampleWithOwner[], status: string, onStatusChange: (value: string) => void }) {
+export default function LabTechAllSamples({ samples, status, onStatusChange, department, onDepartmentChange }: { samples: SampleWithOwner[], status: string, onStatusChange: (value: string) => void , department: string, onDepartmentChange: (value: string) => void}) {
   const [search, setSearch] = useState('');
   
   const teamOptions: Options[] = [
