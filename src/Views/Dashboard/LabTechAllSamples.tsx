@@ -45,7 +45,11 @@ const statusOptions: Options[] = [
         <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
         </div>
       <div>
-        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
+       {rows.length === 0 ? (
+  <p>No samples match your search.</p>
+) : (
+  <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
+)}
       </div>
     </div>
   </>)
