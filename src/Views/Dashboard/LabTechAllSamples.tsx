@@ -7,14 +7,12 @@ import type { SampleWithOwner } from "../../types/Samples/sample";
 import { formatStatus } from "../../utils/formatStatus";
 import { filterSamples } from "../../utils/filterSamples";
 
-export default function LabTechAllSamples({ samples, status, onStatusChange, department, onDepartmentChange }: { samples: SampleWithOwner[], status: string, onStatusChange: (value: string) => void , department: string, onDepartmentChange: (value: string) => void}) {
+export default function LabTechAllSamples({ samples, status, onStatusChange, department, onDepartmentChange, teams }: { samples: SampleWithOwner[], status: string, onStatusChange: (value: string) => void , department: string, onDepartmentChange: (value: string) => void, teams: string[]}) {
   const [search, setSearch] = useState('');
   
-  const teamOptions: Options[] = [
+const teamOptions: Options[] = [
   { value: '', label: 'All teams' },
-  { value: 'Food', label: 'Food' },
-  { value: 'Cosmetics', label: 'Cosmetics' },
-  { value: 'Environmental', label: 'Environmental' },
+  ...teams.map((team) => ({ value: team, label: team })),
 ];
 
 const statusOptions: Options[] = [
@@ -41,7 +39,7 @@ const statusOptions: Options[] = [
     <div className='flex justify-around flex-col'>
       <div className='flex justify-around'>
     <Input type={""} placeholder={""} value={search} onChange={(e) => {setSearch(e.target.value) }} name={""} label="Search Items" />
-    <SelectComponent label={"Team"} name={""} onChange={() => { }} value={""} options={teamOptions} />
+        <SelectComponent label={"Team"} name={""} onChange={(e) => { onDepartmentChange(e.target.value) }} value={department} options={teamOptions} />
         <SelectComponent label={"Status"} name={""} value={status} onChange={(e) => onStatusChange(e.target.value)} options={statusOptions} />
         </div>
       <div>

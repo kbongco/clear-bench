@@ -11,6 +11,7 @@ export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
   const [department, setDepartment] = useState<any>([])
+  const [teams, setTeams] = useState<string[]>([]);  
   const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState('')
   const [error, setError] = useState<string | null>("");
@@ -29,21 +30,26 @@ export default function AllSamplesContainer({ user }: { user: string }) {
     fetchData();
   }, [status, department]);
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const departmentData = await getScientists();
-        
-      } catch (error) {
-        setError("No scientists")
-      }
+useEffect(() => {
+  const fetchTeams = async () => {
+    try {
+      const scientists = await getScientists();
+      const uniqueTeams = [...new Set(scientists.map((s: { department: string | null }) => s.department).filter(Boolean))] as string[];
+      setTeams(uniqueTeams);
+    } catch (err) {
+      console.error(err);   // the page still works without the list, so don't block it
     }
-  },[])
+  };
+  fetchTeams();
+}, []);
 
   if (role === "labtech") {
     if (loading) return <p>Loading samples…</p>;
     if (error) return <p>{error}</p>;
-    return <LabTechAllSamples samples={labTechSamples} status={status} onStatusChange={setStatus} department={department} onDepartmentChange={setDepartment} />;
+    return <LabTechAllSamples   samples={labTechSamples}
+  status={status} onStatusChange={setStatus}
+  department={department} onDepartmentChange={setDepartment}
+  teams={teams} />
   }
 
   const currentUserTeamSamples = mockSamples.filter(
