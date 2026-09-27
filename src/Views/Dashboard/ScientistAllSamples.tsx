@@ -3,7 +3,7 @@ import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
 
-export default function ScientistAllSamples() {
+export default function ScientistAllSamples({department}:any) {
   const statusOptions: Options[] = [
     { value: "", label: "All statuses" },
     { value: "in_progress", label: "In progress" },
@@ -13,7 +13,8 @@ export default function ScientistAllSamples() {
 
   const tableHeaders = ["Name", "Scientist", "Status", "Due"];
   return (
-      <div className="flex justify-around flex-col pt-4">
+    <div className="flex justify-around flex-col pt-4">
+      <h1>{department}</h1>
         <div className="flex justify-around">
           <Input
             type={"text"}

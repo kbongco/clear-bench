@@ -23,6 +23,6 @@ export default function ScientistSamplesContainer() {
     fetchData();
   },[])
   return (<>
-    <ScientistAllSamples/>
+    <ScientistAllSamples department={ department} />
   </>)
 }
