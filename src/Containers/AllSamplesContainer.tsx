@@ -1,17 +1,10 @@
 import { useRoleStore } from "../store/useRoleStore";
-import { mockSamples } from "../mockData/sampleData";
 import LabTechSamplesContainer from "./LabTechSamplesContainer";
 import ScientistSamplesContainer from "./ScientistSamplesContainer";
 
-export default function AllSamplesContainer({ user }: { user: string }) {
+export default function AllSamplesContainer() {
   const role = useRoleStore((state) => state.role);
 
-
-
-
-  const currentUserTeamSamples = mockSamples.filter(
-    (sample) => sample.owner.name === user || sample.owner.managerName === user,
-  );
 
   if (role === "labtech") return <LabTechSamplesContainer />;
   return <ScientistSamplesContainer/>
