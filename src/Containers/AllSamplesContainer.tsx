@@ -10,12 +10,13 @@ export default function AllSamplesContainer({ user }: { user: string }) {
   const role = useRoleStore((state) => state.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [status, setStatus] = useState('')
   const [error, setError] = useState<string | null>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const samplesData = await getAllSamples();
+        const samplesData = await getAllSamples({status});
         setLabTechSamples(samplesData.samples);
       } catch (err) {
         setError("Could not load samples. Is the backend running?");
@@ -24,12 +25,12 @@ export default function AllSamplesContainer({ user }: { user: string }) {
       }
     };
     fetchData();
-  }, []);
+  }, [status]);
 
   if (role === "labtech") {
     if (loading) return <p>Loading samples…</p>;
     if (error) return <p>{error}</p>;
-    return <LabTechAllSamples samples={labTechSamples} />;
+    return <LabTechAllSamples samples={labTechSamples} status={status} onStatusChange={setStatus} />;
   }
 
   const currentUserTeamSamples = mockSamples.filter(

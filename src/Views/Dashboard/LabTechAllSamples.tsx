@@ -7,7 +7,7 @@ import type { SampleWithOwner } from "../../types/Samples/sample";
 import { formatStatus } from "../../utils/formatStatus";
 import { filterSamples } from "../../utils/filterSamples";
 
-export default function LabTechAllSamples({ samples }: { samples: SampleWithOwner[] }) {
+export default function LabTechAllSamples({ samples, status, onStatusChange }: { samples: SampleWithOwner[], status: string, onStatusChange: (value: string) => void }) {
   const [search, setSearch] = useState('');
   
   const teamOptions: Options[] = [
@@ -21,7 +21,7 @@ const statusOptions: Options[] = [
   { value: '', label: 'All statuses' },
   { value: 'in_progress', label: 'In progress' },
   { value: 'completed', label: 'Completed' },
-  { value: 'needs_attention', label: 'Needs attention' },
+  { value: 'pending', label: 'Pending' },
 ];
   const searchedSamples = useMemo(() => filterSamples(samples, search), [samples, search]);  
 
@@ -42,7 +42,7 @@ const statusOptions: Options[] = [
       <div className='flex justify-around'>
     <Input type={""} placeholder={""} value={search} onChange={(e) => {setSearch(e.target.value) }} name={""} label="Search Items" />
     <SelectComponent label={"Team"} name={""} onChange={() => { }} value={""} options={teamOptions} />
-        <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
+        <SelectComponent label={"Status"} name={""} value={status} onChange={(e) => onStatusChange(e.target.value)} options={statusOptions} />
         </div>
       <div>
        {rows.length === 0 ? (
