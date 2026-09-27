@@ -19,6 +19,14 @@ const statusOptions: Options[] = [
   { value: 'needs_attention', label: 'Needs attention' },
 ];
   
+  const rows = samples.map((sample) => ({
+  Name: sample.name,
+  Scientist: sample.scientist.name,
+  Team: sample.scientist.department,
+  Status: sample.test_status,
+  Due: sample.due_date,
+}));
+  
   const tableHeaders = ['Name', 'Scientist', 'Team', 'Status', 'Due'];
   return (<>
     <h1>All Samples Here</h1>
@@ -29,7 +37,7 @@ const statusOptions: Options[] = [
         <SelectComponent label={"Status"} name={""} onChange={() => { }} value={""} options={statusOptions} />
         </div>
       <div>
-        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={[]} />
+        <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
       </div>
     </div>
   </>)
