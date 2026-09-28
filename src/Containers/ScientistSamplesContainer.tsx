@@ -3,12 +3,13 @@ import ScientistAllSamples from "../Views/Dashboard/ScientistAllSamples";
 import { getScientists } from "../services/scientists";
 import { CURRENT_SCIENTIST_ID } from "../services/currentUser";
 import { getAllSamples } from "../services/samples";
+import type { SampleWithOwner } from "../types/Samples/sample";
 
 export default function ScientistSamplesContainer() {
   const [loading, setLoading] = useState<boolean>(true);
   const [department, setDepartment] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [teamSamples, setTeamSamples] = useState([]);
+  const [teamSamples, setTeamSamples] = useState<SampleWithOwner[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,21 +26,22 @@ export default function ScientistSamplesContainer() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const samplesByDept = await getAllSamples({ department });
-        console.log(samplesByDept.samples.name);
-      } catch {
-        console.error(error);
-      }
+useEffect(() => {
+  if (!department) return;
+  const fetchData = async () => {
+    try {
+      const data = await getAllSamples({ department });
+      setTeamSamples(data.samples);
+    } catch {
+      setError("Could not load samples. Is the backend running?");
     }
-    fetchData();
-  }, [department]);
+  };
+  fetchData();
+}, [department]);
   
   if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
   return (<>
-    <ScientistAllSamples department={ department} />
+    <ScientistAllSamples department={ department} samples={teamSamples} />
   </>)
 }

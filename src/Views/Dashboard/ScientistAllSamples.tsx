@@ -2,8 +2,10 @@ import type { Options } from "../../Components/ComponentInterfaces/SelectInterfa
 import Input from "../../Components/Input/Input";
 import SelectComponent from "../../Components/Select/Select";
 import Table from "../../Components/Table/Table";
+import type { SampleWithOwner } from "../../types/Samples/sample";
+import { toSampleRows } from "../../utils/toSampleRows";
 
-export default function ScientistAllSamples({ department }: { department: string }) {
+export default function ScientistAllSamples({ department, samples }: { department: string, samples:SampleWithOwner[] }) {
   const statusOptions: Options[] = [
     { value: "", label: "All statuses" },
     { value: "in_progress", label: "In progress" },
@@ -12,6 +14,7 @@ export default function ScientistAllSamples({ department }: { department: string
   ];
 
   const tableHeaders = ["Name", "Scientist", "Status", "Due"];
+  const rows = toSampleRows(samples);
   return (
     <div className="flex justify-around flex-col pt-4">
       <h1>{department}</h1>
@@ -36,7 +39,7 @@ export default function ScientistAllSamples({ department }: { department: string
           <Table
             tableTitle="Your team's samples"
             tableHeader={tableHeaders}
-            data={[]}
+            data={rows}
           />
         </div>
       </div>
