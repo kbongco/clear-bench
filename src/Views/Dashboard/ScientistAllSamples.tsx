@@ -10,9 +10,13 @@ import { toSampleRows } from "../../utils/toSampleRows";
 export default function ScientistAllSamples({
   department,
   samples,
+  onStatusChange,
+  status
 }: {
+  status: string,
   department: string;
-  samples: SampleWithOwner[];
+    samples: SampleWithOwner[];
+  onStatusChange: (value: string) => void;
 }) {
   const statusOptions: Options[] = [
     { value: "", label: "All statuses" },
@@ -46,8 +50,8 @@ export default function ScientistAllSamples({
         <SelectComponent
           label={"Status"}
           name={"Status"}
-          onChange={() => {}}
-          value={""}
+          onChange={(e) => {onStatusChange(e.target.value)}}
+          value={status}
           options={statusOptions}
         />
       </div>

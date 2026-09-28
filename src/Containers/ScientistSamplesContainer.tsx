@@ -8,6 +8,7 @@ import type { SampleWithOwner } from "../types/Samples/sample";
 export default function ScientistSamplesContainer() {
   const [loading, setLoading] = useState<boolean>(true);
   const [department, setDepartment] = useState("");
+  const [status, setStatus] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [teamSamples, setTeamSamples] = useState<SampleWithOwner[]>([]);
 
@@ -33,23 +34,27 @@ export default function ScientistSamplesContainer() {
   }, []);
 
   useEffect(() => {
+    let ignore = false;
     if (!department) return;
     const fetchData = async () => {
       try {
-        const data = await getAllSamples({ department });
+        const data = await getAllSamples({ department,status });
         setTeamSamples(data.samples);
       } catch {
         setError("Could not load samples. Is the backend running?");
       }
     };
     fetchData();
-  }, [department]);
+    return () => {
+      ignore = true
+    }
+  }, [department, status]);
 
   if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
   return (
     <>
-      <ScientistAllSamples department={department} samples={teamSamples} />
+      <ScientistAllSamples department={department} samples={teamSamples} status={status}  onStatusChange={setStatus}/>
     </>
   );
 }
