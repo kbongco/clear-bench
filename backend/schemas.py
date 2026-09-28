@@ -145,3 +145,7 @@ class Result(ResultBase):
     test_results: List[TestResult] = Field(default_factory=list)
 
     model_config = {"from_attributes": True}
+
+class SampleDetail(SampleWithOwner):
+    lab_tech: Optional[LabTech] = None
+    results: List[Result] = Field(default_factory=list)
