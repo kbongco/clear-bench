@@ -24,7 +24,7 @@ export async function getAllSamples(filters: { status?: string; department?: str
 }
 
 export async function getSample(id: number): Promise<SampleDetail | null> {
-  const response = await fetch(`${API_URL}/scientists/${id}/samples`);
+  const response = await fetch(`${API_URL}/samples/${id}`);
   if (response.status === 404) return null;          
   if (!response.ok) {
     throw new Error('Unable to fetch sample results');
