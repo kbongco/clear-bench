@@ -7,7 +7,7 @@ from datetime import datetime
 
 import models
 from database import get_db, Base, engine
-from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample, AllSamplesResponse
+from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample, AllSamplesResponse, SampleDetail
 from auth import authenticate_user
 import crud
 
@@ -82,6 +82,23 @@ def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
     if not result:
         raise HTTPException(status_code=404, detail="Sample not found")
     return result
+
+@app.get('/samples/{sample_id}', response_model=SampleDetail)
+def get_sample(sample_id: int, db: Session = Depends(get_db)):
+    sample = (
+        db.query(models.Sample)
+        .options(
+            joinedload(models.Sample.scientist),
+            joinedload(models.Sample.lab_tech),
+            joinedload(models.Sample.results).joinedload(models.Result.test_results),
+        )
+        .filter(models.Sample.id == sample_id)
+        .first()
+    )
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+    return sample
+
 
 
 @app.post("/samples", response_model=SampleCreateResponse)
