@@ -39,9 +39,9 @@ export default function ScientistSamplesContainer() {
     const fetchData = async () => {
       try {
         const data = await getAllSamples({ department,status });
-        setTeamSamples(data.samples);
+        if (!ignore) setTeamSamples(data.samples);
       } catch {
-        setError("Could not load samples. Is the backend running?");
+       if (!ignore) setError("Could not load samples. Is the backend running?");
       }
     };
     fetchData();
