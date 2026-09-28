@@ -1,5 +1,4 @@
 import type { SampleWithOwner } from "../Samples/sample";
-import type { LabTech } from "../Users/users";
 
 export interface TestResult  {
   id: number;
@@ -37,12 +36,12 @@ export interface Result extends ResultBase {
   test_results: TestResult[];
 }
 
-export interface SampleDetail extends SampleWithOwner {
-  lab_tech: LabTech | null;
-  results: ResultBase;
-}
-
 export interface LabTechSummary {
   id: number;
   name: string;
+}
+
+export interface SampleDetail extends SampleWithOwner {
+lab_tech: LabTechSummary | null;
+results: Result[];
 }
