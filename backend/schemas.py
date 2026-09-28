@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from datetime import date
+from datetime import date,datetime
 from typing import Optional, List
 from enum import Enum
 
@@ -120,10 +120,10 @@ class TestResult(TestResultBase):
 
 class ResultBase(BaseModel):
     sample_id: int
-    test_completed_date: Optional[date] = None
+    test_completed_date: Optional[datetime] = None
     tested_by: Optional[int] = None
     reviewed_by: Optional[int] = None
-    reviewed_date: Optional[date] = None
+    reviewed_date: Optional[datetime] = None
     overall_status: str
     is_out_of_spec: bool
     test_method: Optional[str] = None
@@ -140,8 +140,8 @@ class ResultCreate(ResultBase):
 
 class Result(ResultBase):
     id: int
-    created_at: date
-    updated_at: date
+    created_at: datetime
+    updated_at: datetime
     test_results: List[TestResult] = Field(default_factory=list)
 
     model_config = {"from_attributes": True}
