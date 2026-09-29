@@ -11,6 +11,7 @@ export default function SampleDetail() {
       <Pill status='in_progress' />
       <Pill status='pending' />
       <Pill status='rejected' />
+      <Pill status='on_hold'/>
       
       <SpecIndicator outOfSpec={false} />
        <SpecIndicator outOfSpec={true} />
