@@ -9,7 +9,7 @@ export default function SpecIndicator({ outOfSpec }: SpecIndicatorProps) {
         <div className={`h-5 w-5 rounded-full ${outOfSpec  ? 'bg-green-800' : 'bg-red-600'}`} />
         </div>
         <div className='flex items-center gap-2'>
-          <h2 className='text-m'>{outOfSpec  ? 'Currently In Spec' : "Out of Spec"}</h2>
+          <p className='text-m'>{outOfSpec  ? 'Out of Spec' : "Currently in spec"}</p>
           {outOfSpec !== false && (
             <p className="text-red-600 font-bold">Needs attention!</p>
           )}
