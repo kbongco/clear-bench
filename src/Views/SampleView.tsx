@@ -18,7 +18,6 @@ export default function SampleView({ data }: any) {
 
   const scientistName = sample.scientist?.name || "N/A";
   const labTechName = sample.lab_tech?.name || "N/A";
-  const outOfSpecStats = sample.out_of_spec ? "True" : "False";
   const resultsTable = 'Sample Results';
 
   const transformedResults = useMemo(() => {

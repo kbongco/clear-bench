@@ -1,4 +1,3 @@
-import Card from "../Components/Card/Card";
 import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 
