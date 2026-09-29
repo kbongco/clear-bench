@@ -7,7 +7,7 @@ export default function SampleDetail() {
       <h1>Components Testing </h1>
 
       <Pill status='completed' />
-      <SpecIndicator stats='True'/>
+      <SpecIndicator outOfSpec={false} />
     </>
   )
 }
