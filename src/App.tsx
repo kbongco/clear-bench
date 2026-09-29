@@ -8,6 +8,7 @@ import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
 import AllSamplesContainer from './Containers/AllSamplesContainer';
+import SampleDetail from './Views/SampleDetail';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
           <Route path='/view-samples' element={<AllSamplesContainer />} />
+          <Route path='/sample-playground' element={<SampleDetail/>}/>
         </Routes>
       </div>
     </>
