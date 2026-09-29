@@ -38,7 +38,7 @@ export default function SampleView({ data }: any) {
           <h1 className='text-5xl'>{data[0]?.sample?.name}</h1>
           <div></div>
           <div className='flex content-center items-center gap-3 justify-end'>
-            <SpecIndicator stats={outOfSpecStats} />
+            <SpecIndicator outOfSpec={false} />
           </div>
         </div>
       </div>

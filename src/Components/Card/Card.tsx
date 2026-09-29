@@ -2,13 +2,14 @@ import React from "react";
 
 type CardProps = {
   title?: string;
+  type: string;
   description?: React.ReactNode;
   footer?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
 };
 
-export default function Card({ title, description, footer, children, className }: CardProps) {
+export default function Card({ title, type, description, footer, children, className }: CardProps) {
   return (
     <div className={`bg-blue-500 rounded-2xl shadow-md p-6 space-y-4 w-[320px] text-white text-center ${className}`}>
       <h3 className='text-2xl'>{title}</h3>

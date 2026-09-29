@@ -1,7 +1,8 @@
 import { formatStatus } from "../../utils/formatStatus";
-import { statusStyles, type SampleStatus } from "../ComponentInterfaces/PillInterface";
+import { statusStyles } from "../../utils/formatStyle";
+import { type PillInterface, type SampleStatus } from "../ComponentInterfaces/PillInterface";
 
-export default function StatusBadge({ status }: { status: string }) {
+export default function Pill({ status }: PillInterface) {
   const style = statusStyles[status as SampleStatus] ?? "bg-gray-100 text-gray-700";
 
   return (
