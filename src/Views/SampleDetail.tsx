@@ -30,7 +30,7 @@ const list = [
       <SpecIndicator outOfSpec={false} />
       <SpecIndicator outOfSpec={true} />
       <Panel title='Test Panel'>
-        <DetailList list={list} />
+        <DetailList items={list} />
       </Panel>
       {/* <Card/> */}
     </div>

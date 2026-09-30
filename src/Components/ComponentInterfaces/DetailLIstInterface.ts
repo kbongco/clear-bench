@@ -6,5 +6,5 @@ export interface DetailItem {
 }
 
 export interface DetailListProps {
-  list: DetailItem[];
+  items: DetailItem[];
 }
