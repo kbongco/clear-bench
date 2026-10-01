@@ -3,7 +3,7 @@ import Panel from "../Components/Panel/Panel";
 import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 
-export default function SampleDetail() {
+export default function SampleDetailView() {
 const list = [
   { label: "Owner", value: "Dr. Alice Nguyen" },
   { label: "Team", value: "Food Safety" },

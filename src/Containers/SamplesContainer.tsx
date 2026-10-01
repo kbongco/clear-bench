@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SampleView from "../Views/SampleView";
+import SampleView from "../Views/SampleDetailsView";
 import { getSampleResults } from "../services/samples";
 import { useParams } from "react-router-dom";
 

@@ -1,22 +1,20 @@
-import NavBar from './Layout/NavBar/NavBar'
-import { mockSamples } from './mockData/sampleData';
-import Home from './Views/Home/Home'
-import { Routes, Route, useLocation } from 'react-router-dom';
-import SubmitSamples from './Views/SubmitSamples';
-import ScientistContainer from './Containers/ScientistContainer';
-import LabTechContainer from './Containers/LabTechContainer';
-import Login from './Views/Home/Login';
-import AllSamplesContainer from './Containers/AllSamplesContainer';
-import SampleDetail from './Views/SampleDetail';
-import SampleDetailsContainer from './Containers/SampleDetailsContainer';
-
+import NavBar from "./Layout/NavBar/NavBar";
+import { mockSamples } from "./mockData/sampleData";
+import Home from "./Views/Home/Home";
+import { Routes, Route, useLocation } from "react-router-dom";
+import SubmitSamples from "./Views/SubmitSamples";
+import ScientistContainer from "./Containers/ScientistContainer";
+import LabTechContainer from "./Containers/LabTechContainer";
+import Login from "./Views/Home/Login";
+import AllSamplesContainer from "./Containers/AllSamplesContainer";
+import SampleDetail from "./Views/SampleDetailView";
+import SampleDetailsContainer from "./Containers/SampleDetailsContainer";
 
 function App() {
   const location = useLocation();
   const hideNavBarRoutes = ["/login"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
   const currentUser = mockSamples[0].owner.name;
-
 
   return (
     <>
@@ -32,12 +30,12 @@ function App() {
             element={<SubmitSamples user={currentUser} />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
-          <Route path='/view-samples' element={<AllSamplesContainer />} />
-          <Route path='/sample-playground' element={<SampleDetail/>}/>
+          <Route path="/view-samples" element={<AllSamplesContainer />} />
+          <Route path="/sample-playground" element={<SampleDetail />} />
         </Routes>
       </div>
     </>
   );
 }
 
-export default App
+export default App;
