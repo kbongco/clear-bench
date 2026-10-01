@@ -13,6 +13,7 @@ export default function SampleDetailsContainer() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    let ignore = false;
     if (!sampleId) return;
     const fetchData = async () => {
       try {
@@ -30,8 +31,12 @@ export default function SampleDetailsContainer() {
       }
     }
     fetchData();
+      return () => {
+      ignore = true
+    }
   }, [sampleId]);
 
+  console.log(sampleDetails);
 
 
   if (!sampleId) {
