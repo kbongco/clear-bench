@@ -19,15 +19,11 @@ export default function SampleDetailsContainer() {
       try {
         const sample = await getSample(sampleId);
         if (!ignore) setSampleDetails(sample);
-        if (!sample) {
-         if (!ignore) setError('No samples available')
-          return;
-        }
 
       } catch {
         if (!ignore) setError('Is the backend running properly? ');
       } finally {
-         setLoading(false);
+         if(!ignore) setLoading(false);
       }
     }
     fetchData();
@@ -42,6 +38,7 @@ export default function SampleDetailsContainer() {
   }
   if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
+  if (!sampleDetails) return <p>Sample not found</p>;
   
   return (
     <>
