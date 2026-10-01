@@ -13,19 +13,19 @@ export default function SampleDetailsContainer() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let ignore = false;
     if (!sampleId) return;
+    let ignore = false;
     const fetchData = async () => {
       try {
         const sample = await getSample(sampleId);
-        setSampleDetails(sample);
+        if (!ignore) setSampleDetails(sample);
         if (!sample) {
-          setError('No samples available')
+         if (!ignore) setError('No samples available')
           return;
         }
 
       } catch {
-        setError('Is the backend running properly? ');
+        if (!ignore) setError('Is the backend running properly? ');
       } finally {
          setLoading(false);
       }
@@ -35,8 +35,6 @@ export default function SampleDetailsContainer() {
       ignore = true
     }
   }, [sampleId]);
-
-  console.log(sampleDetails);
 
 
   if (!sampleId) {
