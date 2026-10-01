@@ -9,6 +9,7 @@ import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
 import AllSamplesContainer from './Containers/AllSamplesContainer';
 import SampleDetail from './Views/SampleDetail';
+import SampleDetailsContainer from './Containers/SampleDetailContainer';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sample-results/:id" element={<SamplesContainer />} />
+          <Route path="/sample-results/:id" element={<SampleDetailsContainer />} />
           <Route
             path="/submit-samples"
             element={<SubmitSamples user={currentUser} />}
