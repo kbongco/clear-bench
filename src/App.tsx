@@ -4,12 +4,11 @@ import Home from './Views/Home/Home'
 import { Routes, Route, useLocation } from 'react-router-dom';
 import SubmitSamples from './Views/SubmitSamples';
 import ScientistContainer from './Containers/ScientistContainer';
-import SamplesContainer from './Containers/SamplesContainer';
 import LabTechContainer from './Containers/LabTechContainer';
 import Login from './Views/Home/Login';
 import AllSamplesContainer from './Containers/AllSamplesContainer';
 import SampleDetail from './Views/SampleDetail';
-import SampleDetailsContainer from './Containers/SampleDetailContainer';
+import SampleDetailsContainer from './Containers/SampleDetailsContainer';
 
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/scientists" element={<ScientistContainer />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sample-results/:id" element={<SampleDetailsContainer />} />
+          <Route path="/samples/:id" element={<SampleDetailsContainer />} />
           <Route
             path="/submit-samples"
             element={<SubmitSamples user={currentUser} />}
