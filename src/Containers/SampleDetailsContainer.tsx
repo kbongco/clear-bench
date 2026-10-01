@@ -37,6 +37,8 @@ export default function SampleDetailsContainer() {
   if (!sampleId) {
   return <p>Invalid sample ID</p>; 
   }
+  if (loading) return <p>Loading…</p>;
+  if (error) return <p>{error}</p>;
   
   return (
     <>
