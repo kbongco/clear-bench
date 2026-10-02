@@ -51,7 +51,7 @@ function formatRange(expected_range_min: number | null, expected_range_max: numb
       <div className="flex items-center justify-between">
         <div>
         <h1 className="text-3xl font-semibold">{sample.name}</h1>
-          <Link className='text-sm text-blue-600 hover:underline'to='/view-sample'>Go back</Link>
+          <Link className='text-sm text-blue-600 hover:underline'to='/view-samples'>Go back</Link>
           </div>
         <div className="flex gap-4">
           <Pill status={sample.test_status ?? "pending"} />
