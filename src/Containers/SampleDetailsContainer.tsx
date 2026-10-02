@@ -42,7 +42,7 @@ export default function SampleDetailsContainer() {
 
   return (
     <>
-      return <SampleDetailView />
+     <SampleDetailView samples={sampleDetails} />
     </>
   );
 }

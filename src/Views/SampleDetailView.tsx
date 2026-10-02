@@ -1,38 +1,44 @@
+import { Link } from "react-router-dom";
 import DetailList from "../Components/DetailList/DetailList";
 import Panel from "../Components/Panel/Panel";
 import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
+import type { SampleDetail as SampleDetailData } from "../types/Results/results";
 
-export default function SampleDetailView() {
-const list = [
-  { label: "Owner", value: "Dr. Alice Nguyen" },
-  { label: "Team", value: "Food Safety" },
-  { label: "Lab tech", value: "James Patel" },
-  { label: "Status", value: <Pill status="completed" /> },
-  { label: "Sample type", value: "Food Safety" },
-  { label: "Start", value: "2025-07-20" },
-  { label: "Due", value: "2025-08-03" },
-  { label: "Duration", value: "2 weeks" },
-  { label: "Bottles", value: 3 },
-  { label: "Storage", value: "4°C, 25°C" },
-  { label: "Notes", value: null },
+export default function SampleDetailView({ samples }): SampleDetailData {
+  console.log(samples);
+
+  const items = [
+  { label: "Owner", value: samples.scientist.name },
+  { label: "Team", value: samples.scientist.department },
+  { label: "Lab tech", value: samples.lab_tech?.name },
+  { label: "Sample type", value: samples.sample_type },
+  { label: "Start", value: samples.test_start },
+  { label: "Due", value: samples.due_date },
+  { label: "Duration", value: samples.test_duration },
+  { label: "Bottles", value: samples.totalBottles },
+  { label: "Storage", value: samples.temperature.join(", ") },
+  { label: "Notes", value: samples.notes },
 ];
-  return (
-    <div className='min-h-screen bg-gray-50 p-6'>
-      <h1>Components Testing </h1>
 
-      <Pill status='completed' />
-      <Pill status='in_progress' />
-      <Pill status='pending' />
-      <Pill status='rejected' />
-      <Pill status='on_hold'/>
-      
-      <SpecIndicator outOfSpec={false} />
-      <SpecIndicator outOfSpec={true} />
-      <Panel title='Test Panel'>
-        <DetailList items={list} />
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="flex items-center justify-between">
+        <div>
+        <h1 className="text-5xl">{samples.name}</h1>
+          <Link to='/view-samples'>Go back</Link>
+          </div>
+        <div className="flex gap-4">
+          <Pill status={samples.test_status} />
+          <div>
+            <SpecIndicator outOfSpec={samples.outOfSpec} />
+          </div>
+        </div>
+      </div>
+      {/* <SpecIndicator outOfSpec={true} /> */}
+      <Panel title="Test Panel">
+        <DetailList items={items} />
       </Panel>
-      {/* <Card/> */}
     </div>
-  )
+  );
 }
