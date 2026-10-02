@@ -30,7 +30,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         <div className="flex gap-4">
           <Pill status={sample.test_status ?? "pending"} />
           <div>
-            <SpecIndicator outOfSpec={sample.out_of_spec} />
+            <SpecIndicator outOfSpec={sample.out_of_spec ?? false} />
           </div>
         </div>
       </div>
