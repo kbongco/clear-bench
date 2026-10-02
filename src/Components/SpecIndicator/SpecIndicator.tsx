@@ -1,19 +1,19 @@
 interface SpecIndicatorProps {
-  stats: string;
+  outOfSpec: boolean;
 }
 
-export default function SpecIndicator({ stats }: SpecIndicatorProps) {
+export default function SpecIndicator({ outOfSpec }: SpecIndicatorProps) {
   return (
-    <>
-      <div className={`h-5 w-5 rounded-lg ${stats === 'False' ? 'bg-green-800' : 'bg-red-600'}`} />
+    <div className='flex items-center gap-2'>
       <div>
-        <div>
-          <h2 className='text-3xl'>{stats === 'False' ? 'Currently In Spec' : "Out of Spec"}</h2>
-          {stats !== 'False' && (
+        <div className={`h-5 w-5 rounded-full ${outOfSpec  ? 'bg-red-600' :  'bg-green-800' }`} />
+        </div>
+        <div className='flex items-center gap-2'>
+          <p className='text-base'>{outOfSpec  ? 'Out of Spec' : "Currently in spec"}</p>
+          {outOfSpec  && (
             <p className="text-red-600 font-bold">Needs attention!</p>
           )}
         </div>
-      </div>
-    </>
+    </div>
   )
 }
