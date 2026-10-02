@@ -32,15 +32,6 @@ export async function getSample(id: number): Promise<SampleDetail | null> {
   return response.json();
 }
 
-export async function getSampleResults(id: number) {
-  const response = await fetch(`${API_URL}/samples/results/${id}`);
-  if (!response.ok) {
-    throw new Error('Unable to fetch sample results');
-  }
-  const data = await response.json();
-  return data;
-}
-
 export async function createSample(sampleData: any) {
   try {
     const response = await fetch(`${API_URL}/samples`, {

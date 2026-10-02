@@ -5,6 +5,7 @@ import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { Result, SampleDetail as SampleDetailData } from "../types/Results/results";
 import Table from "../Components/Table/Table";
+import formatRange from "../utils/formatRange";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
 
@@ -38,7 +39,7 @@ const testRows = (result: Result) =>
   result.test_results.map((t) => ({
     Parameter: t.parameter_name,
     Measured: `${t.measured_value} ${t.unit}`.trim(),
-    Expected: `${t.expected_range_min ?? ""} – ${t.expected_range_max ?? ""}`,
+    Expected: formatRange(t.expected_range_min, t.expected_range_max),
     "In spec": t.is_within_spec ? "✓" : "✗",
   }));
 
