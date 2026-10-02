@@ -46,9 +46,6 @@ function formatRange(expected_range_min: number | null, expected_range_max: numb
   throw new Error("Function not implemented.");
 }
 
-  
-  console.log(sample, 'samp')
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex items-center justify-between">
@@ -64,7 +61,7 @@ function formatRange(expected_range_min: number | null, expected_range_max: numb
         </div>
       </div>
 
-      <Panel title="Test Panel">
+      <Panel title="Sample Information">
         <DetailList items={items} />
       </Panel>
       <div className='mt-4'>
