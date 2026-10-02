@@ -42,9 +42,6 @@ const testRows = (result: Result) =>
     "In spec": t.is_within_spec ? "✓" : "✗",
   }));
 
-function formatRange(expected_range_min: number | null, expected_range_max: number | null): any {
-  throw new Error("Function not implemented.");
-}
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
