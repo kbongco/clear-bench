@@ -5,33 +5,32 @@ import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { SampleDetail as SampleDetailData } from "../types/Results/results";
 
-export default function SampleDetailView({ samples }): SampleDetailData {
-  console.log(samples);
+export default function SampleDetailView({ sample }): { sample: SampleDetailData } {
 
   const items = [
-  { label: "Owner", value: samples.scientist.name },
-  { label: "Team", value: samples.scientist.department },
-  { label: "Lab tech", value: samples.lab_tech?.name },
-  { label: "Sample type", value: samples.sample_type },
-  { label: "Start", value: samples.test_start },
-  { label: "Due", value: samples.due_date },
-  { label: "Duration", value: samples.test_duration },
-  { label: "Bottles", value: samples.totalBottles },
-  { label: "Storage", value: samples.temperature.join(", ") },
-  { label: "Notes", value: samples.notes },
+  { label: "Owner", value: sample.scientist.name },
+  { label: "Team", value: sample.scientist.department },
+  { label: "Lab tech", value: sample.lab_tech?.name },
+  { label: "Sample type", value: sample.sample_type },
+  { label: "Start", value: sample.test_start },
+  { label: "Due", value: sample.due_date },
+  { label: "Duration", value: sample.test_duration },
+  { label: "Bottles", value: sample.totalBottles },
+  { label: "Storage", value: sample.temperature.join(", ") },
+  { label: "Notes", value: sample.notes },
 ];
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex items-center justify-between">
         <div>
-        <h1 className="text-5xl">{samples.name}</h1>
-          <Link to='/view-samples'>Go back</Link>
+        <h1 className="text-3xl font-semibold">{sample.name}</h1>
+          <Link className='text-sm text-blue-600 hover:underline'to='/view-sample'>Go back</Link>
           </div>
         <div className="flex gap-4">
-          <Pill status={samples.test_status} />
+          <Pill status={sample.test_status} />
           <div>
-            <SpecIndicator outOfSpec={samples.outOfSpec} />
+            <SpecIndicator outOfSpec={sample.outOfSpec} />
           </div>
         </div>
       </div>
