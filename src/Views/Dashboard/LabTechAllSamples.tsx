@@ -6,6 +6,7 @@ import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
 import { filterSamples } from "../../utils/filterSamples";
 import { toSampleRows } from "../../utils/toSampleRows";
+import { Link } from "react-router-dom";
 
 export default function LabTechAllSamples({
   samples,
@@ -40,7 +41,14 @@ export default function LabTechAllSamples({
     [samples, search],
   );
 
-  const rows = toSampleRows(searchedSamples);
+const rows = toSampleRows(searchedSamples).map((row) => ({
+  ...row,
+  Name: (
+    <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
+      {row.Name}
+    </Link>
+  ),
+}));
 
   const tableHeaders = ["Name", "Scientist", "Team", "Status", "Due"];
   return (

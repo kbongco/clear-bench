@@ -53,3 +53,5 @@ def test_no_matches_returns_empty(client, sample_data):
 
     assert response.status_code == 200
     assert response.json() == {"total": 0, "samples": []}
+
+

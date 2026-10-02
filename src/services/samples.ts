@@ -1,5 +1,6 @@
 import { API_URL } from './config';
 import type { AllSamplesResponse } from '../types/Samples/sample';  
+import type { SampleDetail } from '../types/Results/results';
 
 export async function getSamples(id:string) {
   const response = await fetch(`${API_URL}/scientists/${id}/samples`);
@@ -22,14 +23,13 @@ export async function getAllSamples(filters: { status?: string; department?: str
   return response.json();
 }
 
-
-export async function getSampleResults(id: number) {
-  const response = await fetch(`${API_URL}/samples/results/${id}`);
+export async function getSample(id: number): Promise<SampleDetail | null> {
+  const response = await fetch(`${API_URL}/samples/${id}`);
+  if (response.status === 404) return null;          
   if (!response.ok) {
     throw new Error('Unable to fetch sample results');
   }
-  const data = await response.json();
-  return data;
+  return response.json();
 }
 
 export async function createSample(sampleData: any) {

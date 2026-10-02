@@ -6,6 +6,7 @@ import Table from "../../Components/Table/Table";
 import type { SampleWithOwner } from "../../types/Samples/sample";
 import { filterSamples } from "../../utils/filterSamples";
 import { toSampleRows } from "../../utils/toSampleRows";
+import { Link } from "react-router-dom";
 
 export default function ScientistAllSamples({
   department,
@@ -31,8 +32,17 @@ export default function ScientistAllSamples({
     [samples, search],
   );
 
+
+
   const tableHeaders = ["Name", "Scientist", "Status", "Due"];
-  const rows = toSampleRows(searchedSamples);
+ const rows = toSampleRows(searchedSamples).map((row) => ({
+  ...row,
+  Name: (
+    <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
+      {row.Name}
+    </Link>
+  ),
+}));
   return (
     <div className="flex justify-around flex-col pt-4">
       <h1>{department}</h1>

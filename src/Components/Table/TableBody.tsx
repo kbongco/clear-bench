@@ -1,5 +1,8 @@
+import { isValidElement } from "react";
+
 export default function TableBody({ data, headers, renderRow }: any) {
   const renderCell = (value: any) => {
+    if (isValidElement(value)) return value;
     if (value instanceof Date) return value.toLocaleDateString();
     if (typeof value === "object" && value !== null) {
       if ("name" in value) return value.name;
