@@ -3,7 +3,7 @@ import DetailList from "../Components/DetailList/DetailList";
 import Panel from "../Components/Panel/Panel";
 import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
-import type { SampleDetail as SampleDetailData } from "../types/Results/results";
+import type { Result, SampleDetail as SampleDetailData } from "../types/Results/results";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
 
@@ -18,7 +18,30 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
   { label: "Bottles", value: sample.totalBottles },
   { label: "Storage", value: sample.temperature.join(", ") },
   { label: "Notes", value: sample.notes },
-];
+  ];
+
+  const resultItems = (result: Result) => [
+  { label: "Outcome", value: result.overall_status === "pass" ? "Pass" : "Fail" },
+  { label: "Method", value: result.test_method },
+  { label: "Instrument", value: result.instrument_used },
+  { label: "Batch", value: result.batch_number },
+  { label: "Tested", value: result.test_completed_date?.slice(0, 10) },
+  { label: "Reviewed", value: result.reviewed_date?.slice(0, 10) },
+  { label: "Analyst comments", value: result.analyst_comments },
+  { label: "Reviewer comments", value: result.reviewer_comments },
+  ];
+  
+  const testHeaders = ["Parameter", "Measured", "Expected", "In spec"];
+
+const testRows = (result: Result) =>
+  result.test_results.map((t) => ({
+    Parameter: t.parameter_name,
+    Measured: `${t.measured_value} ${t.unit}`.trim(),
+    Expected: formatRange(t.expected_range_min, t.expected_range_max),
+    "In spec": t.is_within_spec ? "✓" : "✗",
+  }));
+  
+  console.log(sample, 'samp')
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -34,10 +57,16 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
           </div>
         </div>
       </div>
-      {/* <SpecIndicator outOfSpec={true} /> */}
       <Panel title="Test Panel">
         <DetailList items={items} />
+      </Panel>
+      <Panel title='Results'>
+        <DetailList items={resultItems}/>
       </Panel>
     </div>
   );
 }
+function formatRange(expected_range_min: number | null, expected_range_max: number | null): any {
+  throw new Error("Function not implemented.");
+}
+
