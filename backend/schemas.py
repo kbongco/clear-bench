@@ -34,11 +34,10 @@ class ScientistSummary(BaseModel):
 class NewSample(BaseModel):
     name: str
     scientist_id: int
-    team_name: Optional[str] = None
     sample_type: Optional[str] = None
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
-    test_types:List[str]
+    test_types:List[str] = Field(default_factory=list)
     totalBottles: int = 1
     temperature: List[str] = Field(default_factory=list)
     notes: Optional[str] = None

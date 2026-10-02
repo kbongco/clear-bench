@@ -52,7 +52,6 @@ class Sample(Base):
     totalBottles = Column(Integer, default=1)
     temperature = Column(JSON, default=list)  
     notes = Column(Text, nullable=True)
-
     scientist = relationship("Scientist", back_populates="samples")
     lab_tech = relationship("LabTech", back_populates="samples")
     results = relationship("Result", back_populates="sample")
