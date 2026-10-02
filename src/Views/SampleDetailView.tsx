@@ -5,7 +5,7 @@ import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { SampleDetail as SampleDetailData } from "../types/Results/results";
 
-export default function SampleDetailView({ sample }): { sample: SampleDetailData } {
+export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
 
   const items = [
   { label: "Owner", value: sample.scientist.name },
