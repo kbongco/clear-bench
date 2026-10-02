@@ -4,6 +4,7 @@ import Panel from "../Components/Panel/Panel";
 import Pill from "../Components/Pill/Pill";
 import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { Result, SampleDetail as SampleDetailData } from "../types/Results/results";
+import Table from "../Components/Table/Table";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
 
@@ -37,9 +38,14 @@ const testRows = (result: Result) =>
   result.test_results.map((t) => ({
     Parameter: t.parameter_name,
     Measured: `${t.measured_value} ${t.unit}`.trim(),
-    Expected: formatRange(t.expected_range_min, t.expected_range_max),
+    Expected: `${t.expected_range_min ?? ""} – ${t.expected_range_max ?? ""}`,
     "In spec": t.is_within_spec ? "✓" : "✗",
   }));
+
+function formatRange(expected_range_min: number | null, expected_range_max: number | null): any {
+  throw new Error("Function not implemented.");
+}
+
   
   console.log(sample, 'samp')
 
@@ -57,16 +63,25 @@ const testRows = (result: Result) =>
           </div>
         </div>
       </div>
+
       <Panel title="Test Panel">
         <DetailList items={items} />
       </Panel>
-      <Panel title='Results'>
-        <DetailList items={resultItems}/>
-      </Panel>
+      <div className='mt-4'>
+<Panel title="Results">
+  {sample.results.length === 0 ? (
+    <p className="text-gray-500">No results yet.</p>
+  ) : (
+    sample.results.map((result) => (
+      <div key={result.id} className="flex flex-col gap-4">
+        <DetailList items={resultItems(result)} />
+        <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
+      </div>
+    ))
+  )}
+        </Panel>
+        </div>
     </div>
   );
-}
-function formatRange(expected_range_min: number | null, expected_range_max: number | null): any {
-  throw new Error("Function not implemented.");
 }
 
