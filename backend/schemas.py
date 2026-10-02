@@ -38,6 +38,7 @@ class NewSample(BaseModel):
     sample_type: Optional[str] = None
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
+    test_types:List[str]
     totalBottles: int = 1
     temperature: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
@@ -51,6 +52,7 @@ class Sample(BaseModel):
     sample_type: Optional[str] = None
     test_status: Optional[str] = "pending"
     test_start: Optional[date] = None
+    test_types:List[str]
     due_date: Optional[date] = None
     test_duration: Optional[str] = None
     out_of_spec: Optional[bool] = False
