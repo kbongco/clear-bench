@@ -28,9 +28,9 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
           <Link className='text-sm text-blue-600 hover:underline'to='/view-sample'>Go back</Link>
           </div>
         <div className="flex gap-4">
-          <Pill status={sample.test_status} />
+          <Pill status={sample.test_status ?? "pending"} />
           <div>
-            <SpecIndicator outOfSpec={sample.outOfSpec} />
+            <SpecIndicator outOfSpec={sample.out_of_spec} />
           </div>
         </div>
       </div>
