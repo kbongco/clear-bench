@@ -37,7 +37,7 @@ class NewSample(BaseModel):
     sample_type: Optional[str] = None
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
-    test_type: List[str]
+    test_types: List[str] = Field(min_length=1)
     totalBottles: int = 1
     temperature: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
