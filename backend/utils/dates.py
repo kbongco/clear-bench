@@ -16,6 +16,5 @@ def calculate_due_date(start, duration):
         return None
       if not days:
         return None
-      if days:
-        return start + timedelta(days)
+      return start + timedelta(days)
   
