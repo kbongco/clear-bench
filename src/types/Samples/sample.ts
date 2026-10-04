@@ -62,11 +62,11 @@ export interface NewSample {
   name: string;
   scientist_id: number;
   sample_type?: string; 
-  test_start?: Date;
+  test_start?: string;
   test_duration?: TestDuration;
   test_types: string[];
   totalBottles?: number;
-  temperature: string[];
+  temperature?: string[];
   notes?: string;
 }
 
