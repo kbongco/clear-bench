@@ -49,7 +49,7 @@ export interface SampleAPI {
   sample_type: string | null;
   test_status: string | null;
   test_start: string | null;
-  test_types: string[]
+  test_types: string[];
   due_date: string | null;
   test_duration: string | null;
   out_of_spec: boolean | null;
@@ -61,13 +61,13 @@ export interface SampleAPI {
 export interface NewSample {
   name: string;
   scientist_id: number;
-  sample_type?: string[] 
-  test_start?: Date[] 
-  test_duration?: string[] 
+  sample_type?: string; 
+  test_start?: Date;
+  test_duration?: TestDuration;
   test_types: string[];
-  totalBottles: number;
+  totalBottles?: number;
   temperature: string[];
-  notes?: string[];
+  notes?: string;
 }
 
 export interface ScientistSummary {
