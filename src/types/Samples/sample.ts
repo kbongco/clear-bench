@@ -61,13 +61,13 @@ export interface SampleAPI {
 export interface NewSample {
   name: string;
   scientist_id: number;
-  sample_type: string[] | null;
-  test_start: Date[] | null;
-  test_duration: string[] | null;
+  sample_type?: string[] 
+  test_start?: Date[] 
+  test_duration?: string[] 
   test_types: string[];
   totalBottles: number;
   temperature: string[];
-  notes:string[] | null 
+  notes?: string[];
 }
 
 export interface ScientistSummary {
