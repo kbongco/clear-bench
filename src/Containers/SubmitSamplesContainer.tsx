@@ -5,7 +5,7 @@ import SubmitSamples from "../Views/SubmitSamples";
 import type { ScientistSummary } from "../types/Samples/sample";
 
 export default function SubmitSamplesContainer() {
-  const [scientist, setScientists] = useState<ScientistSummary>();
+  const [scientist, setScientist] = useState<ScientistSummary>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -17,7 +17,7 @@ export default function SubmitSamplesContainer() {
         const currentScientist = scientists.find(
           (sci) => sci.id === CURRENT_SCIENTIST_ID,
         );
-        if (!ignore) setScientists(currentScientist);
+        if (!ignore) setScientist(currentScientist);
       } catch {
         if (!ignore) setError("Unable to find scientist");
       } finally {
@@ -30,9 +30,12 @@ export default function SubmitSamplesContainer() {
     };
   }, []);
 
-   if (loading) return <div>Loading Sample submit...</div>;
+  if (loading) return <div>Loading Sample submit...</div>;
   if (error) return <div>Error: {error}</div>;
-  return <div>
-    <SubmitSamples scientist={scientist}/>
-  </div>;
+  if (!scientist) return <p> Cannot find scientist info</p>;
+  return (
+    <div>
+      <SubmitSamples scientist={scientist} />
+    </div>
+  );
 }

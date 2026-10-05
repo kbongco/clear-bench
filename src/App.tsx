@@ -1,5 +1,4 @@
 import NavBar from "./Layout/NavBar/NavBar";
-import { mockSamples } from "./mockData/sampleData";
 import Home from "./Views/Home/Home";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ScientistContainer from "./Containers/ScientistContainer";
@@ -13,7 +12,6 @@ function App() {
   const location = useLocation();
   const hideNavBarRoutes = ["/login"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
-  const currentUser = mockSamples[0].owner.name;
 
   return (
     <>
