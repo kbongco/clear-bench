@@ -14,7 +14,6 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     sampleOwner: scientist.name,
     testType: '',
     sampleType: 'Food',
-    department: '',
     totalSamples: '',
     testingSheet: null,
     testDuration: '',
@@ -113,8 +112,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <Input
           label="Team Name"
           type="text"
-          placeholder="Enter team name"
-          value={scientist.department}
+          value={scientist.department ?? ""}
           onChange={() => { }}
           name="teamName"
           disabled={true}
