@@ -72,7 +72,7 @@ export interface NewSample {
 
 export interface SampleCreateResponse {
   message: string;
-  sample: Sample;
+  sample: SampleAPI;
 }
 
 export interface ScientistSummary {
