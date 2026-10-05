@@ -9,6 +9,10 @@ import Toast from "../Components/Toast/Toast";
 import type { ScientistSummary } from "../types/Samples/sample";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
+  const today = new Date();
+  const formattedToday = `${today.getFullYear()}-${String(
+  today.getMonth() + 1
+).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
   const initialFormData = {
     sampleName: '',
     sampleOwner: scientist.name,
@@ -23,10 +27,10 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   };
   const [formData, setFormData] = useState(initialFormData);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+  const [testStart, setTestStart] = useState(formattedToday);
 
 
   const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C', 'All of the above'];
-  const isoDate = new Date(formData.startDate).toISOString().split("T")[0];
   const testDuration = [
     { label: '2-week', value: '2-week' },
     { label: '4-week', value: '4-week' },
@@ -46,7 +50,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_type: formData.testType,
         test_duration: formData.testDuration,
-        test_start: isoDate,
+        test_start: testStart,
         notes: formData.notes,
         temperature: formData.sampleConditions
       }
@@ -128,10 +132,10 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
 
         <Input
           label="Start Date"
-          type="text"
+          type="date"
           placeholder="MM/DD/YYYY"
-          value={formData.startDate}
-          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+          value={testStart}
+           onChange={(e) => setTestStart(e.target.value)}
           name="startDate"
         />
 
