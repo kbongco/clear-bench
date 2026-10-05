@@ -7,12 +7,11 @@ import TextArea from "../Components/Textarea/Textarea";
 import { createSample } from "../services/samples";
 import Toast from "../Components/Toast/Toast";
 import type { ScientistSummary } from "../types/Samples/sample";
+import formatDate from "../utils/formatDate";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
   const today = new Date();
-  const formattedToday = `${today.getFullYear()}-${String(
-  today.getMonth() + 1
-).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const formattedToday = formatDate(today);
   const initialFormData = {
     sampleName: '',
     sampleOwner: scientist.name,
@@ -21,7 +20,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     totalSamples: '',
     testingSheet: null,
     testDuration: '',
-    startDate: new Date().toLocaleDateString(),
+    startDate: formattedToday,
     notes: '',
     sampleConditions: [] as string[],
   };
@@ -133,7 +132,6 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <Input
           label="Start Date"
           type="date"
-          placeholder="MM/DD/YYYY"
           value={testStart}
            onChange={(e) => setTestStart(e.target.value)}
           name="startDate"
@@ -150,6 +148,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           label="Type of test"
           options={foodTestDropdownOptions}
           value={formData.testType}
+          placeholder="Select a sample test"
           onChange={(e) => setFormData({ ...formData, testType: e.target.value })}
           name="testType"
         />
@@ -158,11 +157,13 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           label="Test Duration"
           options={testDuration}
           value={formData.testDuration}
+          placeholder="Select test duration"
           onChange={(e) => setFormData({ ...formData, testDuration: e.target.value })}
           name="testDuration"
         />
                 <SelectComponent
           label="Type of Sample"
+          placeholder="Select a sample type"
           options={typeOfSample}
           value={formData.sampleType}
           onChange={(e) => setFormData({ ...formData, sampleType: e.target.value })}

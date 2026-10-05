@@ -4,6 +4,7 @@ export interface SelectInterface {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
   options: Options[];
+  placeholder?: string
   id?: string; // Optional, if you want to use it
 }
 
