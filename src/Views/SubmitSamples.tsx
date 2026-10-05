@@ -6,11 +6,13 @@ import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
 import { createSample } from "../services/samples";
 import Toast from "../Components/Toast/Toast";
+import type { ScientistSummary } from "../types/Samples/sample";
 
-export default function SubmitSamples({ user }: any) {
+export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
+  console.log(scientist)
   const initialFormData = {
     sampleName: '',
-    sampleOwner: user,
+    sampleOwner: scientist?.name,
     testType: '',
     sampleType: 'Food',
     teamName: '',
@@ -54,7 +56,7 @@ export default function SubmitSamples({ user }: any) {
       await createSample(payload);
       setFormData({
         ...initialFormData,
-        sampleOwner: user,
+        sampleOwner: scientist.name,
         startDate: new Date().toLocaleDateString()
       });
       setToast({ message: "Sample has been submitted! successfully", type:'success' });
@@ -67,7 +69,7 @@ export default function SubmitSamples({ user }: any) {
   return (
     <div className='ml-4'>
       <h1 className='text-3xl'>Submit your samples here</h1>
-      <p>You are currently logged in as {user}. If this is not you, please log out and log in to your account.</p>
+      <p>You are currently logged in as ''. If this is not you, please log out and log in to your account.</p>
 
       <div className='mt-4'>
         <p>Please read the following guidelines when submitting samples:</p>

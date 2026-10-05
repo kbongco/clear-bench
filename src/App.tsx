@@ -2,12 +2,12 @@ import NavBar from "./Layout/NavBar/NavBar";
 import { mockSamples } from "./mockData/sampleData";
 import Home from "./Views/Home/Home";
 import { Routes, Route, useLocation } from "react-router-dom";
-import SubmitSamples from "./Views/SubmitSamples";
 import ScientistContainer from "./Containers/ScientistContainer";
 import LabTechContainer from "./Containers/LabTechContainer";
 import Login from "./Views/Home/Login";
 import AllSamplesContainer from "./Containers/AllSamplesContainer";
 import SampleDetailsContainer from "./Containers/SampleDetailsContainer";
+import SubmitSamplesContainer from "./Containers/SubmitSamplesContainer";
 
 function App() {
   const location = useLocation();
@@ -26,7 +26,7 @@ function App() {
           <Route path="/samples/:id" element={<SampleDetailsContainer />} />
           <Route
             path="/submit-samples"
-            element={<SubmitSamples user={currentUser} />}
+            element={<SubmitSamplesContainer />}
           />
           <Route path="/approve-samples" element={<LabTechContainer />} />
           <Route path="/view-samples" element={<AllSamplesContainer />} />
