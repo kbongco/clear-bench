@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-import type { AllSamplesResponse } from '../types/Samples/sample';  
+import type { AllSamplesResponse, NewSample, SampleCreateResponse } from '../types/Samples/sample';  
 import type { SampleDetail } from '../types/Results/results';
 
 export async function getSamples(id:string) {
@@ -32,7 +32,7 @@ export async function getSample(id: number): Promise<SampleDetail | null> {
   return response.json();
 }
 
-export async function createSample(sampleData: any) {
+export async function createSample(sampleData: NewSample):Promise<SampleCreateResponse> {
   try {
     const response = await fetch(`${API_URL}/samples`, {
       method: "POST",
