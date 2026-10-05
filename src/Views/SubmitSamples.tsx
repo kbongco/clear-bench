@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../Components/Input/Input";
-import { foodTestDropdownOptions } from "../mockData/typeofTest";
+import { foodTestDropdownOptions, typeOfSample } from "../mockData/typeofTest";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
@@ -17,7 +17,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     sampleName: '',
     sampleOwner: scientist.name,
     testType: '',
-    sampleType: 'Food',
+    sampleType: '',
     totalSamples: '',
     testingSheet: null,
     testDuration: '',
@@ -160,6 +160,13 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           value={formData.testDuration}
           onChange={(e) => setFormData({ ...formData, testDuration: e.target.value })}
           name="testDuration"
+        />
+                <SelectComponent
+          label="Type of Sample"
+          options={typeOfSample}
+          value={formData.sampleType}
+          onChange={(e) => setFormData({ ...formData, sampleType: e.target.value })}
+          name="sampleType"
         />
 
         <TextArea
