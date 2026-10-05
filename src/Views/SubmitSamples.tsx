@@ -9,13 +9,12 @@ import Toast from "../Components/Toast/Toast";
 import type { ScientistSummary } from "../types/Samples/sample";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
-  console.log(scientist)
   const initialFormData = {
     sampleName: '',
     sampleOwner: scientist.name,
     testType: '',
     sampleType: 'Food',
-    teamName: '',
+    department: '',
     totalSamples: '',
     testingSheet: null,
     testDuration: '',
@@ -45,7 +44,6 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         name: formData.sampleName,
         scientist_id: 1, // Temporary fix to test POST request
         sample_type: formData.sampleType,
-        team_name: formData.teamName,
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_type: formData.testType,
         test_duration: formData.testDuration,
@@ -116,9 +114,10 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           label="Team Name"
           type="text"
           placeholder="Enter team name"
-          value={formData.teamName}
-          onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
+          value={scientist.department}
+          onChange={() => { }}
           name="teamName"
+          disabled={true}
         />
 
         <Input
