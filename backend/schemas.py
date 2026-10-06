@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Field
-from datetime import date,datetime
-from typing import Optional, List
+from datetime import date, datetime
 from enum import Enum
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
+
 
 # --------------------
 # Scientist & LabTech
@@ -22,12 +24,15 @@ class LabTech(BaseModel):
 
     model_config = {"from_attributes": True}
 
-class ScientistSummary(BaseModel):
-  id: int
-  name: str
-  department: Optional[str] = None
 
-  model_config = {"from_attributes": True}
+class ScientistSummary(BaseModel):
+    id: int
+    name: str
+    department: Optional[str] = None
+
+    model_config = {"from_attributes": True}
+
+
 # --------------------
 # Sample Schemas
 # --------------------
@@ -87,12 +92,15 @@ class SamplesResponse(BaseModel):
     total: int
     samples: List[Sample]
 
+
 class SampleWithOwner(Sample):
-  scientist: ScientistSummary
+    scientist: ScientistSummary
+
 
 class AllSamplesResponse(BaseModel):
-  total: int
-  samples: List[SampleWithOwner]
+    total: int
+    samples: List[SampleWithOwner]
+
 
 # --------------------
 # Result & Test Results
@@ -146,6 +154,7 @@ class Result(ResultBase):
     test_results: List[TestResult] = Field(default_factory=list)
 
     model_config = {"from_attributes": True}
+
 
 class SampleDetail(SampleWithOwner):
     lab_tech: Optional[LabTech] = None

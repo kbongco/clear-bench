@@ -1,8 +1,10 @@
 import secrets
-from fastapi import Depends, FastAPI, HTTPException, status
+
+from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 security = HTTPBasic()
+
 
 def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
     # In a real application, you'd verify against a database
