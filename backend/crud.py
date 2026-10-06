@@ -18,7 +18,7 @@ def get_scientist_by_id(scientist_id: int, db: Session) -> Optional[Scientist]:
 
 def get_labtechs(db: Session) -> List[LabTech]:
     db_labtechs = db.query(models.LabTech).all()
-    return [LabTech.model_validate(l) for l in db_labtechs]
+    return [LabTech.model_validate(lab_tech) for lab_tech in db_labtechs]
 
 
 # def get_samples_by_scientist(
