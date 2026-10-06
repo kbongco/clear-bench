@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../Components/Input/Input";
-import { foodTestDropdownOptions, storageConditions, typeOfSample } from "../constants/formOptions";
+import { foodTestDropdownOptions, realValues, storageConditions, typeOfSample } from "../constants/formOptions";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
@@ -8,6 +8,7 @@ import { createSample } from "../services/samples";
 import Toast from "../Components/Toast/Toast";
 import type { ScientistSummary } from "../types/Samples/sample";
 import formatDate from "../utils/formatDate";
+import { applyAllOption } from "../utils/applyAll";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
   const today = new Date();
@@ -26,9 +27,6 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   };
   const [formData, setFormData] = useState(initialFormData);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
-
-
-
 
   const testDuration = [
     { label: '2-week', value: '2-week' },
@@ -141,9 +139,12 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           labelTitle='Sample Conditions'
           options={storageConditions}
           selected={formData.sampleConditions}
-          onChange={(selected) =>
-            setFormData({ ...formData, sampleConditions: selected })
-          }
+onChange={(next) =>
+  setFormData({
+    ...formData,
+    sampleConditions: applyAllOption(formData.sampleConditions, next, realValues),
+  })
+}
         />
 
 <CheckboxGroup

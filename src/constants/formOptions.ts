@@ -32,3 +32,6 @@ export const storageConditions = [
 ];
 
 export const ALL_CONDITIONS = "all"
+
+export const realValues = storageConditions.filter((store) => store.value !== ALL_CONDITIONS).map((store) => store.value);
+
