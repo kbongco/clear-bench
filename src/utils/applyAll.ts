@@ -1,9 +1,11 @@
+import { ALL_CONDITIONS } from "../constants/formOptions";
+
 export function applyAllOption(
   prev: string[],
   next: string[],
   allValues: string[]
 ): string[] {
-  const allOption = "All of the above";
+  const allOption = ALL_CONDITIONS;
 
   const clickedAll =
     !prev.includes(allOption) && next.includes(allOption);

@@ -30,3 +30,5 @@ export const storageConditions = [
   { value: "40C", label: "40°C" },
   { value: "all", label: "All of the above" },
 ];
+
+export const ALL_CONDITIONS = "all"
