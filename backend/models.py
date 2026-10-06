@@ -69,10 +69,10 @@ class Sample(Base):
     lab_tech = relationship("LabTech", back_populates="samples")
     results = relationship("Result", back_populates="sample")
     events = relationship(
-    "AuditEvent",
-    back_populates="sample",
-    order_by="AuditEvent.created_at.desc()",
-)
+        "AuditEvent",
+        back_populates="sample",
+        order_by="AuditEvent.created_at.desc()",
+    )
 
 
 # ---------------------
