@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Input from "../Components/Input/Input";
 import { ALL_CONDITIONS, foodTestDropdownOptions, realValues, storageConditions, typeOfSample } from "../constants/formOptions";
 import SelectComponent from "../Components/Select/Select";
@@ -10,6 +10,7 @@ import type { NewSample, ScientistSummary, TestDuration } from "../types/Samples
 import formatDate from "../utils/formatDate";
 import { applyAllOption } from "../utils/applyAll";
 import { CURRENT_SCIENTIST_ID } from "../services/currentUser";
+import { Link } from "react-router-dom";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
   const today = new Date();
@@ -27,7 +28,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     sampleConditions: [] as string[],
   };
   const [formData, setFormData] = useState(initialFormData);
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+  const [toast, setToast] = useState<{ message: ReactNode; type: "success" | "error" | "info" } | null>(null)
   const [errors, setErrors] = useState({
   sampleName: "",
   startDate: "",
@@ -115,13 +116,9 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
       ),
     };
 
-    await createSample(payload);
+   const { sample } = await createSample(payload);
 
-    setFormData({
-      ...initialFormData,
-      sampleOwner: scientist.name,
-      startDate: new Date().toISOString().split("T")[0],
-    });
+ setFormData(initialFormData);
 
     setErrors({
       sampleName: "",
@@ -133,7 +130,11 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     });
 
     setToast({
-      message: "Sample has been submitted successfully!",
+        message: (
+    <>
+      Sample submitted! <Link to={`/samples/${sample.id}`} className="underline">View sample</Link>
+    </>
+  ),
       type: "success",
     });
   } catch {
