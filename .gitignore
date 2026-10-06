@@ -34,3 +34,6 @@ logfile
 .pytest_cache/
 venv/
 .venv/
+
+.vscode/*
+!.vscode/extensions.json
