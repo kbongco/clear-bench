@@ -21,7 +21,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     sampleType: '',
     totalSamples: '',
     testingSheet: null,
-    testDuration: '' as TestDuration,
+    testDuration: '' as TestDuration | '',
     startDate: formattedToday,
     notes: '',
     sampleConditions: [] as string[],
@@ -160,7 +160,7 @@ onChange={(next) =>
           options={testDuration}
           value={formData.testDuration}
           placeholder="Select test duration"
-          onChange={(e) => setFormData({ ...formData, testDuration: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, testDuration: e.target.value as TestDuration })}
           name="testDuration"
         />
                 <SelectComponent
