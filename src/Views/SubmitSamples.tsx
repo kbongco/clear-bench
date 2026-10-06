@@ -49,7 +49,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_type: formData.testType,
         test_duration: formData.testDuration,
-        test_start: testStart,
+        test_start: formData.startDate,
         notes: formData.notes,
         temperature: formData.sampleConditions
       }
@@ -132,13 +132,14 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <Input
           label="Start Date"
           type="date"
-          value={testStart}
+          value={formData.startDate}
            onChange={(e) => setTestStart(e.target.value)}
           name="startDate"
         />
 
         <CheckboxGroup
           options={sampleConditions}
+          select={formData.sampleConditions}
           onChange={(selected) =>
             setFormData({ ...formData, sampleConditions: selected })
           }
