@@ -11,7 +11,10 @@
     "tailwind:init": "tailwindcss init -p",
     "test": "vitest run",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm test && npm run check:py",
+    "check:py": "cd backend && ./venv/bin/python -m ruff check . && ./venv/bin/python -m ruff format --check . && ./venv/bin/python -m pytest -q",
+    "prepare": "husky"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -34,6 +37,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
     "postcss": "^8.5.6",
     "prettier": "^3.9.9",
     "tailwindcss": "^3.4.3",
