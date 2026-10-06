@@ -133,13 +133,13 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           label="Start Date"
           type="date"
           value={formData.startDate}
-           onChange={(e) => setTestStart(e.target.value)}
+          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
           name="startDate"
         />
 
         <CheckboxGroup
           options={sampleConditions}
-          select={formData.sampleConditions}
+          selected={formData.sampleConditions}
           onChange={(selected) =>
             setFormData({ ...formData, sampleConditions: selected })
           }

@@ -1,23 +1,22 @@
-import { useState } from "react";
 import Checkbox from "./Checkbox"; // adjust the import path
 
 interface CheckboxGroupProps {
   options: string[];
-  select: string[];
+  selected: string[];
   labelTitle?: string
-  onChange: (selected: string[]) => void;
+  onChange: (selecteded: string[]) => void;
 }
 
-export default function CheckboxGroup({ options, onChange, labelTitle, select }: CheckboxGroupProps) {
+export default function CheckboxGroup({ options, onChange, labelTitle, selected }: CheckboxGroupProps) {
   
 
   const handleCheckboxChange = (value: string) => {
     let updated: string[];
 
-    if (select.includes(value)) {
-      updated = select.filter(option => option !== value);
+    if (selected.includes(value)) {
+      updated = selected.filter(option => option !== value);
     } else {
-      updated = [...select, value];
+      updated = [...selected, value];
     }
 
     onChange(updated);
@@ -26,14 +25,14 @@ export default function CheckboxGroup({ options, onChange, labelTitle, select }:
   return (
     <div className='flex flex-col gap-2'>
       <label className='font-bold mb-1'>
-        {labelTitle || "Select Options"}
+        {labelTitle || "selected Options"}
       </label>
       {options.map((option) => (
         <div key={option}>
         <Checkbox
           label={option}
           value={option}
-          checked={select.includes(option)}
+          checked={selected.includes(option)}
           onChange={handleCheckboxChange}
           />
           </div>
