@@ -138,6 +138,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <CheckboxGroup
+          labelTitle='Sample Conditions'
           options={sampleConditions}
           selected={formData.sampleConditions}
           onChange={(selected) =>
@@ -145,14 +146,12 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           }
         />
 
-        <SelectComponent
-          label="Type of test"
-          options={foodTestDropdownOptions}
-          value={formData.testType}
-          placeholder="Select a sample test"
-          onChange={(e) => setFormData({ ...formData, testType: e.target.value })}
-          name="testType"
-        />
+<CheckboxGroup
+  labelTitle="Tests to run"
+  options={foodTestDropdownOptions}
+  selected={formData.testTypes}
+  onChange={(updated) => setFormData({ ...formData, testTypes: updated })}
+/>
 
         <SelectComponent
           label="Test Duration"

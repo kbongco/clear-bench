@@ -1,8 +1,9 @@
+import type { Options } from "../ComponentInterfaces/SelectInterface";
 import Checkbox from "./Checkbox"; // adjust the import path
 
 interface CheckboxGroupProps {
-  options: string[];
-  selected: string[];
+  options: Options[];
+  selected: string[] | string;
   labelTitle?: string
   onChange: (selected: string[]) => void;
 }
