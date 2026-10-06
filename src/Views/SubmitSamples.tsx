@@ -1,14 +1,15 @@
 import { useState } from "react";
 import Input from "../Components/Input/Input";
-import { foodTestDropdownOptions, realValues, storageConditions, typeOfSample } from "../constants/formOptions";
+import { ALL_CONDITIONS, foodTestDropdownOptions, realValues, storageConditions, typeOfSample } from "../constants/formOptions";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
 import { createSample } from "../services/samples";
 import Toast from "../Components/Toast/Toast";
-import type { ScientistSummary } from "../types/Samples/sample";
+import type { NewSample, ScientistSummary, TestDuration } from "../types/Samples/sample";
 import formatDate from "../utils/formatDate";
 import { applyAllOption } from "../utils/applyAll";
+import { CURRENT_SCIENTIST_ID } from "../services/currentUser";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
   const today = new Date();
@@ -20,7 +21,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     sampleType: '',
     totalSamples: '',
     testingSheet: null,
-    testDuration: '',
+    testDuration: '' as TestDuration,
     startDate: formattedToday,
     notes: '',
     sampleConditions: [] as string[],
@@ -40,16 +41,16 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const payload = {
+      const payload: NewSample = {
         name: formData.sampleName,
-        scientist_id: 1, // Temporary fix to test POST request
+        scientist_id: CURRENT_SCIENTIST_ID,
         sample_type: formData.sampleType,
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
-        test_type: formData.testTypes,
+        test_types: formData.testTypes,
         test_duration: formData.testDuration,
         test_start: formData.startDate,
         notes: formData.notes,
-        temperature: formData.sampleConditions
+        temperature: formData.sampleConditions.filter((value) => value !== ALL_CONDITIONS),
       }
       await createSample(payload);
       setFormData({
