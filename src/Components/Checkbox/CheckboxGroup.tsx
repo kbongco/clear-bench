@@ -4,7 +4,7 @@ interface CheckboxGroupProps {
   options: string[];
   selected: string[];
   labelTitle?: string
-  onChange: (selecteded: string[]) => void;
+  onChange: (selected: string[]) => void;
 }
 
 export default function CheckboxGroup({ options, onChange, labelTitle, selected }: CheckboxGroupProps) {
@@ -25,7 +25,7 @@ export default function CheckboxGroup({ options, onChange, labelTitle, selected 
   return (
     <div className='flex flex-col gap-2'>
       <label className='font-bold mb-1'>
-        {labelTitle || "selected Options"}
+        {labelTitle || "Select Options"}
       </label>
       {options.map((option) => (
         <div key={option}>

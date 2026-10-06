@@ -26,7 +26,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   };
   const [formData, setFormData] = useState(initialFormData);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
-  const [testStart, setTestStart] = useState(formattedToday);
+
 
 
   const sampleConditions = ['Frozen', '25C', '20C', '40C', '35C', 'All of the above'];
