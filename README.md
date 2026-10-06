@@ -1,6 +1,6 @@
 # 🧪 ClearBench
 
-*Modern sample tracking for laboratory teams — built for visibility, accountability, and peace of mind.*
+_Modern sample tracking for laboratory teams — built for visibility, accountability, and peace of mind._
 
 ClearBench is a role-based sample submission and tracking tool designed to help scientists, lab staff, and managers collaborate more efficiently — and with more accountability.
 
@@ -10,17 +10,17 @@ Built with React and TypeScript on the frontend and powered by FastAPI on the ba
 
 ## 📚 Table of Contents
 
-- [Overview](#overview)  
-- [Features](#features)  
-- [Inspiration](#inspiration) 
-- [Tech Stack](#tech-stack)  
-- [Screenshots](#screenshots)  
-- [Getting Started](#getting-started)  
-- [Architecture](#architecture)  
-- [Planned Features](#planned-features)  
-- [Data Flow & Permissions](#data-flow--permissions)  
-- [Status](#status)  
-- [License](#license)  
+- [Overview](#overview)
+- [Features](#features)
+- [Inspiration](#inspiration)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Getting Started](#getting-started)
+- [Architecture](#architecture)
+- [Planned Features](#planned-features)
+- [Data Flow & Permissions](#data-flow--permissions)
+- [Status](#status)
+- [License](#license)
 
 ---
 
@@ -33,24 +33,27 @@ ClearBench brings order to sample testing pipelines in labs. It supports role-ba
 ## ✅ Features
 
 ### 🔬 Scientists (non-managers)
-- Submit samples for testing  
-- View and search samples within their team  
-- Get notified when samples are out of spec or rejected  
-- Generate PDF/CSV reports  
-- Track sample status  
+
+- Submit samples for testing
+- View and search samples within their team
+- Get notified when samples are out of spec or rejected
+- Generate PDF/CSV reports
+- Track sample status
 
 ### 👩‍🔬 Scientists (managers)
+
 - All of the above, plus:
-- View and search across all teams  
-- Access metric dashboards  
+- View and search across all teams
+- Access metric dashboards
 
 ### 🧪 Lab Techs
-- View and search all samples across teams  
-- Validate submissions and paperwork  
-- Notify submitters + managers if samples are invalid  
-- Generate reports  
-- View audit trails  
-- Access metric dashboards  
+
+- View and search all samples across teams
+- Validate submissions and paperwork
+- Notify submitters + managers if samples are invalid
+- Generate reports
+- View audit trails
+- Access metric dashboards
 
 ---
 
@@ -66,11 +69,11 @@ ClearBench isn't just about organizing data — it’s about building trust in t
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React, TypeScript, Zustand, Tailwind CSS  
-- **Backend** (planned): FastAPI (Python)  
-- **Auth**: TBD (JWT, Firebase Auth, or similar)  
-- **CI/CD**: GitHub Actions  
-- **Hosting**: Firebase (frontend), Render/Fly.io (backend target)  
+- **Frontend**: React, TypeScript, Zustand, Tailwind CSS
+- **Backend** (planned): FastAPI (Python)
+- **Auth**: TBD (JWT, Firebase Auth, or similar)
+- **CI/CD**: GitHub Actions
+- **Hosting**: Firebase (frontend), Render/Fly.io (backend target)
 
 ---
 
@@ -90,3 +93,4 @@ git clone https://github.com/your-username/clearbench.git
 cd clearbench
 npm install
 npm run dev
+```

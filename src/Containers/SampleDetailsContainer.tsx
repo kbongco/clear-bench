@@ -8,9 +8,7 @@ export default function SampleDetailsContainer() {
   const { id } = useParams();
 
   const sampleId = id ? parseInt(id, 10) : undefined;
-  const [sampleDetails, setSampleDetails] = useState<SampleDetailData | null>(
-    null,
-  );
+  const [sampleDetails, setSampleDetails] = useState<SampleDetailData | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -42,7 +40,7 @@ export default function SampleDetailsContainer() {
 
   return (
     <>
-     <SampleDetailView sample={sampleDetails} />
+      <SampleDetailView sample={sampleDetails} />
     </>
   );
 }

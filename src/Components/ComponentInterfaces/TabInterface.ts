@@ -9,5 +9,5 @@ export interface TabButtonInterface {
 
 export interface TabLayoutInterface {
   title: string;
-  children: ReactElement |  ReactElement | any
+  children: ReactElement | ReactElement | any;
 }

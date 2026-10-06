@@ -15,10 +15,7 @@ export default function ScientistContainer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [scientistsData, labTechData] = await Promise.all([
-          getScientists(),
-          getLabTechs(),
-        ]);
+        const [scientistsData, labTechData] = await Promise.all([getScientists(), getLabTechs()]);
         setScientists(scientistsData);
         setLabTechs(labTechData);
 
@@ -27,7 +24,7 @@ export default function ScientistContainer() {
           scientistsData.map(async (s: any) => {
             const data = await getSamples(s.id.toString());
             samplesData[s.id] = data;
-          })
+          }),
         );
         setSamples(samplesData);
       } catch (err: any) {
@@ -40,13 +37,12 @@ export default function ScientistContainer() {
     fetchData();
   }, []);
 
-
   if (loading) return <div>Loading scientists...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  return ( 
+  return (
     <>
       <ManagerView scientist={scientist} labTechs={labTechs} samples={samples} />
     </>
-  )
+  );
 }

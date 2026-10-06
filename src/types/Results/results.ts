@@ -1,6 +1,6 @@
 import type { SampleWithOwner } from "../Samples/sample";
 
-export interface TestResult  {
+export interface TestResult {
   id: number;
   result_id: number;
   parameter_name: string;
@@ -42,6 +42,6 @@ export interface LabTechSummary {
 }
 
 export interface SampleDetail extends SampleWithOwner {
-lab_tech: LabTechSummary | null;
-results: Result[];
+  lab_tech: LabTechSummary | null;
+  results: Result[];
 }

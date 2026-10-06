@@ -11,9 +11,7 @@ export default function LabTechHomeView() {
   );
 
   const notifications = (
-    <span className="flex items-center gap-2 justify-center">
-      You have no notifications.
-    </span>
+    <span className="flex items-center gap-2 justify-center">You have no notifications.</span>
   );
 
   return (

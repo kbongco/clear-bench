@@ -22,8 +22,7 @@ export default function LabTechSamplesContainer() {
         const samplesData = await getAllSamples({ status, department });
         if (!ignore) setLabTechSamples(samplesData.samples);
       } catch (err) {
-        if (!ignore)
-          setError("Could not load samples. Is the backend running?");
+        if (!ignore) setError("Could not load samples. Is the backend running?");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -41,9 +40,7 @@ export default function LabTechSamplesContainer() {
         const scientists = await getScientists();
         const uniqueTeams = [
           ...new Set(
-            scientists
-              .map((s: { department: string | null }) => s.department)
-              .filter(Boolean),
+            scientists.map((s: { department: string | null }) => s.department).filter(Boolean),
           ),
         ] as string[];
         setTeams(uniqueTeams);

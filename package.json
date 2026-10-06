@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "tailwind:init": "tailwindcss init -p",
     "test": "vitest run",
-      "format": "prettier --write .",
-  "format:check": "prettier --check ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",

@@ -22,7 +22,7 @@ export default function ApproveSamples({ data }: any) {
   );
 
   // Headers including approve/reject columns
-  const headers = ['Name', 'Owner', 'Status', 'Team Name', 'Update Status'];
+  const headers = ["Name", "Owner", "Status", "Team Name", "Update Status"];
 
   // Map original data to desired shape, add status if missing
   // const dataToApprove = rows.map(row => ({
@@ -32,12 +32,11 @@ export default function ApproveSamples({ data }: any) {
   //   teamName: row.teamName,
   // }));
 
-  const sampleDataTable = sampleRows.map(row => ({
+  const sampleDataTable = sampleRows.map((row) => ({
     name: row.name,
     status: row.test_status,
-    sampleType: row.sample_type
+    sampleType: row.sample_type,
   }));
-
 
   // const handleStatusUpdate = (index: number, newStatus: string) => {
   //   const updatedRows = [...rows];
@@ -55,7 +54,10 @@ export default function ApproveSamples({ data }: any) {
       <td className="text-center px-4 py-2">{row.teamName}</td>
       <td className="text-center px-4 py-2">
         <button
-          onClick={() => { setIsModalOpen(true); setSelectedSample(row); }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSelectedSample(row);
+          }}
           className="bg-green-500 text-white px-2 py-1 rounded"
         >
           Approve/Reject
@@ -63,7 +65,6 @@ export default function ApproveSamples({ data }: any) {
       </td>
     </tr>
   );
-
 
   return (
     // <h1>Test</h1>

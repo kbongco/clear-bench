@@ -1,9 +1,12 @@
 import type { ButtonProps } from "../ComponentInterfaces/ButtonInterface";
 
-export default function Button({buttonText, onClick}:ButtonProps) {
-  return ( 
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={onClick}>
+export default function Button({ buttonText, onClick }: ButtonProps) {
+  return (
+    <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+      onClick={onClick}
+    >
       {buttonText}
     </button>
-  )
+  );
 }

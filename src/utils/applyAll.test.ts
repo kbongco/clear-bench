@@ -10,14 +10,7 @@ describe("applyAllOption", () => {
 
     const result = applyAllOption(prev, next, ALL_VALUES);
 
-    expect(result).toEqual([
-      "all",
-      "Frozen",
-      "20C",
-      "25C",
-      "35C",
-      "40C",
-    ]);
+    expect(result).toEqual(["all", "Frozen", "20C", "25C", "35C", "40C"]);
   });
 
   it("unchecking all clears everything", () => {
@@ -44,14 +37,7 @@ describe("applyAllOption", () => {
 
     const result = applyAllOption(prev, next, ALL_VALUES);
 
-    expect(result).toEqual([
-      "all",
-      "Frozen",
-      "20C",
-      "25C",
-      "35C",
-      "40C",
-    ]);
+    expect(result).toEqual(["all", "Frozen", "20C", "25C", "35C", "40C"]);
   });
 
   it("unchecking one box while everything is selected removes all", () => {
@@ -60,11 +46,6 @@ describe("applyAllOption", () => {
 
     const result = applyAllOption(prev, next, ALL_VALUES);
 
-    expect(result).toEqual([
-      "Frozen",
-      "20C",
-      "25C",
-      "35C",
-    ]);
+    expect(result).toEqual(["Frozen", "20C", "25C", "35C"]);
   });
 });

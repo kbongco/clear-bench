@@ -3,10 +3,10 @@ export interface Scientist {
   name: string;
   department: string;
   email: string;
-  managerName?: string; 
+  managerName?: string;
 }
 
- export interface LabTech {
+export interface LabTech {
   id: string;
   name: string;
   email: string;

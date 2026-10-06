@@ -36,19 +36,16 @@ export default function LabTechAllSamples({
     { value: "completed", label: "Completed" },
     { value: "pending", label: "Pending" },
   ];
-  const searchedSamples = useMemo(
-    () => filterSamples(samples, search),
-    [samples, search],
-  );
+  const searchedSamples = useMemo(() => filterSamples(samples, search), [samples, search]);
 
-const rows = toSampleRows(searchedSamples).map((row) => ({
-  ...row,
-  Name: (
-    <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
-      {row.Name}
-    </Link>
-  ),
-}));
+  const rows = toSampleRows(searchedSamples).map((row) => ({
+    ...row,
+    Name: (
+      <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
+        {row.Name}
+      </Link>
+    ),
+  }));
 
   const tableHeaders = ["Name", "Scientist", "Team", "Status", "Due"];
   return (
@@ -86,11 +83,7 @@ const rows = toSampleRows(searchedSamples).map((row) => ({
           {rows.length === 0 ? (
             <p>No samples match your search.</p>
           ) : (
-            <Table
-              tableTitle="Lab Tech Samples"
-              tableHeader={tableHeaders}
-              data={rows}
-            />
+            <Table tableTitle="Lab Tech Samples" tableHeader={tableHeaders} data={rows} />
           )}
         </div>
       </div>

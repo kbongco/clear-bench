@@ -5,7 +5,6 @@ import ScientistSamplesContainer from "./ScientistSamplesContainer";
 export default function AllSamplesContainer() {
   const role = useRoleStore((state) => state.role);
 
-
   if (role === "labtech") return <LabTechSamplesContainer />;
-  return <ScientistSamplesContainer/>
+  return <ScientistSamplesContainer />;
 }

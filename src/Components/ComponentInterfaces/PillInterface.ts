@@ -3,4 +3,3 @@ export interface PillInterface {
 }
 
 export type SampleStatus = "pending" | "in_progress" | "completed" | "rejected";
-
