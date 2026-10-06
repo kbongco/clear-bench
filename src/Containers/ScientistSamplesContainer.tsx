@@ -16,9 +16,7 @@ export default function ScientistSamplesContainer() {
     const fetchData = async () => {
       try {
         const scientists = await getScientists();
-        const currentDepartment = scientists.find(
-          (sci) => sci.id === CURRENT_SCIENTIST_ID,
-        );
+        const currentDepartment = scientists.find((sci) => sci.id === CURRENT_SCIENTIST_ID);
         if (!currentDepartment) {
           setError("We couldn't find your scientist profile.");
           return;
@@ -38,23 +36,28 @@ export default function ScientistSamplesContainer() {
     if (!department) return;
     const fetchData = async () => {
       try {
-        const data = await getAllSamples({ department,status });
+        const data = await getAllSamples({ department, status });
         if (!ignore) setTeamSamples(data.samples);
       } catch {
-       if (!ignore) setError("Could not load samples. Is the backend running?");
+        if (!ignore) setError("Could not load samples. Is the backend running?");
       }
     };
     fetchData();
     return () => {
-      ignore = true
-    }
+      ignore = true;
+    };
   }, [department, status]);
 
   if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
   return (
     <>
-      <ScientistAllSamples department={department} samples={teamSamples} status={status}  onStatusChange={setStatus}/>
+      <ScientistAllSamples
+        department={department}
+        samples={teamSamples}
+        status={status}
+        onStatusChange={setStatus}
+      />
     </>
   );
 }

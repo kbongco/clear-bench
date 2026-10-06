@@ -1,16 +1,27 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, Query, Depends
 from typing import List, Optional
+
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
-from datetime import datetime
 
-import models
-from database import get_db, Base, engine
-from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample, AllSamplesResponse, SampleDetail
-from auth import authenticate_user
 import crud
+import models
+from auth import authenticate_user
+from database import Base, engine, get_db
+from schemas import (
+    AllSamplesResponse,
+    LabTech,
+    NewSample,
+    Sample,
+    SampleCreateResponse,
+    SampleDetail,
+    SamplesResponse,
+    Scientist,
+    UpdateSample,
+)
 from utils.dates import calculate_due_date
+
 
 # Create tables on startup
 @asynccontextmanager
@@ -42,23 +53,22 @@ def read_root():
 def get_scientists(db: Session = Depends(get_db)):
     return db.query(models.Scientist).all()
 
-@app.get('/scientists/{scientist_id}/samples', response_model=SamplesResponse)
+
+@app.get("/scientists/{scientist_id}/samples", response_model=SamplesResponse)
 def get_scientist_samples(
     scientist_id: int,
     status: Optional[str] = Query(None),
     out_of_spec: Optional[bool] = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     return crud.get_samples_by_scientist(
-        db=db,
-        scientist_id=scientist_id,
-        status=status,
-        out_of_spec=out_of_spec
+        db=db, scientist_id=scientist_id, status=status, out_of_spec=out_of_spec
     )
+
 
 # TODO: once auth exists, scope results to the current user's access
 # instead of trusting the status/department query params.
-@app.get('/samples', response_model=AllSamplesResponse)
+@app.get("/samples", response_model=AllSamplesResponse)
 def get_all_samples(
     status: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
@@ -66,13 +76,16 @@ def get_all_samples(
 ):
     query = db.query(models.Sample).options(joinedload(models.Sample.scientist))
     if status:
-      query = query.filter(models.Sample.test_status == status)
+        query = query.filter(models.Sample.test_status == status)
     if department:
-      query = query.join(models.Sample.scientist).filter(models.Scientist.department == department)
+        query = query.join(models.Sample.scientist).filter(
+            models.Scientist.department == department
+        )
     samples = query.order_by(models.Sample.due_date).all()
     return {"total": len(samples), "samples": samples}
-    
-@app.get('/lab-techs', response_model=List[LabTech])
+
+
+@app.get("/lab-techs", response_model=List[LabTech])
 def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
 
@@ -84,7 +97,8 @@ def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Sample not found")
     return result
 
-@app.get('/samples/{sample_id}', response_model=SampleDetail)
+
+@app.get("/samples/{sample_id}", response_model=SampleDetail)
 def get_sample(sample_id: int, db: Session = Depends(get_db)):
     sample = (
         db.query(models.Sample)
@@ -101,13 +115,14 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
     return sample
 
 
-
 @app.post("/samples", response_model=SampleCreateResponse)
 def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
-  scientist = db.query(models.Scientist).filter(models.Scientist.id == sample.scientist_id).first()
-  if not scientist:
-    raise HTTPException(status_code=404, detail="Scientist does not exist")
-  new_sample = models.Sample(
+    scientist = (
+        db.query(models.Scientist).filter(models.Scientist.id == sample.scientist_id).first()
+    )
+    if not scientist:
+        raise HTTPException(status_code=404, detail="Scientist does not exist")
+    new_sample = models.Sample(
         name=sample.name,
         scientist_id=sample.scientist_id,
         sample_type=sample.sample_type,
@@ -118,24 +133,24 @@ def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
         test_types=sample.test_types,
         notes=sample.notes,
         test_status="pending",
-        due_date=calculate_due_date(sample.test_start,sample.test_duration),
+        due_date=calculate_due_date(sample.test_start, sample.test_duration),
         lab_tech_id=None,
     )
-  db.add(new_sample)
-  db.commit()
-  db.refresh(new_sample)
-  return {"message": "Sample created successfully", "sample": new_sample}
+    db.add(new_sample)
+    db.commit()
+    db.refresh(new_sample)
+    return {"message": "Sample created successfully", "sample": new_sample}
 
 
-@app.patch('/samples/{sample_id}', response_model=Sample)
+@app.patch("/samples/{sample_id}", response_model=Sample)
 def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session = Depends(get_db)):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
-    
+
     for field, value in sample_update.model_dump(exclude_unset=True).items():
         setattr(sample, field, value)
-    
+
     db.commit()
     db.refresh(sample)
     return sample

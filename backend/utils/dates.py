@@ -10,11 +10,11 @@ DURATION_DAYS = {
     "1-year": 365,
 }
 
+
 def calculate_due_date(start, duration):
-      days = DURATION_DAYS.get(duration)
-      if not start:
+    days = DURATION_DAYS.get(duration)
+    if not start:
         return None
-      if not days:
+    if not days:
         return None
-      return start + timedelta(days)
-  
+    return start + timedelta(days)

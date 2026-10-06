@@ -22,10 +22,7 @@ function App() {
           <Route path="/scientists" element={<ScientistContainer />} />
           <Route path="/login" element={<Login />} />
           <Route path="/samples/:id" element={<SampleDetailsContainer />} />
-          <Route
-            path="/submit-samples"
-            element={<SubmitSamplesContainer />}
-          />
+          <Route path="/submit-samples" element={<SubmitSamplesContainer />} />
           <Route path="/approve-samples" element={<LabTechContainer />} />
           <Route path="/view-samples" element={<AllSamplesContainer />} />
         </Routes>

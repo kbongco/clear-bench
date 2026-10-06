@@ -4,23 +4,27 @@ export const foodTestDropdownOptions = [
   { value: "microbial", label: "Microbial Testing" },
   { value: "viscosity", label: "Viscosity Testing" },
   { value: "visual", label: "Visual Inspection" },
-  { value: "sensory", label: "Sensory Evaluation" }
+  { value: "sensory", label: "Sensory Evaluation" },
 ];
 
 export const typeOfSample = [
   {
-    value: 'Food', label: "Food Sample",
+    value: "Food",
+    label: "Food Sample",
   },
   {
-    value: 'Cosmetics', label: "Cosmetics"
+    value: "Cosmetics",
+    label: "Cosmetics",
   },
   {
-    value: 'Environmental', label: "Environmental Sample"
+    value: "Environmental",
+    label: "Environmental Sample",
   },
   {
-    value: 'Supplement', label: "Supplement"
-  }
-]
+    value: "Supplement",
+    label: "Supplement",
+  },
+];
 
 export const storageConditions = [
   { value: "Frozen", label: "Frozen" },
@@ -31,7 +35,8 @@ export const storageConditions = [
   { value: "all", label: "All of the above" },
 ];
 
-export const ALL_CONDITIONS = "all"
+export const ALL_CONDITIONS = "all";
 
-export const realValues = storageConditions.filter((store) => store.value !== ALL_CONDITIONS).map((store) => store.value);
-
+export const realValues = storageConditions
+  .filter((store) => store.value !== ALL_CONDITIONS)
+  .map((store) => store.value);

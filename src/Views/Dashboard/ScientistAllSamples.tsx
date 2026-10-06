@@ -12,11 +12,11 @@ export default function ScientistAllSamples({
   department,
   samples,
   onStatusChange,
-  status
+  status,
 }: {
-  status: string,
+  status: string;
   department: string;
-    samples: SampleWithOwner[];
+  samples: SampleWithOwner[];
   onStatusChange: (value: string) => void;
 }) {
   const statusOptions: Options[] = [
@@ -27,22 +27,17 @@ export default function ScientistAllSamples({
   ];
   const [search, setSearch] = useState("");
 
-  const searchedSamples = useMemo(
-    () => filterSamples(samples, search),
-    [samples, search],
-  );
-
-
+  const searchedSamples = useMemo(() => filterSamples(samples, search), [samples, search]);
 
   const tableHeaders = ["Name", "Scientist", "Status", "Due"];
- const rows = toSampleRows(searchedSamples).map((row) => ({
-  ...row,
-  Name: (
-    <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
-      {row.Name}
-    </Link>
-  ),
-}));
+  const rows = toSampleRows(searchedSamples).map((row) => ({
+    ...row,
+    Name: (
+      <Link to={`/samples/${row.id}`} className="text-blue-600 hover:underline">
+        {row.Name}
+      </Link>
+    ),
+  }));
   return (
     <div className="flex justify-around flex-col pt-4">
       <h1>{department}</h1>
@@ -60,7 +55,9 @@ export default function ScientistAllSamples({
         <SelectComponent
           label={"Status"}
           name={"Status"}
-          onChange={(e) => {onStatusChange(e.target.value)}}
+          onChange={(e) => {
+            onStatusChange(e.target.value);
+          }}
           value={status}
           options={statusOptions}
         />
@@ -69,11 +66,7 @@ export default function ScientistAllSamples({
         {rows.length === 0 ? (
           <p>No samples match your search.</p>
         ) : (
-          <Table
-            tableTitle="Your team's samples"
-            tableHeader={tableHeaders}
-            data={rows}
-          />
+          <Table tableTitle="Your team's samples" tableHeader={tableHeaders} data={rows} />
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import type { JSX } from "react";
 
 export interface TableHeader {
-  header:any[]
+  header: any[];
 }
 
 export interface TableBody {

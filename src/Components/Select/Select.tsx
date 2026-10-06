@@ -35,11 +35,7 @@ export default function SelectComponent({
         ))}
       </select>
 
-      {error && (
-        <p className="text-sm text-red-600 mt-1">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
     </div>
   );
 }

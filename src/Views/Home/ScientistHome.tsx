@@ -18,12 +18,8 @@ export default function ScientistHome() {
   >([]);
 
   const currentUser = mockSamples[0].owner.name;
-  const currentUserSamples = mockSamples.filter(
-    (sample) => sample.owner.name === currentUser,
-  );
-  const outOfSpecSamples = currentUserSamples.filter(
-    (sample) => sample.outOfSpec === true,
-  );
+  const currentUserSamples = mockSamples.filter((sample) => sample.owner.name === currentUser);
+  const outOfSpecSamples = currentUserSamples.filter((sample) => sample.outOfSpec === true);
   const currentCompletedSamples = currentUserSamples.filter(
     (sample) => sample.testStatus === "completed",
   );
@@ -73,21 +69,17 @@ export default function ScientistHome() {
     }));
 
     // 2. Get submissions from localStorage
-    const storedSamples = JSON.parse(
-      localStorage.getItem("submittedSamples") || "[]",
-    );
+    const storedSamples = JSON.parse(localStorage.getItem("submittedSamples") || "[]");
 
     // 3. Map stored samples to same shape (if needed)
-    const formattedStoredSamples = storedSamples.map(
-      (sample: any, index: number) => ({
-        id: `local-${index}`, // unique id
-        name: sample.sampleName,
-        totalSamples: sample.totalSamples || "N/A",
-        typeOfTest: sample.testType,
-        testStatus: "Pending",
-        dueDate: "TBD",
-      }),
-    );
+    const formattedStoredSamples = storedSamples.map((sample: any, index: number) => ({
+      id: `local-${index}`, // unique id
+      name: sample.sampleName,
+      totalSamples: sample.totalSamples || "N/A",
+      typeOfTest: sample.testType,
+      testStatus: "Pending",
+      dueDate: "TBD",
+    }));
 
     // 4. Combine
     const allSamples = [...currentSamplesArr, ...formattedStoredSamples];
@@ -104,11 +96,7 @@ export default function ScientistHome() {
         </div>
         <div>
           <h2 className="text-2xl mt-8">Your Samples</h2>
-          <Table
-            tableTitle={currentTableTitle}
-            tableHeader={titles}
-            data={allSamples}
-          />
+          <Table tableTitle={currentTableTitle} tableHeader={titles} data={allSamples} />
         </div>
         <div>
           <h2 className="text-2xl mt-8">Completed Samples</h2>

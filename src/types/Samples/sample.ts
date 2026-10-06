@@ -1,17 +1,27 @@
 import type { Scientist } from "../Users/users";
 
 export type SampleType = "food" | "cosmetic";
-export type FoodTests = 'ph' | 'microbial' | 'wateractivity' | 'sensory'| 'viscosity'
-export type CosmeticTests = 'ph' | 'microbial' | 'wateractivity' | 'sensory' | 'stability' | 'viscosity';
-export type TestDuration = "1-week" | "2-week" | "3-week" | "4-week" | "5-week" | "6-week" | "8-week" | "12-week" | "6-months" | "1-year";
+export type FoodTests = "ph" | "microbial" | "wateractivity" | "sensory" | "viscosity";
+export type CosmeticTests =
+  "ph" | "microbial" | "wateractivity" | "sensory" | "stability" | "viscosity";
+export type TestDuration =
+  | "1-week"
+  | "2-week"
+  | "3-week"
+  | "4-week"
+  | "5-week"
+  | "6-week"
+  | "8-week"
+  | "12-week"
+  | "6-months"
+  | "1-year";
 export type TestStatus = "in_progress" | "completed" | "pending";
-export type TestResults = "pass" | "fail" |"inconclusive";
-
+export type TestResults = "pass" | "fail" | "inconclusive";
 
 export interface Sample {
   id: number;
   name: string;
-  owner: Scientist
+  owner: Scientist;
   outOfSpec: boolean;
   testStart: Date;
   totalSamples: number;
@@ -22,7 +32,7 @@ export interface Sample {
   dueDate: Date;
 }
 
-export interface Tests{
+export interface Tests {
   typeOfTest: FoodTests | CosmeticTests;
   lengthOfTest: string;
 }

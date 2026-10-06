@@ -11,5 +11,5 @@ export default function TableHeader({ header }: TableHeader) {
         ))}
       </tr>
     </thead>
-  )
+  );
 }

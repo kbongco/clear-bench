@@ -30,9 +30,7 @@ export default function CheckboxGroup({
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="font-bold mb-1">
-        {labelTitle || "Select Options"}
-      </label>
+      <label className="font-bold mb-1">{labelTitle || "Select Options"}</label>
 
       {options.map((option) => (
         <div key={option.value}>
@@ -45,11 +43,7 @@ export default function CheckboxGroup({
         </div>
       ))}
 
-      {error && (
-        <p className="text-sm text-red-600">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
 }

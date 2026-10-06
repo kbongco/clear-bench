@@ -1,6 +1,12 @@
 import { useState, type ReactNode } from "react";
 import Input from "../Components/Input/Input";
-import { ALL_CONDITIONS, foodTestDropdownOptions, realValues, storageConditions, typeOfSample } from "../constants/formOptions";
+import {
+  ALL_CONDITIONS,
+  foodTestDropdownOptions,
+  realValues,
+  storageConditions,
+  typeOfSample,
+} from "../constants/formOptions";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
@@ -16,162 +22,167 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   const today = new Date();
   const formattedToday = formatDate(today);
   const initialFormData = {
-    sampleName: '',
+    sampleName: "",
     sampleOwner: scientist.name,
     testTypes: [] as string[],
-    sampleType: '',
-    totalSamples: '',
+    sampleType: "",
+    totalSamples: "",
     testingSheet: null,
-    testDuration: '' as TestDuration | '',
+    testDuration: "" as TestDuration | "",
     startDate: formattedToday,
-    notes: '',
+    notes: "",
     sampleConditions: [] as string[],
   };
   const [formData, setFormData] = useState(initialFormData);
-  const [toast, setToast] = useState<{ message: ReactNode; type: "success" | "error" | "info" } | null>(null)
+  const [toast, setToast] = useState<{
+    message: ReactNode;
+    type: "success" | "error" | "info";
+  } | null>(null);
   const [errors, setErrors] = useState({
-  sampleName: "",
-  startDate: "",
-  testDuration: "",
-  sampleType: "",
-  testTypes: "",
-  sampleConditions: "",
-});
-
-  const testDuration = [
-    { label: '2-week', value: '2-week' },
-    { label: '4-week', value: '4-week' },
-    { label: '8-week', value: '8-week' },
-    { label: '12-week', value: '12-week' },
-    { label: '6 months', value: '6-months' },
-    { label: '1 year', value: '1-year' }
-  ];
-
-  const validateForm = () => {
-  const newErrors = {
     sampleName: "",
     startDate: "",
     testDuration: "",
     sampleType: "",
     testTypes: "",
     sampleConditions: "",
-  };
+  });
 
-  if (!formData.sampleName.trim()) {
-    newErrors.sampleName = "Sample name is required.";
-  }
+  const testDuration = [
+    { label: "2-week", value: "2-week" },
+    { label: "4-week", value: "4-week" },
+    { label: "8-week", value: "8-week" },
+    { label: "12-week", value: "12-week" },
+    { label: "6 months", value: "6-months" },
+    { label: "1 year", value: "1-year" },
+  ];
 
-  if (!formData.startDate) {
-    newErrors.startDate = "Start date is required.";
-  }
-
-  if (!formData.testDuration) {
-    newErrors.testDuration = "Test duration is required.";
-  }
-
-  if (!formData.sampleType) {
-    newErrors.sampleType = "Sample type is required.";
-  }
-
-  if (formData.testTypes.length === 0) {
-    newErrors.testTypes = "Select at least one test type.";
-  }
-
-  const conditions = formData.sampleConditions.filter(
-    (value) => value !== ALL_CONDITIONS
-  );
-
-  if (conditions.length === 0) {
-    newErrors.sampleConditions = "Select at least one condition.";
-  }
-
-  setErrors(newErrors);
-
-  return Object.values(newErrors).every((error) => !error);
-  };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  if (!validateForm()) {
-    setToast({
-      message: "Please complete all required fields.",
-      type: "error",
-    });
-    return;
-  }
-
-  try {
-    const payload: NewSample = {
-      name: formData.sampleName,
-      scientist_id: CURRENT_SCIENTIST_ID,
-      sample_type: formData.sampleType,
-      totalBottles: parseInt(formData.totalSamples, 10) || 1,
-      test_types: formData.testTypes,
-      test_duration: formData.testDuration || undefined,
-      test_start: formData.startDate,
-      notes: formData.notes,
-      temperature: formData.sampleConditions.filter(
-        (value) => value !== ALL_CONDITIONS
-      ),
-    };
-
-   const { sample } = await createSample(payload);
-
- setFormData(initialFormData);
-
-    setErrors({
+  const validateForm = () => {
+    const newErrors = {
       sampleName: "",
       startDate: "",
       testDuration: "",
       sampleType: "",
       testTypes: "",
       sampleConditions: "",
-    });
+    };
 
-    setToast({
+    if (!formData.sampleName.trim()) {
+      newErrors.sampleName = "Sample name is required.";
+    }
+
+    if (!formData.startDate) {
+      newErrors.startDate = "Start date is required.";
+    }
+
+    if (!formData.testDuration) {
+      newErrors.testDuration = "Test duration is required.";
+    }
+
+    if (!formData.sampleType) {
+      newErrors.sampleType = "Sample type is required.";
+    }
+
+    if (formData.testTypes.length === 0) {
+      newErrors.testTypes = "Select at least one test type.";
+    }
+
+    const conditions = formData.sampleConditions.filter((value) => value !== ALL_CONDITIONS);
+
+    if (conditions.length === 0) {
+      newErrors.sampleConditions = "Select at least one condition.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((error) => !error);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      setToast({
+        message: "Please complete all required fields.",
+        type: "error",
+      });
+      return;
+    }
+
+    try {
+      const payload: NewSample = {
+        name: formData.sampleName,
+        scientist_id: CURRENT_SCIENTIST_ID,
+        sample_type: formData.sampleType,
+        totalBottles: parseInt(formData.totalSamples, 10) || 1,
+        test_types: formData.testTypes,
+        test_duration: formData.testDuration || undefined,
+        test_start: formData.startDate,
+        notes: formData.notes,
+        temperature: formData.sampleConditions.filter((value) => value !== ALL_CONDITIONS),
+      };
+
+      const { sample } = await createSample(payload);
+
+      setFormData(initialFormData);
+
+      setErrors({
+        sampleName: "",
+        startDate: "",
+        testDuration: "",
+        sampleType: "",
+        testTypes: "",
+        sampleConditions: "",
+      });
+
+      setToast({
         message: (
-    <>
-      Sample submitted! <Link to={`/samples/${sample.id}`} className="underline">View sample</Link>
-    </>
-  ),
-      type: "success",
-    });
-  } catch {
-    setToast({
-      message: "Failed to submit sample.",
-      type: "error",
-    });
-  }
-};
+          <>
+            Sample submitted!{" "}
+            <Link to={`/samples/${sample.id}`} className="underline">
+              View sample
+            </Link>
+          </>
+        ),
+        type: "success",
+      });
+    } catch {
+      setToast({
+        message: "Failed to submit sample.",
+        type: "error",
+      });
+    }
+  };
 
   return (
-    <div className='ml-4'>
-      <h1 className='text-3xl'>Submit your samples here</h1>
-      <p>You are currently logged in as {scientist.name}. If this is not you, please log out and log in to your account.</p>
+    <div className="ml-4">
+      <h1 className="text-3xl">Submit your samples here</h1>
+      <p>
+        You are currently logged in as {scientist.name}. If this is not you, please log out and log
+        in to your account.
+      </p>
 
-      <div className='mt-4'>
+      <div className="mt-4">
         <p>Please read the following guidelines when submitting samples:</p>
-        <ol className='list-decimal list-inside'>
+        <ol className="list-decimal list-inside">
           <li>All samples must be labeled properly before submission.</li>
-          <li>Please submit a paper copy of your testing sheet and upload your sheet so we have a copy of your data.</li>
-          <li>Testing will not begin unless all required documents and items have been received. Please account for this on your testing sheets.</li>
-          <li>Once all required items have been received, you will receive a notification from the lab tech who picks up your samples.</li>
+          <li>
+            Please submit a paper copy of your testing sheet and upload your sheet so we have a copy
+            of your data.
+          </li>
+          <li>
+            Testing will not begin unless all required documents and items have been received.
+            Please account for this on your testing sheets.
+          </li>
+          <li>
+            Once all required items have been received, you will receive a notification from the lab
+            tech who picks up your samples.
+          </li>
         </ol>
       </div>
 
-      <p className='text-lg my-4'>To submit your samples, please fill out the form below:</p>
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
-      <form
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
-        onSubmit={handleSubmit}
-      >
+      <p className="text-lg my-4">To submit your samples, please fill out the form below:</p>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4" onSubmit={handleSubmit}>
         <Input
           label="Sample Name"
           type="text"
@@ -187,7 +198,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           type="text"
           placeholder=""
           value={formData.sampleOwner}
-          onChange={() => { }}
+          onChange={() => {}}
           name="sampleOwner"
           disabled={true}
         />
@@ -196,18 +207,19 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           label="Team Name"
           type="text"
           value={scientist.department ?? ""}
-          onChange={() => { }}
+          onChange={() => {}}
           name="teamName"
           disabled={true}
         />
 
         <Input
-          label='Total Number of Samples'
+          label="Total Number of Samples"
           type="number"
           placeholder=""
           value={formData.totalSamples}
           onChange={(e) => setFormData({ ...formData, totalSamples: e.target.value })}
-          name="totalSamples" />
+          name="totalSamples"
+        />
 
         <Input
           label="Start Date"
@@ -219,41 +231,43 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <CheckboxGroup
-          labelTitle='Sample Conditions'
+          labelTitle="Sample Conditions"
           options={storageConditions}
           selected={formData.sampleConditions}
-onChange={(next) =>
-  setFormData({
-    ...formData,
-    sampleConditions: applyAllOption(formData.sampleConditions, next, realValues),
-  })
-}
+          onChange={(next) =>
+            setFormData({
+              ...formData,
+              sampleConditions: applyAllOption(formData.sampleConditions, next, realValues),
+            })
+          }
           error={errors.sampleConditions}
         />
 
-<CheckboxGroup
-  labelTitle="Tests to run"
-  options={foodTestDropdownOptions}
-    selected={formData.testTypes}
-  onChange={(selected) =>
-    setFormData((prev) => ({
-      ...prev,
-      testTypes: selected,
-    }))
-  }
-  error={errors.testTypes}
-/>
+        <CheckboxGroup
+          labelTitle="Tests to run"
+          options={foodTestDropdownOptions}
+          selected={formData.testTypes}
+          onChange={(selected) =>
+            setFormData((prev) => ({
+              ...prev,
+              testTypes: selected,
+            }))
+          }
+          error={errors.testTypes}
+        />
 
         <SelectComponent
           label="Test Duration"
           options={testDuration}
           value={formData.testDuration}
           placeholder="Select test duration"
-          onChange={(e) => setFormData({ ...formData, testDuration: e.target.value as TestDuration })}
+          onChange={(e) =>
+            setFormData({ ...formData, testDuration: e.target.value as TestDuration })
+          }
           name="testDuration"
           error={errors.testDuration}
         />
-                <SelectComponent
+        <SelectComponent
           label="Type of Sample"
           placeholder="Select a sample type"
           options={typeOfSample}
