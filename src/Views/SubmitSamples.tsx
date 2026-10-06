@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../Components/Input/Input";
-import { foodTestDropdownOptions, typeOfSample } from "../constants/typeofTest";
+import { foodTestDropdownOptions, storageConditions, typeOfSample } from "../constants/formOptions";
 import SelectComponent from "../Components/Select/Select";
 import CheckboxGroup from "../Components/Checkbox/CheckboxGroup";
 import TextArea from "../Components/Textarea/Textarea";
@@ -15,7 +15,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   const initialFormData = {
     sampleName: '',
     sampleOwner: scientist.name,
-    testType: [] as string[],
+    testTypes: [] as string[],
     sampleType: '',
     totalSamples: '',
     testingSheet: null,
@@ -29,14 +29,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
 
 
 
-const storageConditions = [
-  { value: "Frozen", label: "Frozen" },
-  { value: "20C", label: "20°C" },
-  { value: "25C", label: "25°C" },
-  { value: "35C", label: "35°C" },
-  { value: "40C", label: "40°C" },
-  { value: "all", label: "All of the above" },
-];
+
   const testDuration = [
     { label: '2-week', value: '2-week' },
     { label: '4-week', value: '4-week' },
@@ -54,7 +47,7 @@ const storageConditions = [
         scientist_id: 1, // Temporary fix to test POST request
         sample_type: formData.sampleType,
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
-        test_type: formData.testType,
+        test_type: formData.testTypes,
         test_duration: formData.testDuration,
         test_start: formData.startDate,
         notes: formData.notes,
@@ -156,8 +149,8 @@ const storageConditions = [
 <CheckboxGroup
   labelTitle="Tests to run"
   options={foodTestDropdownOptions}
-  selected={formData.testType}
-  onChange={(updated) => setFormData({ ...formData, testType: updated })}
+  selected={formData.testTypes}
+  onChange={(updated) => setFormData({ ...formData, testTypes: updated })}
 />
 
         <SelectComponent
