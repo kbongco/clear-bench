@@ -7,7 +7,7 @@ export default function formatRange(
   }
 
   if (expected_range_min === null) {
-    return `≤ ${1-}`;
+    return `≤ ${expected_range_max}`;
   }
 
   if (expected_range_max === null) {
