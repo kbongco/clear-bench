@@ -1,5 +1,7 @@
+import type { ReactNode } from "react";
+
 export type ToastType = {
-  message: string;
+  message: ReactNode;
   type: 'success' | 'error' | 'info';
   duration?: number; 
   onClose: () => void;

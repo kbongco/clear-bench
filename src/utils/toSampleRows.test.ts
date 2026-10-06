@@ -11,6 +11,7 @@ function makeSample(overrides: Partial<SampleWithOwner>): SampleWithOwner {
     sample_type: null,
     test_status: "pending",
     test_start: null,
+    test_types: [],
     due_date: null,
     test_duration: null,
     out_of_spec: false,

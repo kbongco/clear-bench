@@ -45,16 +45,17 @@ class Sample(Base):
     sample_type = Column(String, nullable=True)
     test_status = Column(String, default="pending")
     test_start = Column(Date, nullable=True)
+    test_types = Column(JSON, default=list)
     due_date = Column(Date, nullable=True)
     test_duration = Column(String, nullable=True)
     out_of_spec = Column(Boolean, default=False)
     totalBottles = Column(Integer, default=1)
     temperature = Column(JSON, default=list)  
     notes = Column(Text, nullable=True)
-
     scientist = relationship("Scientist", back_populates="samples")
     lab_tech = relationship("LabTech", back_populates="samples")
     results = relationship("Result", back_populates="sample")
+
 
 
 

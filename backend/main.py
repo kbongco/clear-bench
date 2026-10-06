@@ -10,6 +10,7 @@ from database import get_db, Base, engine
 from schemas import Scientist, LabTech, SamplesResponse, Sample, NewSample, SampleCreateResponse, UpdateSample, AllSamplesResponse, SampleDetail
 from auth import authenticate_user
 import crud
+from utils.dates import calculate_due_date
 
 # Create tables on startup
 @asynccontextmanager
@@ -103,7 +104,10 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
 
 @app.post("/samples", response_model=SampleCreateResponse)
 def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
-    new_sample = models.Sample(
+  scientist = db.query(models.Scientist).filter(models.Scientist.id == sample.scientist_id).first()
+  if not scientist:
+    raise HTTPException(status_code=404, detail="Scientist does not exist")
+  new_sample = models.Sample(
         name=sample.name,
         scientist_id=sample.scientist_id,
         sample_type=sample.sample_type,
@@ -111,15 +115,16 @@ def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
         test_duration=sample.test_duration,
         totalBottles=sample.totalBottles,
         temperature=sample.temperature,
+        test_types=sample.test_types,
         notes=sample.notes,
         test_status="pending",
-        due_date=None,
+        due_date=calculate_due_date(sample.test_start,sample.test_duration),
         lab_tech_id=None,
     )
-    db.add(new_sample)
-    db.commit()
-    db.refresh(new_sample)
-    return {"message": "Sample created successfully", "sample": new_sample}
+  db.add(new_sample)
+  db.commit()
+  db.refresh(new_sample)
+  return {"message": "Sample created successfully", "sample": new_sample}
 
 
 @app.patch('/samples/{sample_id}', response_model=Sample)
