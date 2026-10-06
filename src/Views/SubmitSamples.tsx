@@ -47,7 +47,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         sample_type: formData.sampleType,
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_types: formData.testTypes,
-        test_duration: formData.testDuration,
+        test_duration: formData.testDuration || undefined,
         test_start: formData.startDate,
         notes: formData.notes,
         temperature: formData.sampleConditions.filter((value) => value !== ALL_CONDITIONS),
