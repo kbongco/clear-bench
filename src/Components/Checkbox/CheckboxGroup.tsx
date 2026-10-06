@@ -1,44 +1,55 @@
-import { useState } from "react";
+import type { Options } from "../ComponentInterfaces/SelectInterface";
 import Checkbox from "./Checkbox"; // adjust the import path
 
 interface CheckboxGroupProps {
-  options: string[];
-  labelTitle?: string
+  options: Options[];
+  selected: string[];
+  labelTitle?: string;
   onChange: (selected: string[]) => void;
+  error?: string;
 }
 
-export default function CheckboxGroup({ options, onChange, labelTitle }: CheckboxGroupProps) {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
+export default function CheckboxGroup({
+  options,
+  onChange,
+  labelTitle,
+  selected,
+  error,
+}: CheckboxGroupProps) {
   const handleCheckboxChange = (value: string) => {
     let updated: string[];
 
-    if (selectedOptions.includes(value)) {
-      updated = selectedOptions.filter(option => option !== value);
+    if (selected.includes(value)) {
+      updated = selected.filter((option) => option !== value);
     } else {
-      updated = [...selectedOptions, value];
+      updated = [...selected, value];
     }
 
-    setSelectedOptions(updated);
     onChange(updated);
   };
 
   return (
-    <div className='flex flex-col gap-2'>
-      <label className='font-bold mb-1'>
+    <div className="flex flex-col gap-2">
+      <label className="font-bold mb-1">
         {labelTitle || "Select Options"}
       </label>
+
       {options.map((option) => (
-        <div>
-        <Checkbox
-          key={option}
-          label={option}
-          value={option}
-          checked={selectedOptions.includes(option)}
-          onChange={handleCheckboxChange}
+        <div key={option.value}>
+          <Checkbox
+            label={option.label}
+            value={option.value}
+            checked={selected.includes(option.value)}
+            onChange={handleCheckboxChange}
           />
-          </div>
+        </div>
       ))}
+
+      {error && (
+        <p className="text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
