@@ -3,7 +3,7 @@ import Checkbox from "./Checkbox"; // adjust the import path
 
 interface CheckboxGroupProps {
   options: Options[];
-  selected: string[] | string;
+  selected: string[];
   labelTitle?: string
   onChange: (selected: string[]) => void;
 }

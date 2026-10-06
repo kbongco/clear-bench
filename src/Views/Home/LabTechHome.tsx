@@ -1,5 +1,5 @@
 import Card from "../../Components/Card/Card";
-import { mockLabTechs } from "../../constants/sampleData";
+import { mockLabTechs } from "../../mockData/sampleData";
 
 export default function LabTechHomeView() {
   const currentLabTech = mockLabTechs[0].name;

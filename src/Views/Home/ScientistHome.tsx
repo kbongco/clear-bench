@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import Table from "../../Components/Table/Table";
-import { mockSamples } from "../../constants/sampleData";
+import { mockSamples } from "../../mockData/sampleData";
 import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
