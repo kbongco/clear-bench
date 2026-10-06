@@ -3,9 +3,10 @@ interface CheckboxProps {
   value: string;
   checked: boolean;
   onChange: (value: string) => void;
+  error?: string
 }
 
-export default function Checkbox({ label, value, checked, onChange }: CheckboxProps) {
+export default function Checkbox({ label, value, checked, onChange, error }: CheckboxProps) {
   const handleChange = () => {
     onChange(value);
   };
@@ -17,10 +18,12 @@ export default function Checkbox({ label, value, checked, onChange }: CheckboxPr
       <input
         type="checkbox"
         value={value}
-        checked={checked}
+            checked={checked}
+            className={error ? "accent-red-600" : ""}
         onChange={handleChange}
           />
-             {label}</label>
+          {label}</label>
+        
         </div>
 
     </div>

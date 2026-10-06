@@ -28,6 +28,14 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   };
   const [formData, setFormData] = useState(initialFormData);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+  const [errors, setErrors] = useState({
+  sampleName: "",
+  startDate: "",
+  testDuration: "",
+  sampleType: "",
+  testTypes: "",
+  sampleConditions: "",
+});
 
   const testDuration = [
     { label: '2-week', value: '2-week' },
@@ -38,32 +46,103 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     { label: '1 year', value: '1-year' }
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const payload: NewSample = {
-        name: formData.sampleName,
-        scientist_id: CURRENT_SCIENTIST_ID,
-        sample_type: formData.sampleType,
-        totalBottles: parseInt(formData.totalSamples, 10) || 1,
-        test_types: formData.testTypes,
-        test_duration: formData.testDuration || undefined,
-        test_start: formData.startDate,
-        notes: formData.notes,
-        temperature: formData.sampleConditions.filter((value) => value !== ALL_CONDITIONS),
-      }
-      await createSample(payload);
-      setFormData({
-        ...initialFormData,
-        sampleOwner: scientist.name,
-        startDate: new Date().toLocaleDateString()
-      });
-      setToast({ message: "Sample has been submitted! successfully", type:'success' });
-    } catch {
-      setToast({ message: 'Failed to submit sample, you are missing some stuff', type:'error' });
+  const validateForm = () => {
+  const newErrors = {
+    sampleName: "",
+    startDate: "",
+    testDuration: "",
+    sampleType: "",
+    testTypes: "",
+    sampleConditions: "",
+  };
 
-    }
+  if (!formData.sampleName.trim()) {
+    newErrors.sampleName = "Sample name is required.";
   }
+
+  if (!formData.startDate) {
+    newErrors.startDate = "Start date is required.";
+  }
+
+  if (!formData.testDuration) {
+    newErrors.testDuration = "Test duration is required.";
+  }
+
+  if (!formData.sampleType) {
+    newErrors.sampleType = "Sample type is required.";
+  }
+
+  if (formData.testTypes.length === 0) {
+    newErrors.testTypes = "Select at least one test type.";
+  }
+
+  const conditions = formData.sampleConditions.filter(
+    (value) => value !== ALL_CONDITIONS
+  );
+
+  if (conditions.length === 0) {
+    newErrors.sampleConditions = "Select at least one condition.";
+  }
+
+  setErrors(newErrors);
+
+  return Object.values(newErrors).every((error) => !error);
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    setToast({
+      message: "Please complete all required fields.",
+      type: "error",
+    });
+    return;
+  }
+
+  try {
+    const payload: NewSample = {
+      name: formData.sampleName,
+      scientist_id: CURRENT_SCIENTIST_ID,
+      sample_type: formData.sampleType,
+      totalBottles: parseInt(formData.totalSamples, 10) || 1,
+      test_types: formData.testTypes,
+      test_duration: formData.testDuration || undefined,
+      test_start: formData.startDate,
+      notes: formData.notes,
+      temperature: formData.sampleConditions.filter(
+        (value) => value !== ALL_CONDITIONS
+      ),
+    };
+
+    await createSample(payload);
+
+    setFormData({
+      ...initialFormData,
+      sampleOwner: scientist.name,
+      startDate: new Date().toISOString().split("T")[0],
+    });
+
+    setErrors({
+      sampleName: "",
+      startDate: "",
+      testDuration: "",
+      sampleType: "",
+      testTypes: "",
+      sampleConditions: "",
+    });
+
+    setToast({
+      message: "Sample has been submitted successfully!",
+      type: "success",
+    });
+  } catch {
+    setToast({
+      message: "Failed to submit sample.",
+      type: "error",
+    });
+  }
+};
 
   return (
     <div className='ml-4'>
@@ -99,6 +178,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           value={formData.sampleName}
           onChange={(e) => setFormData({ ...formData, sampleName: e.target.value })}
           name="sampleName"
+          error={errors.sampleName}
         />
 
         <Input
@@ -134,6 +214,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           value={formData.startDate}
           onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
           name="startDate"
+          error={errors.startDate}
         />
 
         <CheckboxGroup
@@ -146,13 +227,20 @@ onChange={(next) =>
     sampleConditions: applyAllOption(formData.sampleConditions, next, realValues),
   })
 }
+          error={errors.sampleConditions}
         />
 
 <CheckboxGroup
   labelTitle="Tests to run"
   options={foodTestDropdownOptions}
-  selected={formData.testTypes}
-  onChange={(updated) => setFormData({ ...formData, testTypes: updated })}
+    selected={formData.testTypes}
+  onChange={(selected) =>
+    setFormData((prev) => ({
+      ...prev,
+      testTypes: selected,
+    }))
+  }
+  error={errors.testTypes}
 />
 
         <SelectComponent
@@ -162,6 +250,7 @@ onChange={(next) =>
           placeholder="Select test duration"
           onChange={(e) => setFormData({ ...formData, testDuration: e.target.value as TestDuration })}
           name="testDuration"
+          error={errors.testDuration}
         />
                 <SelectComponent
           label="Type of Sample"
@@ -170,6 +259,7 @@ onChange={(next) =>
           value={formData.sampleType}
           onChange={(e) => setFormData({ ...formData, sampleType: e.target.value })}
           name="sampleType"
+          error={errors.sampleType}
         />
 
         <TextArea

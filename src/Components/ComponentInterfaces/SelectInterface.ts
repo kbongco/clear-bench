@@ -6,6 +6,7 @@ export interface SelectInterface {
   options: Options[];
   placeholder?: string
   id?: string; // Optional, if you want to use it
+  error?: string;
 }
 
 export interface Options {
