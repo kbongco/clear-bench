@@ -11,7 +11,7 @@ describe("formatStatus", () => {
     ["archived", "Archived"],
     ["submitted", "Submitted"],
     ["approved", "Approved"],
-    ["results_entered", "Results entered"]
+    ["results_entered", "Results entered"],
   ])("formats %s as %s", (status, label) => {
     expect(formatStatus(status)).toBe(label);
   });
