@@ -51,10 +51,10 @@ export interface AuditEvent {
   id: number;
   action: string;
   actor_role: string;
-  actor_id: string;
+  actor_id: number;
   actor_name: string;
   from_status: string | null;
   to_status: string | null;
   note: string | null;
-  created_at: string | null;
+  created_at: string;
 }
