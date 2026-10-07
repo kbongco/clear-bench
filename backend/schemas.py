@@ -156,11 +156,6 @@ class Result(ResultBase):
     model_config = {"from_attributes": True}
 
 
-class SampleDetail(SampleWithOwner):
-    lab_tech: Optional[LabTech] = None
-    results: List[Result] = Field(default_factory=list)
-
-
 class AuditEvent(BaseModel):
     id: int
     action: str
@@ -171,3 +166,9 @@ class AuditEvent(BaseModel):
     to_status: Optional[str] = None
     note: Optional[str] = None
     created_at: datetime
+
+
+class SampleDetail(SampleWithOwner):
+    lab_tech: Optional[LabTech] = None
+    results: List[Result] = Field(default_factory=list)
+    events: List[AuditEvent] = Field(default_factory=list)
