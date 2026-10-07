@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 import models
 from database import Base, SessionLocal, engine
+from utils.audit import log_event
 
 # Ensure all tables exist
 Base.metadata.create_all(bind=engine)
@@ -382,8 +383,51 @@ def seed_all():
             db.add(models.LabTech(**lt))
 
         # Samples
+        samples = []
         for s in samples_db:
-            db.add(models.Sample(**s))
+            sample = models.Sample(**s)
+            db.add(sample)
+            samples.append(sample)
+
+        db.flush()  # gives each sample an id and lets sample.scientist / sample.lab_tech load
+
+        # Audit history for the seeded samples
+        for sample in samples:
+            log_event(
+                db,
+                sample,
+                action="submitted",
+                actor_role="scientist",
+                actor_id=sample.scientist.id,
+                actor_name=sample.scientist.name,
+                to_status="pending",
+            )
+
+            if sample.test_status in ("in_progress", "completed"):
+                log_event(
+                    db,
+                    sample,
+                    action="approved",
+                    actor_role="lab_tech",
+                    actor_id=sample.lab_tech.id,
+                    actor_name=sample.lab_tech.name,
+                    from_status="pending",
+                    to_status="in_progress",
+                )
+
+            if sample.test_status == "completed":
+                log_event(
+                    db,
+                    sample,
+                    action="results_entered",
+                    actor_role="lab_tech",
+                    actor_id=sample.lab_tech.id,
+                    actor_name=sample.lab_tech.name,
+                    from_status="in_progress",
+                    to_status="completed",
+                )
+
+        db.flush()
 
         # Results
         for r in results_db:
