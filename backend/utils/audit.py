@@ -8,7 +8,7 @@ def log_event(
     actor_role,
     actor_id,
     actor_name,
-    from_status=None,
+    form_status=None,
     to_status=None,
     note=None,
 ):
@@ -18,7 +18,7 @@ def log_event(
         actor_role=actor_role,
         actor_id=actor_id,
         actor_name=actor_name,
-        form_status=from_status,
+        form_status=form_status,
         to_status=to_status,
         note=note,
     )
