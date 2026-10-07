@@ -7,6 +7,11 @@ export default function TabButton({ title, index, setSelectedTab, isActive }: Ta
   return (
     <li className="relative">
       <button
+        role="tab"
+        id={`tab-${index}`}
+        aria-selected={isActive}
+        aria-controls={`panel-${index}`}
+        tabIndex={isActive ? 0 : -1}
         onClick={handleOnClick}
         className={`
           relative px-8 py-4 font-medium text-3xl transition-all duration-200

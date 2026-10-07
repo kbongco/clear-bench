@@ -6,6 +6,8 @@ import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { Result, SampleDetail as SampleDetailData } from "../types/Results/results";
 import Table from "../Components/Table/Table";
 import formatRange from "../utils/formatRange";
+import Tabs from "../Components/Tabs/Tabs";
+import TabLayout from "../Components/Tabs/TabLayout";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
   const items = [
@@ -59,7 +61,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         </div>
       </div>
 
-      <Panel title="Sample Information">
+      {/* <Panel title="Sample Information">
         <DetailList items={items} />
       </Panel>
       <div className="mt-4">
@@ -75,7 +77,35 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
             ))
           )}
         </Panel>
-      </div>
+      </div> */}
+
+      <Tabs label="test">
+        <TabLayout title="Overview">
+          <Panel title="Sample Information">
+            <DetailList items={items} />
+          </Panel>
+        </TabLayout>
+        <TabLayout title="Results">
+          <div className="mt-4">
+            <Panel title="Results">
+              {sample.results.length === 0 ? (
+                <p className="text-gray-500">No results yet.</p>
+              ) : (
+                sample.results.map((result) => (
+                  <div key={result.id} className="flex flex-col gap-4">
+                    <DetailList items={resultItems(result)} />
+                    <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
+                  </div>
+                ))
+              )}
+            </Panel>
+          </div>
+        </TabLayout>
+        <TabLayout title="History">
+          {/* History stuff */}
+          <h1>Test</h1>
+        </TabLayout>
+      </Tabs>
     </div>
   );
 }
