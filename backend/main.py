@@ -20,6 +20,7 @@ from schemas import (
     Scientist,
     UpdateSample,
 )
+from utils.audit import log_event
 from utils.dates import calculate_due_date
 
 
@@ -106,6 +107,7 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
             joinedload(models.Sample.scientist),
             joinedload(models.Sample.lab_tech),
             joinedload(models.Sample.results).joinedload(models.Result.test_results),
+            joinedload(models.Sample.events),
         )
         .filter(models.Sample.id == sample_id)
         .first()
@@ -137,6 +139,17 @@ def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
         lab_tech_id=None,
     )
     db.add(new_sample)
+    log_event(
+        db,
+        new_sample,
+        action="submitted",
+        actor_role="scientist",
+        actor_id=scientist.id,
+        actor_name=scientist.name,
+        from_status=None,
+        to_status="pending",
+        note=None,
+    )
     db.commit()
     db.refresh(new_sample)
     return {"message": "Sample created successfully", "sample": new_sample}
