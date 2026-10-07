@@ -1,8 +1,8 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 # --------------------
@@ -166,6 +166,15 @@ class AuditEvent(BaseModel):
     to_status: Optional[str] = None
     note: Optional[str] = None
     created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+    @field_validator("created_at")
+    @classmethod
+    def assume_utc(cls, value: datetime) -> datetime:
+        if value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
+        return value
 
 
 class SampleDetail(SampleWithOwner):
