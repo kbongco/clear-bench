@@ -1,7 +1,6 @@
 from models import AuditEvent, Sample
 from utils.audit import log_event
 
-
 VALID = {
     "name": "Test Sample",
     "scientist_id": 1,
