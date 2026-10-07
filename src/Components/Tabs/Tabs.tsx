@@ -8,7 +8,7 @@ type TabComponentProps = {
   label: string;
 };
 
-export default function Tabs({ children, preselectedTab=0,label }: TabComponentProps) {
+export default function Tabs({ children, preselectedTab = 0, label }: TabComponentProps) {
   const [selectedTabIndex, setSelectedTabIndex] = useState(preselectedTab);
 
   const childrenArray = React.Children.toArray(children) as ReactElement<{ title: string }>[];
