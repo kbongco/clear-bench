@@ -107,6 +107,7 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
             joinedload(models.Sample.scientist),
             joinedload(models.Sample.lab_tech),
             joinedload(models.Sample.results).joinedload(models.Result.test_results),
+            joinedload(models.Sample.events),
         )
         .filter(models.Sample.id == sample_id)
         .first()
