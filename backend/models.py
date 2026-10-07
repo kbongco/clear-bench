@@ -71,7 +71,7 @@ class Sample(Base):
     events = relationship(
         "AuditEvent",
         back_populates="sample",
-        order_by="AuditEvent.created_at.desc()",
+        order_by="AuditEvent.created_at.desc(),AuditEvent.id.desc()",
     )
 
 
