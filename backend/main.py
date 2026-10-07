@@ -145,7 +145,7 @@ def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
         actor_role="scientist",
         actor_id=scientist.id,
         actor_name=scientist.name,
-        form_status=None,
+        from_status=None,
         to_status="pending",
         note=None,
     )
