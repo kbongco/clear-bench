@@ -159,3 +159,15 @@ class Result(ResultBase):
 class SampleDetail(SampleWithOwner):
     lab_tech: Optional[LabTech] = None
     results: List[Result] = Field(default_factory=list)
+
+
+class AuditEvent(BaseModel):
+    id = int
+    action = str
+    actor_role = str
+    actor_id = int
+    actor_name = str
+    from_status = Optional[str] = None
+    to_status = Optional[str] = None
+    note = Optional[str] = None
+    created_at = datetime
