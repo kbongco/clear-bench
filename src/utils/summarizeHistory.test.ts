@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { summarizeHistory } from "./sumamrizeHistory";
+import { summarizeHistory } from "./summarizeHistory";
 import type { AuditEvent } from "../types/Results/results";
 
 function makeEvent(overrides: Partial<AuditEvent>): AuditEvent {
@@ -17,10 +17,28 @@ function makeEvent(overrides: Partial<AuditEvent>): AuditEvent {
   };
 }
 
-const submittedEvent = makeEvent({ id: 1, action: "submitted", from_status: null, to_status: "pending" });
-const approvedEvent = makeEvent({ id: 2, action: "approved", actor_role: "lab_tech", actor_name: "Marcus", from_status: "pending", to_status: "in_progress" });
-const resultsEvent = makeEvent({ id: 3, action: "results_entered", actor_role: "lab_tech", actor_name: "Marcus", from_status: "in_progress", to_status: "completed" });
-
+const submittedEvent = makeEvent({
+  id: 1,
+  action: "submitted",
+  from_status: null,
+  to_status: "pending",
+});
+const approvedEvent = makeEvent({
+  id: 2,
+  action: "approved",
+  actor_role: "lab_tech",
+  actor_name: "Marcus",
+  from_status: "pending",
+  to_status: "in_progress",
+});
+const resultsEvent = makeEvent({
+  id: 3,
+  action: "results_entered",
+  actor_role: "lab_tech",
+  actor_name: "Marcus",
+  from_status: "in_progress",
+  to_status: "completed",
+});
 
 describe("summarizeHistory", () => {
   it("returns the submitted, approved, and most recent events", () => {
