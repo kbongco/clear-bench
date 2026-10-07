@@ -55,6 +55,6 @@ export interface AuditEvent {
   actor_name: string;
   from_status: string | null;
   to_status: string | null;
-  note: string |null;
+  note: string | null;
   created_at: string | null;
 }
