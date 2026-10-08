@@ -188,5 +188,6 @@ class ApproveSample(BaseModel):
 
 
 class RejectSample(BaseModel):
+    model_config = {"str_strip_whitespace": True}
     lab_tech_id: int
     reason: str = Field(min_length=1)
