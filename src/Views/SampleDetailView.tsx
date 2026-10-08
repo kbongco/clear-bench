@@ -15,12 +15,20 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
     { label: "Team", value: sample.scientist.department },
     { label: "Lab tech", value: sample.lab_tech?.name },
     { label: "Sample type", value: sample.sample_type },
+    { label: "Test types", value: sample.test_types.join(", ") },
     { label: "Start", value: sample.test_start },
     { label: "Due", value: sample.due_date },
     { label: "Duration", value: sample.test_duration },
     { label: "Bottles", value: sample.totalBottles },
     { label: "Storage", value: sample.temperature.join(", ") },
     { label: "Notes", value: sample.notes },
+  ];
+
+  const overviewItems = [
+    { label: "Owner", value: sample.scientist.name },
+    { label: "Due", value: sample.due_date },
+    { label: "Lab tech", value: sample.lab_tech?.name },
+    { label: "Test types", value: sample.test_types.join(",") },
   ];
 
   const resultItems = (result: Result) => [
@@ -61,45 +69,25 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         </div>
       </div>
 
-      {/* <Panel title="Sample Information">
-        <DetailList items={items} />
-      </Panel>
-      <div className="mt-4">
-        <Panel title="Results">
-          {sample.results.length === 0 ? (
-            <p className="text-gray-500">No results yet.</p>
-          ) : (
-            sample.results.map((result) => (
-              <div key={result.id} className="flex flex-col gap-4">
-                <DetailList items={resultItems(result)} />
-                <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
-              </div>
-            ))
-          )}
-        </Panel>
-      </div> */}
-
       <Tabs label="test">
         <TabLayout title="Overview">
           <Panel title="Sample Information">
-            <DetailList items={items} />
+            <DetailList items={overviewItems} />
           </Panel>
         </TabLayout>
         <TabLayout title="Results">
-          <div className="mt-4">
-            <Panel title="Results">
-              {sample.results.length === 0 ? (
-                <p className="text-gray-500">No results yet.</p>
-              ) : (
-                sample.results.map((result) => (
-                  <div key={result.id} className="flex flex-col gap-4">
-                    <DetailList items={resultItems(result)} />
-                    <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
-                  </div>
-                ))
-              )}
-            </Panel>
-          </div>
+          <Panel title="Results">
+            {sample.results.length === 0 ? (
+              <p className="text-gray-500">No results yet.</p>
+            ) : (
+              sample.results.map((result) => (
+                <div key={result.id} className="flex flex-col gap-4">
+                  <DetailList items={resultItems(result)} />
+                  <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
+                </div>
+              ))
+            )}
+          </Panel>
         </TabLayout>
         <TabLayout title="History">
           {/* History stuff */}
