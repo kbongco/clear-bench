@@ -10,8 +10,8 @@ import Tabs from "../Components/Tabs/Tabs";
 import TabLayout from "../Components/Tabs/TabLayout";
 import { summarizeHistory } from "../utils/summarizeHistory";
 import { describeEvent } from "../utils/describeEvent";
-import HistoryList from "../Components/HistoryList/HistoryEntry";
-import HistoryEntry from "../Components/HistoryList/HistoryEntry";
+import HistoryList from "../Components/HistoryEntry/HistoryEntry";
+import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
   const items = [
@@ -80,7 +80,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         </div>
       </div>
 
-      <Tabs label="test">
+      <Tabs label="Sample Information">
         <TabLayout title="Overview">
           <Panel title="Quick View">
             <DetailList items={overviewItems} />
