@@ -169,6 +169,36 @@ def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session =
     return sample
 
 
+@app.post("/samples/{sample_id}/approve", response_model=Sample)
+def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+        lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+        if not lab_tech:
+            raise HTTPException(status_code=404, detail="Wrong lab tech")
+            if sample.test_status != "pending":
+                raise HTTPException(status_code=400, detail="Only pending samples can be approved")
+
+                sample.test_status = "in-progress"
+                sample.lab_tech_id = models.LabTech.id
+
+                log_event(
+                    db,
+                    sample,
+                    action="in-progress",
+                    actor_role="lab tech",
+                    actor_id=lab_tech.id,
+                    actor_name=lab_tech.name,
+                    from_status="pending",
+                    to_status="in-progress",
+                    note=None,
+                )
+                db.commit()
+                db.refresh(sample)
+                return sample
+
+
 @app.get("/test-db")
 def test_db(db: Session = Depends(get_db)):
     return {"status": "✅ Database connection working"}
