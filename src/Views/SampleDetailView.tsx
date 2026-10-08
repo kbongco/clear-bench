@@ -8,6 +8,8 @@ import Table from "../Components/Table/Table";
 import formatRange from "../utils/formatRange";
 import Tabs from "../Components/Tabs/Tabs";
 import TabLayout from "../Components/Tabs/TabLayout";
+import { summarizeHistory } from "../utils/summarizeHistory";
+import { describeEvent } from "../utils/describeEvent";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
   const items = [
@@ -52,6 +54,13 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
       "In spec": t.is_within_spec ? "✓" : "✗",
     }));
 
+  const { submitted, approved, lastUpdate } = summarizeHistory(sample.events);
+  const activityItems = [
+    { label: "Submitted", value: describeEvent(submitted) },
+    { label: "Approved", value: describeEvent(approved) },
+    { label: "Last update", value: describeEvent(lastUpdate) },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex items-center justify-between">
@@ -73,6 +82,9 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         <TabLayout title="Overview">
           <Panel title="Quick View">
             <DetailList items={overviewItems} />
+          </Panel>
+          <Panel title="Activity">
+            <DetailList items={activityItems} />
           </Panel>
         </TabLayout>
         <TabLayout title="Details">
