@@ -1,5 +1,6 @@
 import models
 
+
 def test_approve_pending_sample_works(client, sample_data):
     response = client.post(
         "/samples/1/approve",
@@ -75,20 +76,12 @@ def test_failed_approve_does_not_change_sample(client, db, sample_data):
     assert response.status_code == 400
 
     # Verify the sample was not changed.
-    sample = (
-        db.query(models.Sample)
-        .filter(models.Sample.id == 2)
-        .first()
-    )
+    sample = db.query(models.Sample).filter(models.Sample.id == 2).first()
 
     assert sample is not None
     assert sample.test_status == "in_progress"
 
     # Verify no audit event was created.
-    events = (
-        db.query(models.AuditEvent)
-        .filter(models.AuditEvent.sample_id == 2)
-        .all()
-    )
+    events = db.query(models.AuditEvent).filter(models.AuditEvent.sample_id == 2).all()
 
     assert len(events) == 0
