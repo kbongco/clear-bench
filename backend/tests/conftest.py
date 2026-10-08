@@ -54,7 +54,8 @@ def sample_data(db):
     """Two scientists on different teams and three samples."""
     alice = models.Scientist(name="Alice", department="Food Safety", email="alice@test.com")
     marcus = models.Scientist(name="Marcus", department="Cosmetics", email="marcus@test.com")
-    db.add_all([alice, marcus])
+    sarah = models.LabTech(name="Sarah")
+    db.add_all([alice, marcus, sarah])
     db.flush()
 
     db.add_all(
