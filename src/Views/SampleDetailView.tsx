@@ -77,7 +77,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         </TabLayout>
         <TabLayout title="Details">
           <Panel title="Details">
-            <DetailList items={items}/>
+            <DetailList items={items} />
           </Panel>
         </TabLayout>
         <TabLayout title="Results">
