@@ -14,6 +14,7 @@ from schemas import (
     ApproveSample,
     LabTech,
     NewSample,
+    RejectSample,
     Sample,
     SampleCreateResponse,
     SampleDetail,
@@ -196,6 +197,38 @@ def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(ge
         from_status="pending",
         to_status="in_progress",
         note=None,
+    )
+    db.commit()
+    db.refresh(sample)
+    return sample
+
+
+@app.post("/samples/{sample_id}/reject", response_model=Sample)
+def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+
+    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    if not lab_tech:
+        raise HTTPException(status_code=404, detail="Lab tech not found")
+
+    if sample.test_status != "pending":
+        raise HTTPException(status_code=400, detail="Only pending samples can be rejected")
+
+    sample.test_status = "rejected"
+    sample.lab_tech_id = lab_tech.id
+
+    log_event(
+        db,
+        sample,
+        action="rejected",
+        actor_role="lab_tech",
+        actor_id=lab_tech.id,
+        actor_name=lab_tech.name,
+        from_status="pending",
+        to_status="in_progress",
+        note=body.reason,
     )
     db.commit()
     db.refresh(sample)
