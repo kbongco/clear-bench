@@ -10,6 +10,8 @@ import Tabs from "../Components/Tabs/Tabs";
 import TabLayout from "../Components/Tabs/TabLayout";
 import { summarizeHistory } from "../utils/summarizeHistory";
 import { describeEvent } from "../utils/describeEvent";
+import HistoryList from "../Components/HistoryList/HistoryEntry";
+import HistoryEntry from "../Components/HistoryList/HistoryEntry";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
   const items = [
@@ -107,8 +109,17 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
           </Panel>
         </TabLayout>
         <TabLayout title="History">
-          {/* History stuff */}
-          <h1>Test</h1>
+          <Panel title="History">
+            {sample.events.length === 0 ? (
+              <p className="text-gray-500">No history yet.</p>
+            ) : (
+              <ol className="divide-y divide-gray-200">
+                {sample.events.map((event) => (
+                  <HistoryEntry key={event.id} event={event} />
+                ))}
+              </ol>
+            )}
+          </Panel>
         </TabLayout>
       </Tabs>
     </div>
