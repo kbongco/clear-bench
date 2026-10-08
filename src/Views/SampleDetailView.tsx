@@ -28,7 +28,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
     { label: "Owner", value: sample.scientist.name },
     { label: "Due", value: sample.due_date },
     { label: "Lab tech", value: sample.lab_tech?.name },
-    { label: "Test types", value: sample.test_types.join(",") },
+    { label: "Test types", value: sample.test_types.join(", ") },
   ];
 
   const resultItems = (result: Result) => [
@@ -71,8 +71,13 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
 
       <Tabs label="test">
         <TabLayout title="Overview">
-          <Panel title="Sample Information">
+          <Panel title="Quick View">
             <DetailList items={overviewItems} />
+          </Panel>
+        </TabLayout>
+        <TabLayout title="Details">
+          <Panel title="Details">
+            <DetailList items={items}/>
           </Panel>
         </TabLayout>
         <TabLayout title="Results">
