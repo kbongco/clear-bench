@@ -227,7 +227,7 @@ def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_
         actor_id=lab_tech.id,
         actor_name=lab_tech.name,
         from_status="pending",
-        to_status="in_progress",
+        to_status="rejected",
         note=body.reason,
     )
     db.commit()
