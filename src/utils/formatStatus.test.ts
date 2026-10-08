@@ -9,6 +9,9 @@ describe("formatStatus", () => {
     ["rejected", "Rejected"],
     ["reviewed", "Reviewed"],
     ["archived", "Archived"],
+    ["submitted", "Submitted"],
+    ["approved", "Approved"],
+    ["results_entered", "Results entered"],
   ])("formats %s as %s", (status, label) => {
     expect(formatStatus(status)).toBe(label);
   });

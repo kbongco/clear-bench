@@ -6,6 +6,11 @@ import SpecIndicator from "../Components/SpecIndicator/SpecIndicator";
 import type { Result, SampleDetail as SampleDetailData } from "../types/Results/results";
 import Table from "../Components/Table/Table";
 import formatRange from "../utils/formatRange";
+import Tabs from "../Components/Tabs/Tabs";
+import TabLayout from "../Components/Tabs/TabLayout";
+import { summarizeHistory } from "../utils/summarizeHistory";
+import { describeEvent } from "../utils/describeEvent";
+import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
   const items = [
@@ -13,12 +18,20 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
     { label: "Team", value: sample.scientist.department },
     { label: "Lab tech", value: sample.lab_tech?.name },
     { label: "Sample type", value: sample.sample_type },
+    { label: "Test types", value: sample.test_types.join(", ") },
     { label: "Start", value: sample.test_start },
     { label: "Due", value: sample.due_date },
     { label: "Duration", value: sample.test_duration },
     { label: "Bottles", value: sample.totalBottles },
     { label: "Storage", value: sample.temperature.join(", ") },
     { label: "Notes", value: sample.notes },
+  ];
+
+  const overviewItems = [
+    { label: "Owner", value: sample.scientist.name },
+    { label: "Due", value: sample.due_date },
+    { label: "Lab tech", value: sample.lab_tech?.name },
+    { label: "Test types", value: sample.test_types.join(", ") },
   ];
 
   const resultItems = (result: Result) => [
@@ -42,6 +55,13 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
       "In spec": t.is_within_spec ? "✓" : "✗",
     }));
 
+  const { submitted, approved, lastUpdate } = summarizeHistory(sample.events);
+  const activityItems = [
+    { label: "Submitted", value: describeEvent(submitted) },
+    { label: "Approved", value: describeEvent(approved) },
+    { label: "Last update", value: describeEvent(lastUpdate) },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex items-center justify-between">
@@ -59,23 +79,48 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
         </div>
       </div>
 
-      <Panel title="Sample Information">
-        <DetailList items={items} />
-      </Panel>
-      <div className="mt-4">
-        <Panel title="Results">
-          {sample.results.length === 0 ? (
-            <p className="text-gray-500">No results yet.</p>
-          ) : (
-            sample.results.map((result) => (
-              <div key={result.id} className="flex flex-col gap-4">
-                <DetailList items={resultItems(result)} />
-                <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
-              </div>
-            ))
-          )}
-        </Panel>
-      </div>
+      <Tabs label="Sample Information">
+        <TabLayout title="Overview">
+          <Panel title="Quick View">
+            <DetailList items={overviewItems} />
+          </Panel>
+          <Panel title="Activity" className="mt-8">
+            <DetailList items={activityItems} />
+          </Panel>
+        </TabLayout>
+        <TabLayout title="Details">
+          <Panel title="Details">
+            <DetailList items={items} />
+          </Panel>
+        </TabLayout>
+        <TabLayout title="Results">
+          <Panel title="Results">
+            {sample.results.length === 0 ? (
+              <p className="text-gray-500">No results yet.</p>
+            ) : (
+              sample.results.map((result) => (
+                <div key={result.id} className="flex flex-col gap-4">
+                  <DetailList items={resultItems(result)} />
+                  <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
+                </div>
+              ))
+            )}
+          </Panel>
+        </TabLayout>
+        <TabLayout title="History">
+          <Panel title="History">
+            {sample.events.length === 0 ? (
+              <p className="text-gray-500">No history yet.</p>
+            ) : (
+              <ol className="divide-y divide-gray-200">
+                {sample.events.map((event) => (
+                  <HistoryEntry key={event.id} event={event} />
+                ))}
+              </ol>
+            )}
+          </Panel>
+        </TabLayout>
+      </Tabs>
     </div>
   );
 }
