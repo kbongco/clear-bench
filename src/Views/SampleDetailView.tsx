@@ -83,7 +83,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
           <Panel title="Quick View">
             <DetailList items={overviewItems} />
           </Panel>
-          <Panel title="Activity">
+          <Panel title="Activity" className="mt-8">
             <DetailList items={activityItems} />
           </Panel>
         </TabLayout>
