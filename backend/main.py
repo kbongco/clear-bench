@@ -11,6 +11,7 @@ from auth import authenticate_user
 from database import Base, engine, get_db
 from schemas import (
     AllSamplesResponse,
+    ApproveSample,
     LabTech,
     NewSample,
     Sample,
@@ -180,18 +181,18 @@ def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(ge
             if sample.test_status != "pending":
                 raise HTTPException(status_code=400, detail="Only pending samples can be approved")
 
-                sample.test_status = "in-progress"
-                sample.lab_tech_id = models.LabTech.id
+                sample.test_status = "in_progress"
+                sample.lab_tech_id = lab_tech.id
 
                 log_event(
                     db,
                     sample,
-                    action="in-progress",
-                    actor_role="lab tech",
+                    action="approved",
+                    actor_role="lab_tech",
                     actor_id=lab_tech.id,
                     actor_name=lab_tech.name,
                     from_status="pending",
-                    to_status="in-progress",
+                    to_status="in_progress",
                     note=None,
                 )
                 db.commit()
