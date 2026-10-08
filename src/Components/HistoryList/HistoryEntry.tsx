@@ -7,7 +7,7 @@ export default function HistoryEntry({ event }: HistoryInterface) {
   return (
     <li className="py-4">
       <p className="font-medium">
-        {formatStatus(event.action)} by {event.actor_role} · {formatStatus(event.actor_role)}
+        {formatStatus(event.action)} by {event.actor_name} · {formatStatus(event.actor_role)}
       </p>
 
       <div className="flex items-center gap-2 mt-1">
