@@ -10,7 +10,6 @@ import Tabs from "../Components/Tabs/Tabs";
 import TabLayout from "../Components/Tabs/TabLayout";
 import { summarizeHistory } from "../utils/summarizeHistory";
 import { describeEvent } from "../utils/describeEvent";
-import HistoryList from "../Components/HistoryEntry/HistoryEntry";
 import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 
 export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
