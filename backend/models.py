@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from sqlalchemy import (
     Boolean,
     Column,
@@ -66,6 +68,11 @@ class Sample(Base):
     scientist = relationship("Scientist", back_populates="samples")
     lab_tech = relationship("LabTech", back_populates="samples")
     results = relationship("Result", back_populates="sample")
+    events = relationship(
+        "AuditEvent",
+        back_populates="sample",
+        order_by="AuditEvent.created_at.desc(),AuditEvent.id.desc()",
+    )
 
 
 # ---------------------
@@ -123,3 +130,24 @@ class TestResult(Base):
     notes = Column(Text, nullable=True)
 
     result = relationship("Result", back_populates="test_results")
+
+
+class AuditEvent(Base):
+    __tablename__ = "audit_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sample_id = Column(Integer, ForeignKey("samples.id"), nullable=False)
+    action = Column(String, nullable=False)  # "submitted", "approved", ...
+    actor_role = Column(String, nullable=False)  # "scientist" or "lab_tech"
+    actor_id = Column(Integer, nullable=False)
+    actor_name = Column(String, nullable=False)
+    from_status = Column(String, nullable=True)  # None for "submitted": there was no status before
+    to_status = Column(String, nullable=True)
+    note = Column(Text, nullable=True)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc),
+    )
+
+    sample = relationship("Sample", back_populates="events")

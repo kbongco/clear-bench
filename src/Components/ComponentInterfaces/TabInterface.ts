@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 export interface TabButtonInterface {
   title: string;
@@ -9,5 +9,5 @@ export interface TabButtonInterface {
 
 export interface TabLayoutInterface {
   title: string;
-  children: ReactElement | ReactElement | any;
+  children: ReactNode;
 }
