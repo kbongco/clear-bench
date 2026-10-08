@@ -181,3 +181,12 @@ class SampleDetail(SampleWithOwner):
     lab_tech: Optional[LabTech] = None
     results: List[Result] = Field(default_factory=list)
     events: List[AuditEvent] = Field(default_factory=list)
+
+
+class ApproveSample(BaseModel):
+    lab_tech_id: int
+
+
+class RejectSample(BaseModel):
+    lab_tech_id: int
+    reason: str = Field(min_length=1)
