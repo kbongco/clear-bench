@@ -1,5 +1,5 @@
 import { API_URL } from "./config";
-import type { AllSamplesResponse, NewSample, SampleCreateResponse } from "../types/Samples/sample";
+import type { AllSamplesResponse, NewSample, Sample, SampleCreateResponse } from "../types/Samples/sample";
 import type { SampleDetail } from "../types/Results/results";
 
 export async function getSamples(id: string) {
@@ -60,6 +60,38 @@ export async function getPendingSamples(scientistId: number) {
   const response = await fetch(`${API_URL}/scientists/${scientistId}/samples?status=pending`);
   if (!response.ok) {
     throw new Error("Unable to fetch pending samples");
+  }
+
+  return response.json();
+}
+
+export async function approveSample(id: number, labTechId: number): Promise<Sample> {
+  const response = await fetch(`${API_URL}/samples/${id}/approve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ lab_tech_id: labTechId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(typeof error?.detail === "string" ? error.detail : "Could not approve sample");
+  }
+
+  return response.json();
+}
+
+export async function rejectSample(id: number, labTechId: number, reason: string): Promise<Sample>{
+  const response = await fetch(`${API_URL}/samples/${id}/reject`, {
+    method: "POST",
+    headers: {
+      'Content-Type':"application/json"
+    },
+    body: JSON.stringify({ lab_tech_id: labTechId, reason })
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(typeof error?.detail === "string" ? error.detail : "Could not reject sample");
   }
 
   return response.json();
