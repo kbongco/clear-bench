@@ -11,8 +11,10 @@ from auth import authenticate_user
 from database import Base, engine, get_db
 from schemas import (
     AllSamplesResponse,
+    ApproveSample,
     LabTech,
     NewSample,
+    RejectSample,
     Sample,
     SampleCreateResponse,
     SampleDetail,
@@ -164,6 +166,70 @@ def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session =
     for field, value in sample_update.model_dump(exclude_unset=True).items():
         setattr(sample, field, value)
 
+    db.commit()
+    db.refresh(sample)
+    return sample
+
+
+@app.post("/samples/{sample_id}/approve", response_model=Sample)
+def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+
+    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    if not lab_tech:
+        raise HTTPException(status_code=404, detail="Lab tech not found")
+
+    if sample.test_status != "pending":
+        raise HTTPException(status_code=400, detail="Only pending samples can be approved")
+
+    sample.test_status = "in_progress"
+    sample.lab_tech_id = lab_tech.id
+
+    log_event(
+        db,
+        sample,
+        action="approved",
+        actor_role="lab_tech",
+        actor_id=lab_tech.id,
+        actor_name=lab_tech.name,
+        from_status="pending",
+        to_status="in_progress",
+        note=None,
+    )
+    db.commit()
+    db.refresh(sample)
+    return sample
+
+
+@app.post("/samples/{sample_id}/reject", response_model=Sample)
+def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+
+    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    if not lab_tech:
+        raise HTTPException(status_code=404, detail="Lab tech not found")
+
+    if sample.test_status != "pending":
+        raise HTTPException(status_code=400, detail="Only pending samples can be rejected")
+
+    sample.test_status = "rejected"
+    sample.lab_tech_id = lab_tech.id
+
+    log_event(
+        db,
+        sample,
+        action="rejected",
+        actor_role="lab_tech",
+        actor_id=lab_tech.id,
+        actor_name=lab_tech.name,
+        from_status="pending",
+        to_status="rejected",
+        note=body.reason,
+    )
     db.commit()
     db.refresh(sample)
     return sample
