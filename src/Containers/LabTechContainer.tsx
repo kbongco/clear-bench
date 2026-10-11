@@ -16,7 +16,7 @@ export default function LabTechContainer() {
         const data = await getAllSamples({ status: "pending" });
         if (!ignore) setPendingSamples(data?.samples); // the response is { total, samples }
       } catch (err) {
-        if (!ignore) setError("____");
+        if (!ignore) setError("This sample has been approved previously");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -27,6 +27,9 @@ export default function LabTechContainer() {
       ignore = true;
     };
   }, []);
+
+  if (loading) return <p>____</p>;
+  if (error) return <p className="text-red-600">{error}</p>;
 
   return (
     <>
