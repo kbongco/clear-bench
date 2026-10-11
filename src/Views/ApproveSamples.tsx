@@ -1,122 +1,26 @@
-import { useState } from "react";
-import Card from "../Components/Card/Card";
-import Table from "../Components/Table/Table";
-import Modal from "../Components/Modal/Modal";
-import TextArea from "../Components/Textarea/Textarea";
+import type { SampleWithOwner } from "../types/Samples/sample";
 
-export default function ApproveSamples({ data }: any) {
-  const [sampleRows, setSampleRows] = useState(data?.samples || []);
-  // const [rows, setRows] = useState(() => JSON.parse(data || "[]"));
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSample, setSelectedSample] = useState(null);
-  const [labTechComment, setLabTechComment] = useState("");
+interface ApproveSamplesProps {
+  samples: SampleWithOwner[];
+}
 
-  const labTechNotes = (
-    <span>
-      <ol>
-        <li>All samples submitted must have uploaded a file</li>
-        <li>If all of the above is selected, then all temperatures will be done</li>
-        <li>Do not approve unless all items are there</li>
-      </ol>
-    </span>
-  );
-
-  // Headers including approve/reject columns
-  const headers = ["Name", "Owner", "Status", "Team Name", "Update Status"];
-
-  // Map original data to desired shape, add status if missing
-  // const dataToApprove = rows.map(row => ({
-  //   name: row.sampleName,
-  //   owner: row.sampleOwner,
-  //   status: row.status || 'pending',
-  //   teamName: row.teamName,
-  // }));
-
-  const sampleDataTable = sampleRows.map((row) => ({
-    name: row.name,
-    status: row.test_status,
-    sampleType: row.sample_type,
-  }));
-
-  // const handleStatusUpdate = (index: number, newStatus: string) => {
-  //   const updatedRows = [...rows];
-  //   updatedRows[index].status = newStatus;
-  //   setRows(updatedRows);
-  //   setIsModalOpen(false);
-  // };
-
-  // Custom render row with buttons
-  const renderRow = (row: any, index: number) => (
-    <tr key={index} className="border-b border-gray-200">
-      <td className="text-center px-4 py-2">{row.name}</td>
-      <td className="text-center px-4 py-2">{row.owner}</td>
-      <td className="text-center px-4 py-2">{row.status}</td>
-      <td className="text-center px-4 py-2">{row.teamName}</td>
-      <td className="text-center px-4 py-2">
-        <button
-          onClick={() => {
-            setIsModalOpen(true);
-            setSelectedSample(row);
-          }}
-          className="bg-green-500 text-white px-2 py-1 rounded"
-        >
-          Approve/Reject
-        </button>
-      </td>
-    </tr>
-  );
-
+export default function ApproveSamples({ samples }: ApproveSamplesProps) {
   return (
-    // <h1>Test</h1>
-    <div className="ml-4 pt-4">
-      <Card title="Reference sheet" description={labTechNotes} />
-      <div className="mt-6">
-        {/* <Table
-          tableTitle="Approve Samples"
-          data={dataToApprove}
-          tableHeader={headers}
-          renderRow={renderRow}
-        /> */}
-      </div>
+    <div className="p-4 md:p-6">
+      <h1 className="text-2xl md:text-3xl font-semibold">Approve samples</h1>
+      <p className="text-gray-600 mt-1">{samples.length} waiting for review</p>
 
-      {/* Modal for Approve/Reject */}
-      {/* {selectedSample && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2 className="text-xl font-semibold mb-4">Approve or Reject</h2>
-          <p>
-            Are you sure you want to take action on{" "}
-            <strong>{selectedSample.name}</strong> from{" "}
-            <strong>{selectedSample.owner}</strong>?
-          </p>
-            <TextArea
-              label="Reject"
-  value={labTechComment}
-  onChange={(e) => setLabTechComment(e.target.value)}
-  placeholder="Enter reason for Rejection (if applicable)"
-  className="w-full p-2 border border-gray-300 rounded mt-2"
-/>
-          <div className="mt-4 flex justify-end gap-2">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => handleStatusUpdate(selectedSample.originalIndex, "Approved")}
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-            >
-              Approve
-            </button>
-            <button
-              onClick={() => handleStatusUpdate(selectedSample.originalIndex, "Rejected")}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Reject
-            </button>
-          </div>
-        </Modal>
-      )} */}
+      {samples.length === 0 ? (
+        <p className="mt-6 text-gray-500">No samples waiting to be approved</p>
+      ) : (
+        <ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {samples.map((sample) => (
+            <li key={sample.id} className="bg-white border border-gray-200 rounded-lg p-4">
+              {sample.name}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

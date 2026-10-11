@@ -33,7 +33,7 @@ export default function LabTechContainer() {
 
   return (
     <>
-      <ApproveSamples data={pendingSamples} />
+      <ApproveSamples samples={pendingSamples} />
     </>
   );
 }
