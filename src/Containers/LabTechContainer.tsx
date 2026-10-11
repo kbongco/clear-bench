@@ -14,9 +14,9 @@ export default function LabTechContainer() {
     async function load() {
       try {
         const data = await getAllSamples({ status: "pending" });
-        if (!ignore) setPendingSamples(data?.samples);
+        if (!ignore) setPendingSamples(data.samples);
       } catch (err) {
-        if (!ignore) setError("This sample has been approved previously");
+        if (!ignore) setError("Couldn't load pending samples. Please try refreshing");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -28,7 +28,7 @@ export default function LabTechContainer() {
     };
   }, []);
 
-  if (loading) return <p>____</p>;
+  if (loading) return <p>Current Samples loading</p>;
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
