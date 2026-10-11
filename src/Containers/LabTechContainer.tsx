@@ -14,7 +14,7 @@ export default function LabTechContainer() {
     async function load() {
       try {
         const data = await getAllSamples({ status: "pending" });
-        if (!ignore) setPendingSamples(data?.samples); // the response is { total, samples }
+        if (!ignore) setPendingSamples(data?.samples);
       } catch (err) {
         if (!ignore) setError("This sample has been approved previously");
       } finally {
