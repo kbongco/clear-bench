@@ -11,7 +11,9 @@ export default function ApproveSamples({ samples, onApprove, onReject }: Approve
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold">Approve samples</h1>
-      <p className="text-gray-600 mt-1">{samples.length} waiting for review</p>
+      <p className="text-gray-600 mt-1">
+        {samples.filter((s) => s.test_status === "pending").length} waiting for review
+      </p>
 
       {samples.length === 0 ? (
         <p className="mt-6 text-gray-500">No samples waiting to be approved</p>

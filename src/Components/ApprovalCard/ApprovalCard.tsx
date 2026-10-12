@@ -14,7 +14,30 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
     setReason("");
   }
 
+  async function run(action: () => Promise<void>) {
+  setSubmitting(true);
+  setError(null);
+  try {
+    await action();
+  } catch (e) {
+    setError(e instanceof Error ? e.message : "Something went wrong");
+  } finally {
+    setSubmitting(false);
+  }
+}
+
   const reasonId = `reject-reason-${sample.id}`;
+
+  if (sample.test_status !== "pending") {
+  return (
+    <div role="status" className="rounded-lg border border-gray-200 bg-white p-4 text-sm">
+      ✓ {sample.name} {sample.test_status === "rejected" ? "rejected" : "approved"} ·{" "}
+      <Link to={`/samples/${sample.id}`} className="text-blue-600 hover:underline">
+        View history
+      </Link>
+    </div>
+  );
+}
 
   return (
     <article className="bg-white border border-gray-200 rounded-lg p-4 flex flex-col gap-3">
@@ -57,6 +80,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
             <button
               type="button"
               onClick={handleCancel}
+              disabled={submitting}
               className="flex-1 rounded-md border px-4 py-2"
             >
               Cancel
@@ -80,7 +104,8 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
             onClick={() => setIsRejecting(true)}
           >
             Reject
-          </button>
+            </button>
+            {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
         </div>
       )}
     </article>
