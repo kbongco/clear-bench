@@ -1,6 +1,6 @@
 from datetime import date, datetime, timezone
 from enum import Enum
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -190,3 +190,16 @@ class RejectSample(BaseModel):
     model_config = {"str_strip_whitespace": True}
     lab_tech_id: int
     reason: str = Field(min_length=1)
+
+
+class ProductSpec(BaseModel):
+    id: int
+    sample_type: str
+    test_type: str
+    parameter_name: str
+    kind: Literal["numeric", "pass_fail"]
+    unit: Optional[str] = None
+    min_value: Optional[int] = None
+    max_value: Optional[int] = None
+
+    model_config = {"from_attributes": True}

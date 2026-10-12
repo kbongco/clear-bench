@@ -10,6 +10,7 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    UniqueConstraint,
     func,
 )
 from sqlalchemy.orm import relationship
@@ -151,3 +152,18 @@ class AuditEvent(Base):
     )
 
     sample = relationship("Sample", back_populates="events")
+
+
+class ProductSpec(Base):
+    __tablename__ = "product_specs"
+    __tabeleargs__ = (
+        UniqueConstraint("sample_type", "test_type", name="uq_spec_sample_type_test_type"),
+    )
+    id = Column(Integer, primary_key=True, index=True)
+    sample_type = Column(String, nullable=False)  # "Food", "Cosmetics", ...
+    test_type = Column(String, nullable=False)  # "ph", "microbial", ... (same codes as Submit)
+    parameter_name = Column(String, nullable=False)  # "pH", "Microbial count"
+    kind = Column(String, nullable=False)  # "numeric" or "pass_fail"
+    unit = Column(String, nullable=True)  # "CFU/g", "cP", None for pH
+    min_value = Column(Float, nullable=False)
+    max_value = Column(Float, nullable=False)
