@@ -1,3 +1,5 @@
+import type { ApprovalFilter } from "../types/Samples/sample";
+
 export const foodTestDropdownOptions = [
   { value: "ph", label: "pH Testing" },
   { value: "waterActivity", label: "Water Activity (aw)" },
@@ -40,3 +42,9 @@ export const ALL_CONDITIONS = "all";
 export const realValues = storageConditions
   .filter((store) => store.value !== ALL_CONDITIONS)
   .map((store) => store.value);
+
+export const FILTERS: { label: string; value: ApprovalFilter }[] = [
+  { label: "Pending", value: "pending" },
+  { label: "Approved", value: "in_progress" },
+  { label: "Rejected", value: "rejected" },
+];
