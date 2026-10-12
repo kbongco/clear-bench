@@ -8,7 +8,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
   const [reason, setReason] = useState("");
 
   function handleCancel() {
-    setIsRejecting(true);
+    setIsRejecting(false);
     setReason("");
   }
 
