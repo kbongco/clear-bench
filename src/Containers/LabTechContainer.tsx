@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import ApproveSamples from "../Views/ApproveSamples";
 import { approveSample, getAllSamples, rejectSample } from "../services/samples";
-import type { SampleWithOwner } from "../types/Samples/sample";
+import type { ApprovalFilter, SampleWithOwner } from "../types/Samples/sample";
 import { CURRENT_LAB_TECH_ID } from "../services/currentUser";
-
-type ApprovalFilter = "pending" | "in_progress" | "rejected";
 
 export default function LabTechContainer() {
   const [pendingSamples, setPendingSamples] = useState<SampleWithOwner[]>([]);
@@ -24,12 +22,12 @@ export default function LabTechContainer() {
 
   useEffect(() => {
     let ignore = false;
-      setLoading(true);     // ← new: show loading on every filter change
-  setError(null);  
+    setLoading(true); // ← new: show loading on every filter change
+    setError(null);
 
     async function load() {
       try {
-        const data = await getAllSamples({ status: status});
+        const data = await getAllSamples({ status: status });
         if (!ignore) setPendingSamples(data.samples);
       } catch (err) {
         console.error(err);
@@ -49,12 +47,12 @@ export default function LabTechContainer() {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-<ApproveSamples
-  samples={pendingSamples}
-  status={status}
-  onStatusChange={setStatus}
-  onApprove={handleApprove}
-  onReject={handleReject}
-/>
+    <ApproveSamples
+      samples={pendingSamples}
+      status={status}
+      onStatusChange={setStatus}
+      onApprove={handleApprove}
+      onReject={handleReject}
+    />
   );
 }

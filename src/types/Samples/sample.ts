@@ -17,7 +17,7 @@ export type TestDuration =
   | "1-year";
 export type TestStatus = "in_progress" | "completed" | "pending";
 export type TestResults = "pass" | "fail" | "inconclusive";
-export type ApprovalFilter = "pending" | "in_progress" | "rejected"; 
+export type ApprovalFilter = "pending" | "in_progress" | "rejected";
 
 export interface Sample {
   id: number;
