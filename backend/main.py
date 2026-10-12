@@ -14,6 +14,7 @@ from schemas import (
     ApproveSample,
     LabTech,
     NewSample,
+    ProductSpec,
     RejectSample,
     Sample,
     SampleCreateResponse,
@@ -233,6 +234,14 @@ def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_
     db.commit()
     db.refresh(sample)
     return sample
+
+
+@app.get("/specs", response_model=List[ProductSpec])
+def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(get_db)):
+    query = db.query(models.ProductSpec)
+    if sample_type:
+        query = query.filter(models.ProductSpec.sample_type == sample_type)
+    return query.order_by(models.ProductSpec.sample_type, models.ProductSpec.test_type).all()
 
 
 @app.get("/test-db")
