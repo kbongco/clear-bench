@@ -8,6 +8,8 @@ interface ApproveSamplesProps {
   onStatusChange: (status: ApprovalFilter) => void;
   onApprove: (id: number) => Promise<void>;
   onReject: (id: number, reason: string) => Promise<void>;
+  loading: boolean;
+  error: string | null;
 }
 
 export default function ApproveSamples({
@@ -16,10 +18,21 @@ export default function ApproveSamples({
   onApprove,
   onReject,
   onStatusChange,
+  loading,
+  error,
 }: ApproveSamplesProps) {
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold">Approve samples</h1>
+      {loading ? (
+        <p className="mt-6 text-gray-500">Loading samples…</p>
+      ) : error ? (
+        <p className="mt-6 text-red-600">{error}</p>
+      ) : samples.length === 0 ? (
+        <p className="mt-6 text-gray-500">{''}</p>
+      ) : (
+        <ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">…</ul>
+      )}
       <div
         role="group"
         aria-label="Filter by status"

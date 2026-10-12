@@ -43,13 +43,15 @@ export default function LabTechContainer() {
     };
   }, [status]);
 
-  if (loading) return <p>Current Samples loading</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  // if (loading) return <p>Current Samples loading</p>;
+  // if (error) return <p className="text-red-600">{error}</p>;
 
   return (
     <ApproveSamples
       samples={pendingSamples}
       status={status}
+      loading={loading}
+      error={error}
       onStatusChange={setStatus}
       onApprove={handleApprove}
       onReject={handleReject}
