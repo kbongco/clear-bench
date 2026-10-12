@@ -6,6 +6,8 @@ import { useState } from "react";
 export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCardProps) {
   const [isRejecting, setIsRejecting] = useState<boolean>(false);
   const [reason, setReason] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function handleCancel() {
     setIsRejecting(false);
@@ -46,7 +48,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
           <div className="flex flex-col gap-2 sm:flex-row">
             <button
               type="button"
-              disabled={reason.trim() === ""}
+              disabled={submitting || reason.trim() === ""}
               onClick={() => onReject(sample.id, reason)}
               className="flex-1 rounded-md bg-red-600 px-4 py-2 font-medium text-white disabled:opacity-50"
             >
@@ -64,6 +66,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
       ) : (
         <div className="flex flex-col gap-2 sm:flex-row">
           <button
+            disabled={submitting}
             type="button"
             onClick={() => onApprove(sample.id)}
             className="flex-1 rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
@@ -71,6 +74,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
             Approve
           </button>
           <button
+            disabled={submitting}
             className="flex-1 rounded-md border border-red-600 px-4 py-2 font-medium text-red-600 hover:bg-red-50"
             type="button"
             onClick={() => setIsRejecting(true)}

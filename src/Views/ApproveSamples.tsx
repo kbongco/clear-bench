@@ -3,8 +3,8 @@ import type { SampleWithOwner } from "../types/Samples/sample";
 
 interface ApproveSamplesProps {
   samples: SampleWithOwner[];
-  onApprove: (id: number) => void;
-  onReject: (id: number, reason: string) => void;
+onApprove: (id: number) => Promise<void>;
+onReject: (id: number, reason: string) => Promise<void>;
 }
 
 export default function ApproveSamples({ samples, onApprove, onReject }: ApproveSamplesProps) {

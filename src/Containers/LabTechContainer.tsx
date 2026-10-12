@@ -9,15 +9,19 @@ export default function LabTechContainer() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  async function handleApprove(id: number) {
-    await approveSample(id, CURRENT_LAB_TECH_ID);
-    setPendingSamples((prev) => prev.filter((s) => s.id !== id));
-  }
+async function handleApprove(id: number) {
+  const updated = await approveSample(id, CURRENT_LAB_TECH_ID);
+  setPendingSamples((prev) =>
+    prev.map((s) => (s.id === id ? { ...s, ...updated } : s)),
+  );
+}
 
-  async function handleReject(id: number, reason: string) {
-    await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
-    setPendingSamples((prev) => prev.filter((s) => s.id !== id));
-  }
+async function handleReject(id: number, reason: string) {
+  const updated = await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
+  setPendingSamples((prev) =>
+    prev.map((s) => (s.id === id ? { ...s, ...updated } : s)),
+  );
+}
 
   useEffect(() => {
     let ignore = false;
