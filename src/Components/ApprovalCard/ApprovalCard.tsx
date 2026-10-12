@@ -92,7 +92,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
           <button
             disabled={submitting}
             type="button"
-            onClick={() => onApprove(sample.id)}
+            onClick={() => run(() => onApprove(sample.id))}
             className="flex-1 rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
           >
             Approve
@@ -101,16 +101,16 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
             disabled={submitting}
             className="flex-1 rounded-md border border-red-600 px-4 py-2 font-medium text-red-600 hover:bg-red-50"
             type="button"
-            onClick={() => setIsRejecting(true)}
+            onClick={() => run(() => onReject(sample.id, reason))}
           >
             Reject
           </button>
-          {error && (
-            <p role="alert" className="text-sm text-red-600">
-              {error}
-            </p>
-          )}
         </div>
+      )}
+      {error && (
+        <p role="alert" className="text-sm text-red-600">
+          {error}
+        </p>
       )}
     </article>
   );
