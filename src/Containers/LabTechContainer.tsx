@@ -22,7 +22,7 @@ export default function LabTechContainer() {
 
   useEffect(() => {
     let ignore = false;
-    setLoading(true); // ← new: show loading on every filter change
+    setLoading(true);
     setError(null);
 
     async function load() {
