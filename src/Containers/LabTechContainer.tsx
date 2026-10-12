@@ -1,27 +1,57 @@
 import { useEffect, useState } from "react";
-import ApproveSamples from "../Views/ApprovSamples";
-import { getPendingSamples } from "../services/samples";
+import ApproveSamples from "../Views/ApproveSamples";
+import { approveSample, getAllSamples, rejectSample } from "../services/samples";
+import type { ApprovalFilter, SampleWithOwner } from "../types/Samples/sample";
+import { CURRENT_LAB_TECH_ID } from "../services/currentUser";
 
 export default function LabTechContainer() {
-  const [pendingSamples, setPendingSamples] = useState([]);
+  const [pendingSamples, setPendingSamples] = useState<SampleWithOwner[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [status, setStatus] = useState<ApprovalFilter>("pending");
+
+  async function handleApprove(id: number) {
+    const updated = await approveSample(id, CURRENT_LAB_TECH_ID);
+    setPendingSamples((prev) => prev.map((s) => (s.id === id ? { ...s, ...updated } : s)));
+  }
+
+  async function handleReject(id: number, reason: string) {
+    const updated = await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
+    setPendingSamples((prev) => prev.map((s) => (s.id === id ? { ...s, ...updated } : s)));
+  }
 
   useEffect(() => {
-    // TODO: replace with the logged-in user once auth is in place
-    const scientistID = 1;
-    async function getData(scientistID: number) {
+    let ignore = false;
+    setLoading(true);
+    setError(null);
+
+    async function load() {
       try {
-        const pending = await getPendingSamples(scientistID);
-        setPendingSamples(pending);
+        const data = await getAllSamples({ status: status });
+        if (!ignore) setPendingSamples(data.samples);
       } catch (err) {
         console.error(err);
+        if (!ignore) setError("Couldn't load pending samples. Please try refreshing");
+      } finally {
+        if (!ignore) setLoading(false);
       }
     }
-    getData(scientistID);
-  }, []);
+
+    load();
+    return () => {
+      ignore = true;
+    };
+  }, [status]);
 
   return (
-    <>
-      <ApproveSamples data={pendingSamples} />
-    </>
+    <ApproveSamples
+      samples={pendingSamples}
+      status={status}
+      loading={loading}
+      error={error}
+      onStatusChange={setStatus}
+      onApprove={handleApprove}
+      onReject={handleReject}
+    />
   );
 }

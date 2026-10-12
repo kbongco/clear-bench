@@ -84,7 +84,6 @@ class SampleStatus(str, Enum):
 
 class UpdateSample(BaseModel):
     lab_tech_id: Optional[int] = None
-    test_status: Optional[SampleStatus] = None
     notes: Optional[str] = None
 
 
@@ -181,3 +180,13 @@ class SampleDetail(SampleWithOwner):
     lab_tech: Optional[LabTech] = None
     results: List[Result] = Field(default_factory=list)
     events: List[AuditEvent] = Field(default_factory=list)
+
+
+class ApproveSample(BaseModel):
+    lab_tech_id: int
+
+
+class RejectSample(BaseModel):
+    model_config = {"str_strip_whitespace": True}
+    lab_tech_id: int
+    reason: str = Field(min_length=1)
