@@ -5,9 +5,6 @@ from typing import List, Literal, Optional
 from pydantic import BaseModel, Field, field_validator
 
 
-# --------------------
-# Scientist & LabTech
-# --------------------
 class Scientist(BaseModel):
     id: int
     name: str
@@ -64,7 +61,6 @@ class Sample(BaseModel):
     temperature: List[str] = Field(default_factory=list)  # ✅ JSON list
     notes: Optional[str] = None
 
-    # ✅ Pydantic v2 ORM mode
     model_config = {"from_attributes": True}
 
 
@@ -199,7 +195,7 @@ class ProductSpec(BaseModel):
     parameter_name: str
     kind: Literal["numeric", "pass_fail"]
     unit: Optional[str] = None
-    min_value: Optional[int] = None
-    max_value: Optional[int] = None
+    min_value: Optional[float] = None
+    max_value: Optional[float] = None
 
     model_config = {"from_attributes": True}
