@@ -367,6 +367,139 @@ test_results_db = [
     },
 ]
 
+product_specs_db = [
+    # Food
+    {
+        "sample_type": "Food",
+        "test_type": "ph",
+        "parameter_name": "pH",
+        "kind": "numeric",
+        "unit": None,
+        "min_value": 3.5,
+        "max_value": 4.6,
+    },
+    {
+        "sample_type": "Food",
+        "test_type": "waterActivity",
+        "parameter_name": "Water activity",
+        "kind": "numeric",
+        "unit": "aw",
+        "min_value": None,
+        "max_value": 0.85,
+    },
+    {
+        "sample_type": "Food",
+        "test_type": "microbial",
+        "parameter_name": "Total plate count",
+        "kind": "numeric",
+        "unit": "CFU/g",
+        "min_value": None,
+        "max_value": 100,
+    },
+    {
+        "sample_type": "Food",
+        "test_type": "viscosity",
+        "parameter_name": "Viscosity",
+        "kind": "numeric",
+        "unit": "cP",
+        "min_value": 1000,
+        "max_value": 5000,
+    },
+    {
+        "sample_type": "Food",
+        "test_type": "visual",
+        "parameter_name": "Appearance",
+        "kind": "pass_fail",
+        "unit": None,
+        "min_value": None,
+        "max_value": None,
+    },
+    {
+        "sample_type": "Food",
+        "test_type": "sensory",
+        "parameter_name": "Taste and odor",
+        "kind": "pass_fail",
+        "unit": None,
+        "min_value": None,
+        "max_value": None,
+    },
+    # Cosmetics
+    {
+        "sample_type": "Cosmetics",
+        "test_type": "ph",
+        "parameter_name": "pH",
+        "kind": "numeric",
+        "unit": None,
+        "min_value": 5.0,
+        "max_value": 7.0,
+    },
+    {
+        "sample_type": "Cosmetics",
+        "test_type": "viscosity",
+        "parameter_name": "Viscosity",
+        "kind": "numeric",
+        "unit": "cP",
+        "min_value": 8000,
+        "max_value": 12000,
+    },
+    {
+        "sample_type": "Cosmetics",
+        "test_type": "microbial",
+        "parameter_name": "Total aerobic count",
+        "kind": "numeric",
+        "unit": "CFU/g",
+        "min_value": None,
+        "max_value": 100,
+    },
+    {
+        "sample_type": "Cosmetics",
+        "test_type": "visual",
+        "parameter_name": "Appearance",
+        "kind": "pass_fail",
+        "unit": None,
+        "min_value": None,
+        "max_value": None,
+    },
+    # Supplement
+    {
+        "sample_type": "Supplement",
+        "test_type": "ph",
+        "parameter_name": "pH",
+        "kind": "numeric",
+        "unit": None,
+        "min_value": 4.0,
+        "max_value": 7.5,
+    },
+    {
+        "sample_type": "Supplement",
+        "test_type": "waterActivity",
+        "parameter_name": "Water activity",
+        "kind": "numeric",
+        "unit": "aw",
+        "min_value": None,
+        "max_value": 0.6,
+    },
+    {
+        "sample_type": "Supplement",
+        "test_type": "microbial",
+        "parameter_name": "Total plate count",
+        "kind": "numeric",
+        "unit": "CFU/g",
+        "min_value": None,
+        "max_value": 1000,
+    },
+    # Environmental
+    {
+        "sample_type": "Environmental",
+        "test_type": "microbial",
+        "parameter_name": "Surface swab count",
+        "kind": "numeric",
+        "unit": "CFU/cm²",
+        "min_value": None,
+        "max_value": 25,
+    },
+]
+
 
 # ------------------------
 # Seed function
@@ -381,6 +514,10 @@ def seed_all():
         # LabTechs
         for lt in labtechs_db:
             db.add(models.LabTech(**lt))
+
+            # Product specs
+        for spec in product_specs_db:
+            db.add(models.ProductSpec(**spec))
 
         # Samples
         samples = []
