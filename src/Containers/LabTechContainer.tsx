@@ -15,9 +15,9 @@ export default function LabTechContainer() {
   }
 
   async function handleReject(id: number, reason: string) {
-  await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
-  setPendingSamples((prev) => prev.filter((s) => s.id !== id));
-}
+    await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
+    setPendingSamples((prev) => prev.filter((s) => s.id !== id));
+  }
 
   useEffect(() => {
     let ignore = false;
