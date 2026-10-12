@@ -23,7 +23,7 @@ export default function ApprovalCard({ sample, onApprove }: ApprovalCardProps) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <button
           type="button"
-          onClick={() => onApprove(sample.____)}
+          onClick={() => onApprove(sample.id)}
           className="flex-1 rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
         >
           Approve
