@@ -30,7 +30,7 @@ export default function ApproveSamples({
             key={f.value}
             type="button"
             aria-pressed={status === f.value}
-            onClick={() => onStatusChange(status)}
+            onClick={() => onStatusChange(f.value)}
             className={`px-4 py-2 text-sm font-medium ${
               status === f.value
                 ? "bg-blue-600 text-white"
