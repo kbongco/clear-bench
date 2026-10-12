@@ -156,7 +156,7 @@ class AuditEvent(Base):
 
 class ProductSpec(Base):
     __tablename__ = "product_specs"
-    __tableargs__ = (
+    __table_args__ = (
         UniqueConstraint("sample_type", "test_type", name="uq_spec_sample_type_test_type"),
     )
     id = Column(Integer, primary_key=True, index=True)
