@@ -22,6 +22,7 @@ export default function LabTechContainer() {
         const data = await getAllSamples({ status: "pending" });
         if (!ignore) setPendingSamples(data.samples);
       } catch (err) {
+        console.error(err);
         if (!ignore) setError("Couldn't load pending samples. Please try refreshing");
       } finally {
         if (!ignore) setLoading(false);
