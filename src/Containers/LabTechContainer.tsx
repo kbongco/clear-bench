@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ApproveSamples from "../Views/ApproveSamples";
-import { approveSample, getAllSamples } from "../services/samples";
+import { approveSample, getAllSamples, rejectSample } from "../services/samples";
 import type { SampleWithOwner } from "../types/Samples/sample";
 import { CURRENT_LAB_TECH_ID } from "../services/currentUser";
 
@@ -13,6 +13,11 @@ export default function LabTechContainer() {
     await approveSample(id, CURRENT_LAB_TECH_ID);
     setPendingSamples((prev) => prev.filter((s) => s.id !== id));
   }
+
+  async function handleReject(id: number, reason: string) {
+  await rejectSample(id, CURRENT_LAB_TECH_ID, reason);
+  setPendingSamples((prev) => prev.filter((s) => s.id !== id));
+}
 
   useEffect(() => {
     let ignore = false;
@@ -40,7 +45,7 @@ export default function LabTechContainer() {
 
   return (
     <>
-      <ApproveSamples samples={pendingSamples} onApprove={handleApprove} onReject={() => {}} />
+      <ApproveSamples samples={pendingSamples} onApprove={handleApprove} onReject={handleReject} />
     </>
   );
 }

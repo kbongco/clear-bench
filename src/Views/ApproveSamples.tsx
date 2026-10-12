@@ -8,6 +8,8 @@ interface ApproveSamplesProps {
 }
 
 export default function ApproveSamples({ samples, onApprove, onReject }: ApproveSamplesProps) {
+
+  
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold">Approve samples</h1>
