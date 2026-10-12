@@ -54,9 +54,15 @@ export default function ApproveSamples({
       ) : error ? (
         <p className="mt-6 text-red-600">{error}</p>
       ) : samples.length === 0 ? (
-        <p className="mt-6 text-gray-500">{""}</p>
+        <p className="mt-6 text-gray-500">{"No samples waiting to be approved"}</p>
       ) : (
-        <ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">…</ul>
+        <ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+  {samples.map((sample) => (
+    <li key={sample.id}>
+      <ApprovalCard sample={sample} onApprove={onApprove} onReject={onReject} />
+    </li>
+  ))}
+</ul></ul>
       )}
     </div>
   );

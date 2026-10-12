@@ -43,9 +43,6 @@ export default function LabTechContainer() {
     };
   }, [status]);
 
-  // if (loading) return <p>Current Samples loading</p>;
-  // if (error) return <p className="text-red-600">{error}</p>;
-
   return (
     <ApproveSamples
       samples={pendingSamples}
