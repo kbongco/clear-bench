@@ -29,7 +29,7 @@ export default function ApproveSamples({
       ) : error ? (
         <p className="mt-6 text-red-600">{error}</p>
       ) : samples.length === 0 ? (
-        <p className="mt-6 text-gray-500">{''}</p>
+        <p className="mt-6 text-gray-500">{""}</p>
       ) : (
         <ul className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">…</ul>
       )}
