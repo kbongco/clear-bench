@@ -1,16 +1,46 @@
 import ApprovalCard from "../Components/ApprovalCard/ApprovalCard";
-import type { SampleWithOwner } from "../types/Samples/sample";
+import { FILTERS } from "../constants/formOptions";
+import type { ApprovalFilter, SampleWithOwner } from "../types/Samples/sample";
 
 interface ApproveSamplesProps {
   samples: SampleWithOwner[];
+  status: ApprovalFilter;
+  onStatusChange: (status: ApprovalFilter) => void;
   onApprove: (id: number) => Promise<void>;
   onReject: (id: number, reason: string) => Promise<void>;
 }
 
-export default function ApproveSamples({ samples, onApprove, onReject }: ApproveSamplesProps) {
+export default function ApproveSamples({
+  status,
+  samples,
+  onApprove,
+  onReject,
+  onStatusChange,
+}: ApproveSamplesProps) {
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold">Approve samples</h1>
+      <div
+        role="group"
+        aria-label="Filter by status"
+        className="mt-4 inline-flex rounded-md border border-gray-300 overflow-hidden"
+      >
+        {FILTERS.map((f) => (
+          <button
+            key={f.value}
+            type="button"
+            aria-pressed={status === f.value}
+            onClick={() => onStatusChange(status)}
+            className={`px-4 py-2 text-sm font-medium ${
+              status === f.value
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-50"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
       <p className="text-gray-600 mt-1">
         {samples.filter((s) => s.test_status === "pending").length} waiting for review
       </p>
