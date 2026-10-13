@@ -258,6 +258,24 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
         raise HTTPException(
             status_code=400, detail="Results can only be entered for samples in progress"
         )
+    if sample.test_status != "in_progress":
+        raise HTTPException(
+            status_code=400, detail="Results can only be entered for samples in progress"
+        )
+
+    specs = (
+        db.query(models.ProductSpec)
+        .filter(models.ProductSpec.sample_type == sample.sample_type)
+        .all()
+    )
+    specs_by_type = {spec.test_type: spec for spec in specs}
+
+    missing = [t for t in sample.test_types if t not in specs_by_type]
+    if missing:
+        raise HTTPException(
+            status_code=400, detail=f"No spec for {sample.sample_type}: {', '.join(missing)}"
+        )
+    return get_sample(sample_id, db)
 
 
 @app.get("/test-db")
