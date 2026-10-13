@@ -12,6 +12,7 @@ from database import Base, engine, get_db
 from schemas import (
     AllSamplesResponse,
     ApproveSample,
+    EnterResults,
     LabTech,
     NewSample,
     ProductSpec,
@@ -242,6 +243,21 @@ def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(ge
     if sample_type:
         query = query.filter(models.ProductSpec.sample_type == sample_type)
     return query.order_by(models.ProductSpec.sample_type, models.ProductSpec.test_type).all()
+
+
+@app.post("/samples/{sample_id}/results", response_model=SampleDetail)
+def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+
+    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    if not lab_tech:
+        raise HTTPException(status_code=404, detail="Lab tech not found")
+    if sample.test_status != "in_progress":
+        raise HTTPException(
+            status_code=400, detail="Results can only be entered for samples in progress"
+        )
 
 
 @app.get("/test-db")
