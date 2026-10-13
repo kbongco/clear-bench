@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import List, Optional
 
-from backend.utils.spec import check_value
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
@@ -27,6 +26,7 @@ from schemas import (
 )
 from utils.audit import log_event
 from utils.dates import calculate_due_date
+from utils.spec import check_value
 
 
 # Create tables on startup
