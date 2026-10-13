@@ -126,7 +126,7 @@ class TestResult(Base):
     passed = Column(Boolean, nullable=True)
     test_type = Column(String, nullable=True)
     condition = Column(String, nullable=True)
-    unit = Column(String, nullable=False)
+    unit = Column(String, nullable=True)
     expected_range_min = Column(Float, nullable=True)
     expected_range_max = Column(Float, nullable=True)
     specification_limit = Column(Float, nullable=True)

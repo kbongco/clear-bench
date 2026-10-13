@@ -102,13 +102,16 @@ class AllSamplesResponse(BaseModel):
 # --------------------
 class TestResultBase(BaseModel):
     parameter_name: str
-    measured_value: float
-    unit: str
+    measured_value: Optional[float] = None
+    unit: Optional[str] = None
     expected_range_min: Optional[float] = None
     expected_range_max: Optional[float] = None
     specification_limit: Optional[float] = None
     is_within_spec: bool
     notes: Optional[str] = None
+    passed: Optional[bool] = None
+    test_type: Optional[str] = None
+    condition: Optional[str] = None
 
 
 class TestResultCreate(TestResultBase):
@@ -199,3 +202,20 @@ class ProductSpec(BaseModel):
     max_value: Optional[float] = None
 
     model_config = {"from_attributes": True}
+
+
+class ResultValue(BaseModel):
+    test_type: str
+    condition: str
+    measured_value: Optional[float] = None
+    passed: Optional[str] = None
+
+
+class EnterResults(BaseModel):
+    model_config = {"str_strip_whitespace": True}
+    lab_tech_id: int
+    test_method: Optional[str] = None
+    instrument_used: Optional[str] = None
+    batch_number: Optional[str] = None
+    analyst_comments: Optional[str] = None
+    values: List[str] = Field(min_length=1)
