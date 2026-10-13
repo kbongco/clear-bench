@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from datetime import datetime
 from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
@@ -298,6 +299,63 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
         except ValueError as e:
             raise HTTPException(status_code=422, detail=str(e))
         checked.append((v, spec, ok))
+
+        result = models.Result(
+            sample_id=v.sample_id, lab_tech_id=v.lab_tech_id, 
+            test_method=body.test_method
+        )
+    db.add(result)
+    db.flush()  # gives result.id
+
+    # Stage E: save everything in one commit
+    passed_count = sum(1 for v, spec, ok in checked if ok)
+    all_ok = passed_count == len(checked)
+
+    result = models.Result(
+        sample_id=sample.id,
+        tested_by=lab_tech.id,
+        test_completed_date=datetime.now(),
+        overall_status="pass" if all_ok else "fail",
+        is_out_of_spec=not all_ok,
+        test_method=body.test_method,
+        instrument_used=body.instrument_used,
+        batch_number=body.batch_number,
+        analyst_comments=body.analyst_comments,
+    )
+    db.add(result)
+    db.flush()
+
+    for v, spec, ok in checked:
+        db.add(
+            models.TestResult(
+                result_id=result.id,
+                test_type=v.test_type,
+                condition=v.condition,
+                parameter_name=spec.parameter_name,
+                measured_value=v.measured_value,
+                passed=v.passed,
+                unit=spec.unit,
+                expected_range_min=spec.min_value,
+                expected_range_max=spec.max_value,
+                is_within_spec=ok,
+            )
+        )
+
+    sample.out_of_spec = not all_ok
+    sample.test_status = "completed"
+
+    log_event(
+        db,
+        sample,
+        action="results_entered",
+        actor_role="lab_tech",
+        actor_id=lab_tech.id,
+        actor_name=lab_tech.name,
+        from_status="in_progress",
+        to_status="completed",
+        note=f"{passed_count} of {len(checked)} in spec",
+    )
+    db.commit()
     return get_sample(sample_id, db)
 
 
