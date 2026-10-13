@@ -208,7 +208,7 @@ class ResultValue(BaseModel):
     test_type: str
     condition: str
     measured_value: Optional[float] = None
-    passed: Optional[str] = None
+    passed: Optional[bool] = None
 
 
 class EnterResults(BaseModel):
@@ -218,4 +218,4 @@ class EnterResults(BaseModel):
     instrument_used: Optional[str] = None
     batch_number: Optional[str] = None
     analyst_comments: Optional[str] = None
-    values: List[str] = Field(min_length=1)
+    values: List[ResultValue] = Field(min_length=1)
