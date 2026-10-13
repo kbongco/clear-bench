@@ -301,8 +301,7 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
         checked.append((v, spec, ok))
 
         result = models.Result(
-            sample_id=v.sample_id, lab_tech_id=v.lab_tech_id, 
-            test_method=body.test_method
+            sample_id=v.sample_id, lab_tech_id=v.lab_tech_id, test_method=body.test_method
         )
     db.add(result)
     db.flush()  # gives result.id
