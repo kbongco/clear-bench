@@ -261,7 +261,7 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
             status_code=400, detail="Results can only be entered for samples in progress"
         )
     if not sample.temperature:
-        raise HTTPException(status_code=404, detail="Sample has no storage conditions")
+        raise HTTPException(status_code=400, detail="Sample has no storage conditions")
 
     specs = (
         db.query(models.ProductSpec)
@@ -299,12 +299,6 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
         except ValueError as e:
             raise HTTPException(status_code=422, detail=str(e))
         checked.append((v, spec, ok))
-
-        result = models.Result(
-            sample_id=v.sample_id, lab_tech_id=v.lab_tech_id, test_method=body.test_method
-        )
-    db.add(result)
-    db.flush()  # gives result.id
 
     # Stage E: save everything in one commit
     passed_count = sum(1 for v, spec, ok in checked if ok)
