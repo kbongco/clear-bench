@@ -6,6 +6,6 @@ export default function formatLimit(spec: ProductSpec): string {
     return "Pass / fail";
   }
 
-  const range = formatRange(spec.max_value, spec.min_value);
+  const range = formatRange(spec.min_value, spec.max_value);
   return spec.unit ? `${range} ${spec.unit}` : range;
 }
