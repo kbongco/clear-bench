@@ -117,5 +117,4 @@ export async function enterResults(id: number, body: EnterResults): Promise<Samp
   }
 
   return response.json();
-
 }
