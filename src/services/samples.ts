@@ -6,6 +6,7 @@ import type {
   SampleCreateResponse,
 } from "../types/Samples/sample";
 import type { SampleDetail } from "../types/Results/results";
+import type { EnterResults } from "../types/Specs/specs";
 
 export async function getSamples(id: string) {
   const response = await fetch(`${API_URL}/scientists/${id}/samples`);
@@ -97,6 +98,22 @@ export async function rejectSample(id: number, labTechId: number, reason: string
   if (!response.ok) {
     const error = await response.json().catch(() => null);
     throw new Error(typeof error?.detail === "string" ? error.detail : "Could not reject sample");
+  }
+
+  return response.json();
+}
+
+export async function enterResults(id: number, body: EnterResults): Promise<SampleDetail> {
+  const response = await fetch(`${API_URL}/samples/${id}/results`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(typeof error?.detail === "string" ? error.detail : "Could not save results");
   }
 
   return response.json();

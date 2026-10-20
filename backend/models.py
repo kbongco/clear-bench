@@ -10,6 +10,7 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    UniqueConstraint,
     func,
 )
 from sqlalchemy.orm import relationship
@@ -121,8 +122,11 @@ class TestResult(Base):
     id = Column(Integer, primary_key=True, index=True)
     result_id = Column(Integer, ForeignKey("results.id"), nullable=False)
     parameter_name = Column(String, nullable=False)
-    measured_value = Column(Float, nullable=False)
-    unit = Column(String, nullable=False)
+    measured_value = Column(Float, nullable=True)
+    passed = Column(Boolean, nullable=True)
+    test_type = Column(String, nullable=True)
+    condition = Column(String, nullable=True)
+    unit = Column(String, nullable=True)
     expected_range_min = Column(Float, nullable=True)
     expected_range_max = Column(Float, nullable=True)
     specification_limit = Column(Float, nullable=True)
@@ -151,3 +155,18 @@ class AuditEvent(Base):
     )
 
     sample = relationship("Sample", back_populates="events")
+
+
+class ProductSpec(Base):
+    __tablename__ = "product_specs"
+    __table_args__ = (
+        UniqueConstraint("sample_type", "test_type", name="uq_spec_sample_type_test_type"),
+    )
+    id = Column(Integer, primary_key=True, index=True)
+    sample_type = Column(String, nullable=False)
+    test_type = Column(String, nullable=False)
+    parameter_name = Column(String, nullable=False)
+    kind = Column(String, nullable=False)
+    unit = Column(String, nullable=True)
+    min_value = Column(Float, nullable=True)
+    max_value = Column(Float, nullable=True)
