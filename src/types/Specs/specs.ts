@@ -6,7 +6,7 @@ export interface ProductSpec {
   test_type: string;
   parameter_name: string;
   kind: SpecKind;
-  unit?: string;
+  unit: string | null;
   min_value?: number;
   max_value?: number;
 }

@@ -109,10 +109,12 @@ export async function enterResults(id: number, body: EnterResults): Promise<Samp
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ body }),
+    body: JSON.stringify(body),
   });
   if (!response.ok) {
     const error = await response.json().catch(() => null);
-    console.log(error);
+    console.log(error.detail);
   }
+
+  return response.json();
 }
