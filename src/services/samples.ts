@@ -113,8 +113,9 @@ export async function enterResults(id: number, body: EnterResults): Promise<Samp
   });
   if (!response.ok) {
     const error = await response.json().catch(() => null);
-    console.log(error.detail);
+    throw new Error(typeof error?.detail === "string" ? error.detail : "Could not save results");
   }
 
   return response.json();
+
 }

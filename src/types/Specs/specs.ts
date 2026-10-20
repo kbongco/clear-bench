@@ -7,8 +7,8 @@ export interface ProductSpec {
   parameter_name: string;
   kind: SpecKind;
   unit: string | null;
-  min_value?: number;
-  max_value?: number;
+  min_value: number | null;
+  max_value: number | null;
 }
 
 export interface ResultValue {
