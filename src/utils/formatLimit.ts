@@ -1,0 +1,11 @@
+import type { ProductSpec } from "../types/Specs/specs";
+import formatRange from "./formatRange";
+
+export default function formatLimit(spec: ProductSpec): string {
+  if (spec.kind === "pass_fail") {
+    return "Pass / fail";
+  }
+
+  const range = formatRange(spec.max_value, spec.min_value);
+  return spec.unit ? `${range} ${spec.unit}` : range;
+}
