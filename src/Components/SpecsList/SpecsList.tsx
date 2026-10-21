@@ -8,7 +8,7 @@ type SpecsListProps = {
 export default function SpecsList({ items }: SpecsListProps) {
   return (
     <ul className="divide-y divide-gray-100">
-      {items.map((spec: any) => (
+      {items.map((spec) => (
         <li key={spec.id} className="flex items-baseline justify-between gap-4 py-2">
           <div>
             <p className="font-medium">{spec.parameter_name}</p>

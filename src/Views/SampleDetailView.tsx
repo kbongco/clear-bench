@@ -116,17 +116,15 @@ export default function SampleDetailView({
               ))
             )}
           </Panel>
-          <TabLayout title="Specs">
-            <Panel title="Current specs" className="mt-8">
-              {specsError ? (
-                <p role="alert">{specsError}</p>
-              ) : specs.length === 0 ? (
-                <p className="text-gray-500">No specs for this sample's tests.</p>
-              ) : (
-                <SpecsList items={specs} />
-              )}
-            </Panel>
-          </TabLayout>
+          <Panel title="Current specs" className="mt-8">
+            {specsError ? (
+              <p role="alert">{specsError}</p>
+            ) : specs.length === 0 ? (
+              <p className="text-gray-500">No specs for this sample's tests.</p>
+            ) : (
+              <SpecsList items={specs} />
+            )}
+          </Panel>
         </TabLayout>
         <TabLayout title="History">
           <Panel title="History">
