@@ -11,8 +11,18 @@ import TabLayout from "../Components/Tabs/TabLayout";
 import { summarizeHistory } from "../utils/summarizeHistory";
 import { describeEvent } from "../utils/describeEvent";
 import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
+import type { ProductSpec } from "../types/Specs/specs";
+import SpecsList from "../Components/SpecsList/SpecsList";
 
-export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
+export default function SampleDetailView({
+  sample,
+  specs,
+  specsError,
+}: {
+  sample: SampleDetailData;
+  specs: ProductSpec[];
+  specsError: string | null;
+}) {
   const items = [
     { label: "Owner", value: sample.scientist.name },
     { label: "Team", value: sample.scientist.department },
@@ -101,6 +111,7 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
               sample.results.map((result) => (
                 <div key={result.id} className="flex flex-col gap-4">
                   <DetailList items={resultItems(result)} />
+                  <SpecsList items={specs} />
                   <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
                 </div>
               ))
