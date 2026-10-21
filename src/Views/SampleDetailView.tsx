@@ -111,12 +111,22 @@ export default function SampleDetailView({
               sample.results.map((result) => (
                 <div key={result.id} className="flex flex-col gap-4">
                   <DetailList items={resultItems(result)} />
-                  <SpecsList items={specs} />
                   <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
                 </div>
               ))
             )}
           </Panel>
+          <TabLayout title="Specs">
+            <Panel title="Current specs" className="mt-8">
+              {specsError ? (
+                <p role="alert">{specsError}</p>
+              ) : specs.length === 0 ? (
+                <p className="text-gray-500">No specs for this sample's tests.</p>
+              ) : (
+                <SpecsList items={specs} />
+              )}
+            </Panel>
+          </TabLayout>
         </TabLayout>
         <TabLayout title="History">
           <Panel title="History">
