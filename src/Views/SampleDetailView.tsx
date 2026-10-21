@@ -13,6 +13,7 @@ import { describeEvent } from "../utils/describeEvent";
 import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 import type { ProductSpec } from "../types/Specs/specs";
 import SpecsList from "../Components/SpecsList/SpecsList";
+import formatMeasured from "../utils/formatMeasured";
 
 export default function SampleDetailView({
   sample,
@@ -55,12 +56,13 @@ export default function SampleDetailView({
     { label: "Reviewer comments", value: result.reviewer_comments },
   ];
 
-  const testHeaders = ["Parameter", "Measured", "Expected", "In spec"];
+  const testHeaders = ["Parameter", "Condition", "Measured", "Expected", "In spec"];
 
   const testRows = (result: Result) =>
     result.test_results.map((t) => ({
       Parameter: t.parameter_name,
-      Measured: `${t.measured_value} ${t.unit}`.trim(),
+      Condition: t.condition ?? "-",
+      Measured: formatMeasured(t),
       Expected: formatRange(t.expected_range_min, t.expected_range_max),
       "In spec": t.is_within_spec ? "✓" : "✗",
     }));
