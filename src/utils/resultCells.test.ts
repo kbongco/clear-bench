@@ -45,35 +45,67 @@ describe("isComplete", () => {
     expect(isComplete({}, testTypes, conditions)).toBe(false);
   });
 
-  const specs = [
-    {
-      id: 1,
-      sample_type: "Food",
-      test_type: "ph",
-      parameter_name: "pH",
-      kind: "numeric",
-      unit: null,
-      min_value: 3.5,
-      max_value: 4.6,
-    },
-    {
-      id: 2,
-      sample_type: "Food",
-      test_type: "visual",
-      parameter_name: "Appearance",
-      kind: "pass_fail",
-      unit: null,
-      min_value: null,
-      max_value: null,
-    },
-  ] satisfies ProductSpec[];
+  describe("buildResultValues", () => {
+    const specs = [
+      {
+        id: 1,
+        sample_type: "Food",
+        test_type: "ph",
+        parameter_name: "pH",
+        kind: "numeric",
+        unit: null,
+        min_value: 3.5,
+        max_value: 4.6,
+      },
+      {
+        id: 2,
+        sample_type: "Food",
+        test_type: "visual",
+        parameter_name: "Appearance",
+        kind: "pass_fail",
+        unit: null,
+        min_value: null,
+        max_value: null,
+      },
+    ] satisfies ProductSpec[];
 
-  it("builds numeric and pass/fail values in grid order", () => {
-    expect(buildResultValues(allFilled, testTypes, conditions, specs)).toEqual([
-      { test_type: "ph", condition: "25C", measured_value: 4.2 },
-      { test_type: "ph", condition: "40C", measured_value: 4.9 },
-      { test_type: "visual", condition: "25C", passed: true },
-      { test_type: "visual", condition: "40C", passed: false },
-    ]);
+    it("builds numeric and pass/fail values in grid order", () => {
+      expect(buildResultValues(allFilled, testTypes, conditions, specs)).toEqual([
+        { test_type: "ph", condition: "25C", measured_value: 4.2 },
+        { test_type: "ph", condition: "40C", measured_value: 4.9 },
+        { test_type: "visual", condition: "25C", passed: true },
+        { test_type: "visual", condition: "40C", passed: false },
+      ]);
+    });
+
+    it("gives one value per cell", () => {
+      expect(buildResultValues(allFilled, testTypes, conditions, specs)).toHaveLength(4);
+    });
+
+    it("keeps 0 as a measured value", () => {
+      const values = buildResultValues(
+        { ...allFilled, "ph|25C": "0" },
+        testTypes,
+        conditions,
+        specs,
+      );
+      expect(values[0]).toEqual({ test_type: "ph", condition: "25C", measured_value: 0 });
+    });
+
+    it("trims spaces before converting", () => {
+      const values = buildResultValues(
+        { ...allFilled, "ph|25C": " 4.2 " },
+        testTypes,
+        conditions,
+        specs,
+      );
+      expect(values[0].measured_value).toBe(4.2);
+    });
+
+    it("does not set passed on numeric cells or measured_value on pass/fail cells", () => {
+      const [ph25, , visual25] = buildResultValues(allFilled, testTypes, conditions, specs);
+      expect(ph25).not.toHaveProperty("passed");
+      expect(visual25).not.toHaveProperty("measured_value");
+    });
   });
 });
