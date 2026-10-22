@@ -1,11 +1,12 @@
 import type { TextAreaInterface } from "../ComponentInterfaces/TextAreaInterface";
 
-export default function TextArea({ label, name, value, onChange }: TextAreaInterface) {
+export default function TextArea({ label, name, value, onChange, id }: TextAreaInterface) {
   return (
     <>
       <div className="flex flex-col">
         <label className="font-bold">{label}</label>
         <textarea
+          id={id}
           onChange={onChange}
           name={name}
           value={value}

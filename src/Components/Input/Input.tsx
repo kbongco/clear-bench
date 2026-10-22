@@ -10,12 +10,14 @@ export default function Input({
   disabled,
   required,
   error,
+  id,
 }: InputProps) {
   return (
     <>
       <div className="flex flex-col gap-2 mb-4">
         <label className="font-bold">{label}</label>
         <input
+          id={id}
           type={type}
           placeholder={placeholder}
           value={value}
