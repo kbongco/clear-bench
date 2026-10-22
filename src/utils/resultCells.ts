@@ -34,8 +34,8 @@ export function buildResultValues(
     for (const condition of conditions) {
       const text = cells[cellKey(testType, condition)]?.trim() ?? "";
 
-      if (kindByTest[testType] === testType) {
-        values.push({ test_type: testType, condition, passed: text === "passed" });
+      if (kindByTest[testType] === "pass_fail") {
+        values.push({ test_type: testType, condition, passed: text === "pass" });
       } else {
         values.push({ test_type: testType, condition, measured_value: Number(text) });
       }

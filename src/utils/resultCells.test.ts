@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { cellKey, isComplete, type CellValues } from "./resultCells";
+import { buildResultValues, cellKey, isComplete, type CellValues } from "./resultCells";
+import type { ProductSpec } from "../types/Specs/specs";
 
 describe("cellKey", () => {
   it("joins test type and condition with a pipe", () => {
@@ -42,5 +43,37 @@ describe("isComplete", () => {
 
   it("is false for an empty form", () => {
     expect(isComplete({}, testTypes, conditions)).toBe(false);
+  });
+
+  const specs = [
+    {
+      id: 1,
+      sample_type: "Food",
+      test_type: "ph",
+      parameter_name: "pH",
+      kind: "numeric",
+      unit: null,
+      min_value: 3.5,
+      max_value: 4.6,
+    },
+    {
+      id: 2,
+      sample_type: "Food",
+      test_type: "visual",
+      parameter_name: "Appearance",
+      kind: "pass_fail",
+      unit: null,
+      min_value: null,
+      max_value: null,
+    },
+  ] satisfies ProductSpec[];
+
+  it("builds numeric and pass/fail values in grid order", () => {
+    expect(buildResultValues(allFilled, testTypes, conditions, specs)).toEqual([
+      { test_type: "ph", condition: "25C", measured_value: 4.2 },
+      { test_type: "ph", condition: "40C", measured_value: 4.9 },
+      { test_type: "visual", condition: "25C", passed: true },
+      { test_type: "visual", condition: "40C", passed: false },
+    ]);
   });
 });
