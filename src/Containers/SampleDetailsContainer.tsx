@@ -64,7 +64,12 @@ export default function SampleDetailsContainer() {
 
   return (
     <>
-      <SampleDetailView sample={sampleDetails} specs={sampleSpecs} specsError={specsError} />
+      <SampleDetailView
+        sample={sampleDetails}
+        specs={sampleSpecs}
+        specsError={specsError}
+        onSaved={setSampleDetails}
+      />
     </>
   );
 }

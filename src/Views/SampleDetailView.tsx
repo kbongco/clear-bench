@@ -21,10 +21,12 @@ export default function SampleDetailView({
   sample,
   specs,
   specsError,
+  onSaved,
 }: {
   sample: SampleDetailData;
   specs: ProductSpec[];
   specsError: string | null;
+  onSaved: (updated: SampleDetailData) => void;
 }) {
   const role = useRoleStore((state) => state.role);
   const canEnterResults = role === "labtech" && sample.test_status === "in_progress";
@@ -112,7 +114,7 @@ export default function SampleDetailView({
         <TabLayout title="Results">
           {canEnterResults && (
             <Panel title="Enter results">
-              <EnterResultsForm sample={sample} specs={specs} />
+              <EnterResultsForm sample={sample} specs={specs} onSaved={onSaved} />
             </Panel>
           )}
           <Panel title="Results">
