@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from datetime import datetime
 from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
@@ -12,8 +13,10 @@ from database import Base, engine, get_db
 from schemas import (
     AllSamplesResponse,
     ApproveSample,
+    EnterResults,
     LabTech,
     NewSample,
+    ProductSpec,
     RejectSample,
     Sample,
     SampleCreateResponse,
@@ -24,6 +27,7 @@ from schemas import (
 )
 from utils.audit import log_event
 from utils.dates import calculate_due_date
+from utils.spec import check_value
 
 
 # Create tables on startup
@@ -233,6 +237,119 @@ def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_
     db.commit()
     db.refresh(sample)
     return sample
+
+
+@app.get("/specs", response_model=List[ProductSpec])
+def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(get_db)):
+    query = db.query(models.ProductSpec)
+    if sample_type:
+        query = query.filter(models.ProductSpec.sample_type == sample_type)
+    return query.order_by(models.ProductSpec.sample_type, models.ProductSpec.test_type).all()
+
+
+@app.post("/samples/{sample_id}/results", response_model=SampleDetail)
+def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_db)):
+    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail="Sample not found")
+
+    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    if not lab_tech:
+        raise HTTPException(status_code=404, detail="Lab tech not found")
+    if sample.test_status != "in_progress":
+        raise HTTPException(
+            status_code=400, detail="Results can only be entered for samples in progress"
+        )
+    if not sample.temperature:
+        raise HTTPException(status_code=400, detail="Sample has no storage conditions")
+
+    specs = (
+        db.query(models.ProductSpec)
+        .filter(models.ProductSpec.sample_type == sample.sample_type)
+        .all()
+    )
+    specs_by_type = {spec.test_type: spec for spec in specs}
+
+    missing = [t for t in sample.test_types if t not in specs_by_type]
+    if missing:
+        raise HTTPException(
+            status_code=400, detail=f"No spec for {sample.sample_type}: {', '.join(missing)}"
+        )
+
+    expected = {(t, c) for t in sample.test_types for c in sample.temperature}
+    submitted = [(v.test_type, v.condition) for v in body.values]
+
+    if len(submitted) != len(set(submitted)):
+        raise HTTPException(
+            status_code=422, detail="Each test and condition can only be entered once"
+        )
+
+    missing_cells = expected - set(submitted)
+    extra_cells = set(submitted) - expected
+    if missing_cells or extra_cells:
+        raise HTTPException(
+            status_code=422, detail=f"Missing: {sorted(missing_cells)} Extra: {sorted(extra_cells)}"
+        )
+
+    checked = []
+    for v in body.values:
+        spec = specs_by_type[v.test_type]
+        try:
+            ok = check_value(spec, v.measured_value, v.passed)
+        except ValueError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+        checked.append((v, spec, ok))
+
+    # Stage E: save everything in one commit
+    passed_count = sum(1 for v, spec, ok in checked if ok)
+    all_ok = passed_count == len(checked)
+
+    result = models.Result(
+        sample_id=sample.id,
+        tested_by=lab_tech.id,
+        test_completed_date=datetime.now(),
+        overall_status="pass" if all_ok else "fail",
+        is_out_of_spec=not all_ok,
+        test_method=body.test_method,
+        instrument_used=body.instrument_used,
+        batch_number=body.batch_number,
+        analyst_comments=body.analyst_comments,
+    )
+    db.add(result)
+    db.flush()
+
+    for v, spec, ok in checked:
+        db.add(
+            models.TestResult(
+                result_id=result.id,
+                test_type=v.test_type,
+                condition=v.condition,
+                parameter_name=spec.parameter_name,
+                measured_value=v.measured_value,
+                passed=v.passed,
+                unit=spec.unit,
+                expected_range_min=spec.min_value,
+                expected_range_max=spec.max_value,
+                is_within_spec=ok,
+            )
+        )
+
+    sample.out_of_spec = not all_ok
+    sample.test_status = "completed"
+
+    log_event(
+        db,
+        sample,
+        action="results_entered",
+        actor_role="lab_tech",
+        actor_id=lab_tech.id,
+        actor_name=lab_tech.name,
+        from_status="in_progress",
+        to_status="completed",
+        note=f"{passed_count} of {len(checked)} in spec",
+    )
+    db.commit()
+    return get_sample(sample_id, db)
 
 
 @app.get("/test-db")

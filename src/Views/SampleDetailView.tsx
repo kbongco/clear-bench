@@ -11,8 +11,25 @@ import TabLayout from "../Components/Tabs/TabLayout";
 import { summarizeHistory } from "../utils/summarizeHistory";
 import { describeEvent } from "../utils/describeEvent";
 import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
+import type { ProductSpec } from "../types/Specs/specs";
+import SpecsList from "../Components/SpecsList/SpecsList";
+import formatMeasured from "../utils/formatMeasured";
+import { useRoleStore } from "../store/useRoleStore";
+import EnterResultsForm from "../Components/EnterResultsForm/EnterResultsForm";
 
-export default function SampleDetailView({ sample }: { sample: SampleDetailData }) {
+export default function SampleDetailView({
+  sample,
+  specs,
+  specsError,
+  onSaved,
+}: {
+  sample: SampleDetailData;
+  specs: ProductSpec[];
+  specsError: string | null;
+  onSaved: (updated: SampleDetailData) => void;
+}) {
+  const role = useRoleStore((state) => state.role);
+  const canEnterResults = role === "labtech" && sample.test_status === "in_progress";
   const items = [
     { label: "Owner", value: sample.scientist.name },
     { label: "Team", value: sample.scientist.department },
@@ -45,12 +62,13 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
     { label: "Reviewer comments", value: result.reviewer_comments },
   ];
 
-  const testHeaders = ["Parameter", "Measured", "Expected", "In spec"];
+  const testHeaders = ["Parameter", "Condition", "Measured", "Expected", "In spec"];
 
   const testRows = (result: Result) =>
     result.test_results.map((t) => ({
       Parameter: t.parameter_name,
-      Measured: `${t.measured_value} ${t.unit}`.trim(),
+      Condition: t.condition ?? "-",
+      Measured: formatMeasured(t),
       Expected: formatRange(t.expected_range_min, t.expected_range_max),
       "In spec": t.is_within_spec ? "✓" : "✗",
     }));
@@ -94,6 +112,11 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
           </Panel>
         </TabLayout>
         <TabLayout title="Results">
+          {canEnterResults && (
+            <Panel title="Enter results">
+              <EnterResultsForm sample={sample} specs={specs} onSaved={onSaved} />
+            </Panel>
+          )}
           <Panel title="Results">
             {sample.results.length === 0 ? (
               <p className="text-gray-500">No results yet.</p>
@@ -104,6 +127,15 @@ export default function SampleDetailView({ sample }: { sample: SampleDetailData 
                   <Table tableTitle="" tableHeader={testHeaders} data={testRows(result)} />
                 </div>
               ))
+            )}
+          </Panel>
+          <Panel title="Current specs" className="mt-8">
+            {specsError ? (
+              <p role="alert">{specsError}</p>
+            ) : specs.length === 0 ? (
+              <p className="text-gray-500">No specs for this sample's tests.</p>
+            ) : (
+              <SpecsList items={specs} />
             )}
           </Panel>
         </TabLayout>
