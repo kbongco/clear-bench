@@ -4,7 +4,7 @@ export default function TextArea({ label, name, value, onChange, id }: TextAreaI
   return (
     <>
       <div className="flex flex-col">
-        <label className="font-bold">{label}</label>
+        <label className="font-bold" htmlFor={id}>{label}</label>
         <textarea
           id={id}
           onChange={onChange}
