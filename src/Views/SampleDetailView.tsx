@@ -110,6 +110,11 @@ export default function SampleDetailView({
           </Panel>
         </TabLayout>
         <TabLayout title="Results">
+          {canEnterResults && (
+            <Panel title="Enter results">
+              <EnterResultsForm sample={sample} specs={specs} />
+            </Panel>
+          )}
           <Panel title="Results">
             {sample.results.length === 0 ? (
               <p className="text-gray-500">No results yet.</p>
@@ -130,9 +135,6 @@ export default function SampleDetailView({
             ) : (
               <SpecsList items={specs} />
             )}
-          </Panel>
-          <Panel title="Enter Results">
-            {canEnterResults && <EnterResultsForm sample={sample} specs={specs} />}
           </Panel>
         </TabLayout>
         <TabLayout title="History">
