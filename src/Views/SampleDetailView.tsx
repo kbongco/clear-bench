@@ -14,6 +14,8 @@ import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 import type { ProductSpec } from "../types/Specs/specs";
 import SpecsList from "../Components/SpecsList/SpecsList";
 import formatMeasured from "../utils/formatMeasured";
+import { useRoleStore } from "../store/useRoleStore";
+import EnterResultsForm from "../Components/EnterResultsForm/EnterResultsForm";
 
 export default function SampleDetailView({
   sample,
@@ -24,6 +26,8 @@ export default function SampleDetailView({
   specs: ProductSpec[];
   specsError: string | null;
 }) {
+  const role = useRoleStore((state) => state.role);
+  const canEnterResults = role === "labtech" && sample.test_status === "in_progress";
   const items = [
     { label: "Owner", value: sample.scientist.name },
     { label: "Team", value: sample.scientist.department },
@@ -126,6 +130,9 @@ export default function SampleDetailView({
             ) : (
               <SpecsList items={specs} />
             )}
+          </Panel>
+          <Panel title="Enter Results">
+            {canEnterResults && <EnterResultsForm sample={sample} specs={specs} />}
           </Panel>
         </TabLayout>
         <TabLayout title="History">
