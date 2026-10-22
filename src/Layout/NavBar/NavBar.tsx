@@ -63,6 +63,14 @@ export default function NavBar() {
               </NavLink>
             </div>
           </li>
+          <li className="mx-8 my-4">
+            <div className="flex gap-4 items-center">
+              <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
+              <NavLink to="/specs" className="text-white text-lg font-bold">
+                Specs
+              </NavLink>
+            </div>
+          </li>
 
           {/* Conditionally render based on role */}
           {role === "scientist" ? (

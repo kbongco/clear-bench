@@ -110,7 +110,7 @@ class Result(Base):
 
     # Relationships
     sample = relationship("Sample", back_populates="results")
-    test_results = relationship("TestResult", back_populates="result")
+    test_results = relationship("TestResult", back_populates="result", order_by="TestResult.id")
 
 
 # ---------------------

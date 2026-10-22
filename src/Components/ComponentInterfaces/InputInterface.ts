@@ -8,4 +8,5 @@ export interface InputProps {
   disabled?: boolean;
   required?: boolean;
   error?: string;
+  id?: string;
 }
