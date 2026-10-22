@@ -15,7 +15,9 @@ export default function Input({
   return (
     <>
       <div className="flex flex-col gap-2 mb-4">
-        <label htmlFor={id} className="font-bold">{label}</label>
+        <label htmlFor={id} className="font-bold">
+          {label}
+        </label>
         <input
           id={id}
           type={type}
