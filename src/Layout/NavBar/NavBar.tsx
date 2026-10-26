@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { useCurrentUserStore, type CurrentUser, type Role } from "../../store/useCurrentUserStore";
+import { useCurrentUserStore, type Role } from "../../store/useCurrentUserStore";
 const DEMO_USERS = {
   scientist: { role: "scientist", id: 1, name: "Dr. Alice Nguyen" },
   labtech: { role: "labtech", id: 1, name: "Sarah Lin" },

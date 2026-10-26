@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import { CURRENT_SCIENTIST_ID } from "../services/currentUser";
 import { getScientists } from "../services/scientists";
 import SubmitSamples from "../Views/SubmitSamples";
 import type { ScientistSummary } from "../types/Samples/sample";
