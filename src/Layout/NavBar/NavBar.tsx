@@ -9,11 +9,11 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-import { useRoleStore } from "../../store/useRoleStore";
+import { useCurrentUserStore } from "../../store/useCurrentUserStore";
 
 export default function NavBar() {
-  const role = useRoleStore((state) => state.role);
-  const setRole = useRoleStore((state) => state.setRole);
+  const role = useCurrentUserStore((state) => state.role);
+  const setRole = useCurrentUserStore((state) => state.setRole);
 
   return (
     <div className="w-64 bg-blue-500 fixed h-full overflow-y-auto flex flex-col justify-between">

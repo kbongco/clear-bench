@@ -14,7 +14,7 @@ import HistoryEntry from "../Components/HistoryEntry/HistoryEntry";
 import type { ProductSpec } from "../types/Specs/specs";
 import SpecsList from "../Components/SpecsList/SpecsList";
 import formatMeasured from "../utils/formatMeasured";
-import { useRoleStore } from "../store/useRoleStore";
+import { useCurrentUserStore } from "../store/useCurrentUserStore";
 import EnterResultsForm from "../Components/EnterResultsForm/EnterResultsForm";
 
 export default function SampleDetailView({
@@ -28,7 +28,7 @@ export default function SampleDetailView({
   specsError: string | null;
   onSaved: (updated: SampleDetailData) => void;
 }) {
-  const role = useRoleStore((state) => state.role);
+  const role = useCurrentUserStore((state) => state.role);
   const canEnterResults = role === "labtech" && sample.test_status === "in_progress";
   const items = [
     { label: "Owner", value: sample.scientist.name },
