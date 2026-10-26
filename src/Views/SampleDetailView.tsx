@@ -28,7 +28,7 @@ export default function SampleDetailView({
   specsError: string | null;
   onSaved: (updated: SampleDetailData) => void;
 }) {
-  const role = useCurrentUserStore((state) => state.role);
+  const role = useCurrentUserStore((state) => state.user.role);
   const canEnterResults = role === "labtech" && sample.test_status === "in_progress";
   const items = [
     { label: "Owner", value: sample.scientist.name },

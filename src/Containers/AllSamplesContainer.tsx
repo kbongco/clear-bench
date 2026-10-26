@@ -3,7 +3,7 @@ import LabTechSamplesContainer from "./LabTechSamplesContainer";
 import ScientistSamplesContainer from "./ScientistSamplesContainer";
 
 export default function AllSamplesContainer() {
-  const role = useCurrentUserStore((state) => state.role);
+  const role = useCurrentUserStore((state) => state.user.role);
 
   if (role === "labtech") return <LabTechSamplesContainer />;
   return <ScientistSamplesContainer />;

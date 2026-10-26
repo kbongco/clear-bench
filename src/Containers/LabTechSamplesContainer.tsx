@@ -6,7 +6,7 @@ import LabTechAllSamples from "../Views/Dashboard/LabTechAllSamples";
 import { useCurrentUserStore } from "../store/useCurrentUserStore";
 
 export default function LabTechSamplesContainer() {
-  const role = useCurrentUserStore((state) => state.role);
+  const role = useCurrentUserStore((state) => state.user.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
   const [department, setDepartment] = useState("");
   const [teams, setTeams] = useState<string[]>([]);
