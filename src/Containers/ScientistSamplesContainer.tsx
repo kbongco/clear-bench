@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import ScientistAllSamples from "../Views/Dashboard/ScientistAllSamples";
 import { getScientists } from "../services/scientists";
-import { CURRENT_SCIENTIST_ID } from "../services/currentUser";
 import { getAllSamples } from "../services/samples";
 import type { SampleWithOwner } from "../types/Samples/sample";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function ScientistSamplesContainer() {
+  const { id: scientistId } = useCurrentUser();
   const [loading, setLoading] = useState<boolean>(true);
   const [department, setDepartment] = useState("");
   const [status, setStatus] = useState("");
@@ -16,7 +17,7 @@ export default function ScientistSamplesContainer() {
     const fetchData = async () => {
       try {
         const scientists = await getScientists();
-        const currentDepartment = scientists.find((sci) => sci.id === CURRENT_SCIENTIST_ID);
+        const currentDepartment = scientists.find((sci) => sci.id === scientistId);
         if (!currentDepartment) {
           setError("We couldn't find your scientist profile.");
           return;
@@ -29,7 +30,7 @@ export default function ScientistSamplesContainer() {
       }
     };
     fetchData();
-  }, []);
+  }, [scientistId]);
 
   useEffect(() => {
     let ignore = false;

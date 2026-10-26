@@ -18,9 +18,10 @@ export async function getSamples(id: string) {
 }
 
 export async function getAllSamples(
-  filters: { status?: string; department?: string } = {},
+  filters: { status?: string; department?: string; labTechId?: number } = {},
 ): Promise<AllSamplesResponse> {
   const params = new URLSearchParams();
+  if (filters.labTechId !== undefined) params.set("lab_tech_id", String(filters.labTechId));
   if (filters.status) params.set("status", filters.status);
   if (filters.department) params.set("department", filters.department);
 
@@ -60,15 +61,6 @@ export async function createSample(sampleData: NewSample): Promise<SampleCreateR
     console.error(err);
     throw err;
   }
-}
-
-export async function getPendingSamples(scientistId: number) {
-  const response = await fetch(`${API_URL}/scientists/${scientistId}/samples?status=pending`);
-  if (!response.ok) {
-    throw new Error("Unable to fetch pending samples");
-  }
-
-  return response.json();
 }
 
 export async function approveSample(id: number, labTechId: number): Promise<Sample> {
