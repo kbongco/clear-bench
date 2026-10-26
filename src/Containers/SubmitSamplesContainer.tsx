@@ -16,7 +16,7 @@ export default function SubmitSamplesContainer() {
     const fetchData = async () => {
       try {
         const scientists = await getScientists();
-        const currentScientist = scientists.find((sci) => sci.id === scientistId;
+        const currentScientist = scientists.find((sci) => sci.id === scientistId);
         if (!ignore) setScientist(currentScientist);
       } catch {
         if (!ignore) setError("Unable to find scientist");
