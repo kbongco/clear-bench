@@ -80,10 +80,13 @@ def get_all_samples(
     status: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
     db: Session = Depends(get_db),
+    lab_tech_id: Optional[int] = Query(None),
 ):
     query = db.query(models.Sample).options(joinedload(models.Sample.scientist))
     if status:
         query = query.filter(models.Sample.test_status == status)
+    if lab_tech_id:
+        query = query.filter(models.Sample.lab_tech_id == lab_tech_id)
     if department:
         query = query.join(models.Sample.scientist).filter(
             models.Scientist.department == department
