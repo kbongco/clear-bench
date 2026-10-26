@@ -1,4 +1,3 @@
-
 import { describe, expect, it } from "vitest";
 import parsePersonValue from "./parsePerson";
 
@@ -21,12 +20,9 @@ describe("parsePersonValue", () => {
     expect(parsePersonValue("manager:1")).toBeNull();
   });
 
-  it.each(["labtech", "labtech:"])(
-    "returns null when the id is missing: %s",
-    (value) => {
-      expect(parsePersonValue(value)).toBeNull();
-    }
-  );
+  it.each(["labtech", "labtech:"])("returns null when the id is missing: %s", (value) => {
+    expect(parsePersonValue(value)).toBeNull();
+  });
 
   it("returns null for a non-numeric id", () => {
     expect(parsePersonValue("labtech:abc")).toBeNull();
