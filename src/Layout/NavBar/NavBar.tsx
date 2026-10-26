@@ -1,12 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBell,
   faHouse,
   faFlask,
   faCheckSquare,
   faFile,
   faRightFromBracket,
-  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
