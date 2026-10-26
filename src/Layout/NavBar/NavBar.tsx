@@ -9,11 +9,16 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-import { useCurrentUserStore } from "../../store/useCurrentUserStore";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useCurrentUserStore, type CurrentUser, type Role } from "../../store/useCurrentUserStore";
+const DEMO_USERS = {
+  scientist: { role: "scientist", id: 1, name: "Dr. Alice Nguyen" },
+  labtech: { role: "labtech", id: 1, name: "Sarah Lin" },
+} as const;
 
 export default function NavBar() {
-  const role = useCurrentUserStore((state) => state.role);
-  const setRole = useCurrentUserStore((state) => state.setRole);
+  const { role } = useCurrentUser();
+  const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
 
   return (
     <div className="w-64 bg-blue-500 fixed h-full overflow-y-auto flex flex-col justify-between">
@@ -110,7 +115,7 @@ export default function NavBar() {
           <label className="text-white font-semibold block mb-1">Role:</label>
           <select
             value={role}
-            onChange={(e) => setRole(e.target.value as "scientist" | "labtech")}
+            onChange={(e) => setCurrentUser(DEMO_USERS[e.target.value as Role])}
             className="w-full px-2 py-1 rounded text-black"
           >
             <option value="scientist">Scientist</option>

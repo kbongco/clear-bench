@@ -9,7 +9,7 @@ export default function SubmitSamplesContainer() {
   const [scientist, setScientist] = useState<ScientistSummary>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
-  const { id, scientistId } = useCurrentUser();
+  const { id: scientistId } = useCurrentUser();
 
   useEffect(() => {
     let ignore = false;
