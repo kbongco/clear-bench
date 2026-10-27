@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import type { SampleAPI } from "../../types/Samples/sample";
 import summarizeSamples from "../../utils/summarizeSamples";
+import needsAttention from "../../utils/needsAttention";
 import StatTile from "../../Components/StatTile/StatTile";
 import Panel from "../../Components/Panel/Panel";
-import needsAttention from "../../utils/needsAttention";
 import Pill from "../../Components/Pill/Pill";
 
 type ScientistHomeProps = {
@@ -15,8 +15,7 @@ type ScientistHomeProps = {
 
 export default function ScientistHome({ name, samples, loading, error }: ScientistHomeProps) {
   const summary = summarizeSamples(samples);
-  const needsAttentionSamples = needsAttention(samples);
-  console.log(needsAttentionSamples);
+  const attention = needsAttention(samples);
 
   return (
     <div className="p-4">
@@ -41,21 +40,24 @@ export default function ScientistHome({ name, samples, loading, error }: Scienti
       ) : samples.length === 0 ? (
         <p className="mt-6 text-gray-600">You haven't submitted any samples yet.</p>
       ) : (
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <StatTile label="Pending" value={summary.pending} />
-          <StatTile label="In progress" value={summary.in_progress} />
-          <StatTile label="Completed" value={summary.completed} />
-          <StatTile
-            label="Out of spec"
-            value={summary.out_of_spec}
-            highlight={summary.out_of_spec > 0}
-          />
+        <>
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <StatTile label="Pending" value={summary.pending} />
+            <StatTile label="In progress" value={summary.in_progress} />
+            <StatTile label="Completed" value={summary.completed} />
+            <StatTile
+              label="Out of spec"
+              value={summary.out_of_spec}
+              highlight={summary.out_of_spec > 0}
+            />
+          </div>
+
           <Panel title="Needs attention" className="mt-6">
-            {needsAttentionSamples.length === 0 ? (
+            {attention.length === 0 ? (
               <p className="text-gray-600">Nothing needs your attention right now.</p>
             ) : (
               <ul className="divide-y divide-gray-100">
-                {needsAttentionSamples.map((s) => (
+                {attention.map((s) => (
                   <li key={s.id}>
                     <Link
                       to={`/samples/${s.id}`}
@@ -81,7 +83,7 @@ export default function ScientistHome({ name, samples, loading, error }: Scienti
               View all samples →
             </Link>
           </Panel>
-        </div>
+        </>
       )}
     </div>
   );
