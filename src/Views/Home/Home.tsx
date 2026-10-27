@@ -1,9 +1,9 @@
 import LabTechHomeView from "./LabTechHome";
-import ScientistHome from "./ScientistHome";
 import { useCurrentUserStore } from "../../store/useCurrentUserStore";
+import ScientistHomeContainer from "../../Containers/ScientistHomeContainer";
 
 export default function Home() {
   const role = useCurrentUserStore((state) => state.user.role);
 
-  return <>{role === "labtech" ? <LabTechHomeView /> : <ScientistHome />}</>;
+  return <>{role === "labtech" ? <LabTechHomeView /> : <ScientistHomeContainer />}</>;
 }
