@@ -18,7 +18,7 @@ export default function ScientistHomeContainer() {
       try {
         const sampleItems = await getSamples(scientistId);
         console.log(sampleItems);
-        if (!ignore) setSamples(sampleItems);
+        if (!ignore) setSamples(sampleItems.samples);
       } catch {
         if (!ignore) setError("Is the backend running properly? ");
       } finally {
