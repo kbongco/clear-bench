@@ -10,7 +10,7 @@ export default function needsAttention(samples: SampleAPI[], limit = 5): SampleA
   return [...outOfSpec, ...inProgress].slice(0, limit);
 }
 
-function byDueDate(a: SampleAPI, b: SampleAPI): number {
+export function byDueDate(a: SampleAPI, b: SampleAPI): number {
   if (a.due_date === b.due_date) return 0;
   if (a.due_date === null) return 1; // a has no date → a goes after b
   if (b.due_date === null) return -1; // b has no date → a goes before b
