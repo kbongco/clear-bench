@@ -1,11 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faFlask,
-  faCheckSquare,
-  faFile,
-  faRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faFlask, faCheckSquare, faFile } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -84,14 +78,6 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
-                <NavLink to="/current-samples" className="text-white text-lg font-bold">
-                  Current Samples
-                </NavLink>
-              </div>
-            </li>
-            <li className="mx-8 my-4">
-              <div className="flex gap-4 items-center">
-                <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
                 <NavLink to="/specs" className="text-white text-lg font-bold">
                   Specs
                 </NavLink>
@@ -118,15 +104,6 @@ export default function NavBar() {
                 </div>
               </li>
             )}
-
-            <li className="mx-8 my-4">
-              <div className="flex gap-4 items-center">
-                <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
-                <NavLink to="/generate-report" className="text-white text-lg font-bold">
-                  Generate Report
-                </NavLink>
-              </div>
-            </li>
           </ul>
         </ul>
       </div>
@@ -165,10 +142,6 @@ export default function NavBar() {
           </select>
         </div>
         <hr />
-        <div className="flex items-center gap-2">
-          <FontAwesomeIcon className="text-2xl text-white" icon={faRightFromBracket} />
-          <h1 className="text-lg text-white font-bold">Logout</h1>
-        </div>
       </div>
     </div>
   );
