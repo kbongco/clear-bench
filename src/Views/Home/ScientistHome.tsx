@@ -12,11 +12,6 @@ type ScientistHomeProps = {
 
 export default function ScientistHome({ name, samples, loading, error }: ScientistHomeProps) {
   const summary = summarizeSamples(samples);
-  console.log(summary);
-
-  if (loading) return <p>Samples currently loading</p>;
-
-  if (error) return <p>There is an error and we can't load samples right now</p>;
 
   return (
     <div className="p-4">
@@ -30,16 +25,28 @@ export default function ScientistHome({ name, samples, loading, error }: Scienti
         </Link>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-        <StatTile label="Pending" value={summary.pending} />
-        <StatTile label="In progress" value={summary.in_progress} />
-        <StatTile label="Completed" value={summary.completed} />
-        <StatTile
-          label="Out of spec"
-          value={summary.out_of_spec}
-          highlight={summary.out_of_spec > 0}
-        />
-      </div>
+      {loading ? (
+        <p role="status" className="mt-6 text-gray-600">
+          Loading your samples…
+        </p>
+      ) : error ? (
+        <p role="alert" className="mt-6 text-red-600">
+          {error}
+        </p>
+      ) : samples.length === 0 ? (
+        <p className="mt-6 text-gray-600">You haven't submitted any samples yet.</p>
+      ) : (
+        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <StatTile label="Pending" value={summary.pending} />
+          <StatTile label="In progress" value={summary.in_progress} />
+          <StatTile label="Completed" value={summary.completed} />
+          <StatTile
+            label="Out of spec"
+            value={summary.out_of_spec}
+            highlight={summary.out_of_spec > 0}
+          />
+        </div>
+      )}
     </div>
   );
 }
