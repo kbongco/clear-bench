@@ -3,10 +3,10 @@ import type { SampleWithOwner } from "../types/Samples/sample";
 import { getAllSamples } from "../services/samples";
 import { getScientists } from "../services/scientists";
 import LabTechAllSamples from "../Views/Dashboard/LabTechAllSamples";
-import { useRoleStore } from "../store/useRoleStore";
+import { useCurrentUserStore } from "../store/useCurrentUserStore";
 
 export default function LabTechSamplesContainer() {
-  const role = useRoleStore((state) => state.role);
+  const role = useCurrentUserStore((state) => state.user.role);
   const [labTechSamples, setLabTechSamples] = useState<SampleWithOwner[]>([]);
   const [department, setDepartment] = useState("");
   const [teams, setTeams] = useState<string[]>([]);
