@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import type { SampleAPI } from "../../types/Samples/sample";
 import summarizeSamples from "../../utils/summarizeSamples";
 import StatTile from "../../Components/StatTile/StatTile";
+import Panel from "../../Components/Panel/Panel";
+import needsAttention from "../../utils/needsAttention";
+import Pill from "../../Components/Pill/Pill";
 
 type ScientistHomeProps = {
   name: string;
@@ -12,6 +15,8 @@ type ScientistHomeProps = {
 
 export default function ScientistHome({ name, samples, loading, error }: ScientistHomeProps) {
   const summary = summarizeSamples(samples);
+  const needsAttentionSamples = needsAttention(samples);
+  console.log(needsAttentionSamples);
 
   return (
     <div className="p-4">
@@ -45,6 +50,37 @@ export default function ScientistHome({ name, samples, loading, error }: Scienti
             value={summary.out_of_spec}
             highlight={summary.out_of_spec > 0}
           />
+          <Panel title="Needs attention" className="mt-6">
+            {needsAttentionSamples.length === 0 ? (
+              <p className="text-gray-600">Nothing needs your attention right now.</p>
+            ) : (
+              <ul className="divide-y divide-gray-100">
+                {needsAttentionSamples.map((s) => (
+                  <li key={s.id}>
+                    <Link
+                      to={`/samples/${s.id}`}
+                      className="flex flex-wrap items-center justify-between gap-2 py-3 hover:bg-gray-50"
+                    >
+                      <span className="font-medium">{s.name}</span>
+                      <span className="flex items-center gap-3 text-sm text-gray-600">
+                        <Pill status={s.test_status ?? "pending"} />
+                        {s.out_of_spec && (
+                          <span className="font-medium text-red-600">Out of spec</span>
+                        )}
+                        <span>{s.due_date ? `Due ${s.due_date}` : "No due date"}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Link
+              to="/view-samples"
+              className="mt-4 inline-block text-sm text-blue-600 hover:underline"
+            >
+              View all samples →
+            </Link>
+          </Panel>
         </div>
       )}
     </div>
