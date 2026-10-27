@@ -100,3 +100,8 @@ export interface AllSamplesResponse {
   total: number;
   samples: SampleWithOwner[];
 }
+
+export interface SamplesResponse {
+  total: number;
+  samples: SampleAPI[];
+}

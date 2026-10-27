@@ -1,116 +1,90 @@
-import { useEffect, useState } from "react";
-import Card from "../../Components/Card/Card";
-import Table from "../../Components/Table/Table";
-import { mockSamples } from "../../mockData/sampleData";
-import { faBell, faFlask } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import type { SampleAPI } from "../../types/Samples/sample";
+import summarizeSamples from "../../utils/summarizeSamples";
+import needsAttention from "../../utils/needsAttention";
+import StatTile from "../../Components/StatTile/StatTile";
+import Panel from "../../Components/Panel/Panel";
+import Pill from "../../Components/Pill/Pill";
 
-export default function ScientistHome() {
-  const [allSamples, setAllSamples] = useState<
-    Array<{
-      id: string;
-      name: string;
-      totalSamples: string | number;
-      typeOfTest: string;
-      testStatus: string;
-      dueDate: string;
-    }>
-  >([]);
+type ScientistHomeProps = {
+  name: string;
+  samples: SampleAPI[];
+  loading: boolean;
+  error: string | null;
+};
 
-  const currentUser = mockSamples[0].owner.name;
-  const currentUserSamples = mockSamples.filter((sample) => sample.owner.name === currentUser);
-  const outOfSpecSamples = currentUserSamples.filter((sample) => sample.outOfSpec === true);
-  const currentCompletedSamples = currentUserSamples.filter(
-    (sample) => sample.testStatus === "completed",
-  );
-  const currentTableTitle = "Your samples currently in test";
-  const currentSamplesArr = currentUserSamples.map((sample) => {
-    return {
-      id: sample.id,
-      name: sample.name,
-      totalSamples: sample.totalSamples,
-      typeOfTest: sample.typeOfTest,
-      testStatus: sample.testStatus,
-      dueDate: sample.dueDate,
-    };
-  });
-  const titles = Object.keys(currentSamplesArr[0]);
-
-  const totalSamples = currentUserSamples.length;
-
-  const testDescription = (
-    <span className="flex items-center gap-2 justify-center">
-      <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
-      You have {totalSamples} samples in test
-    </span>
-  );
-
-  const notifications = (
-    <span className="flex items-center gap-2 justify-center">
-      {outOfSpecSamples.length > 0 ? (
-        <>
-          <FontAwesomeIcon className="text-2xl text-white" icon={faBell} />
-          You have {outOfSpecSamples.length} samples that need your attention.
-        </>
-      ) : (
-        "You have no samples that require your attention"
-      )}
-    </span>
-  );
-
-  useEffect(() => {
-    const currentSamplesArr = currentUserSamples.map((sample) => ({
-      id: sample.id,
-      name: sample.name,
-      totalSamples: sample.totalSamples,
-      typeOfTest: sample.typeOfTest,
-      testStatus: sample.testStatus,
-      dueDate: sample.dueDate,
-    }));
-
-    // 2. Get submissions from localStorage
-    const storedSamples = JSON.parse(localStorage.getItem("submittedSamples") || "[]");
-
-    // 3. Map stored samples to same shape (if needed)
-    const formattedStoredSamples = storedSamples.map((sample: any, index: number) => ({
-      id: `local-${index}`, // unique id
-      name: sample.sampleName,
-      totalSamples: sample.totalSamples || "N/A",
-      typeOfTest: sample.testType,
-      testStatus: "Pending",
-      dueDate: "TBD",
-    }));
-
-    // 4. Combine
-    const allSamples = [...currentSamplesArr, ...formattedStoredSamples];
-    setAllSamples(allSamples);
-  }, []);
+export default function ScientistHome({ name, samples, loading, error }: ScientistHomeProps) {
+  const summary = summarizeSamples(samples);
+  const attention = needsAttention(samples);
 
   return (
-    <>
-      <div className="ml-16">
-        <h1 className="text-3xl">Welcome! {currentUser}</h1>
-        <div className="mt-4 flex gap-4">
-          <Card title="Overview" description={testDescription} />
-          <Card title="Notifications" description={notifications} />
-        </div>
-        <div>
-          <h2 className="text-2xl mt-8">Your Samples</h2>
-          <Table tableTitle={currentTableTitle} tableHeader={titles} data={allSamples} />
-        </div>
-        <div>
-          <h2 className="text-2xl mt-8">Completed Samples</h2>
-          {currentCompletedSamples.length > 0 ? (
-            <Table
-              tableTitle="Your completed samples"
-              tableHeader={titles}
-              data={currentCompletedSamples}
-            />
-          ) : (
-            <p className="text-gray-500">You have no completed samples.</p>
-          )}
-        </div>
+    <div className="p-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold">Welcome, {name}</h1>
+        <Link
+          to="/submit-samples"
+          className="w-full rounded bg-blue-600 px-4 py-2 text-center text-white md:w-auto"
+        >
+          Submit a sample
+        </Link>
       </div>
-    </>
+
+      {loading ? (
+        <p role="status" className="mt-6 text-gray-600">
+          Loading your samples…
+        </p>
+      ) : error ? (
+        <p role="alert" className="mt-6 text-red-600">
+          {error}
+        </p>
+      ) : samples.length === 0 ? (
+        <p className="mt-6 text-gray-600">You haven't submitted any samples yet.</p>
+      ) : (
+        <>
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <StatTile label="Pending" value={summary.pending} />
+            <StatTile label="In progress" value={summary.in_progress} />
+            <StatTile label="Completed" value={summary.completed} />
+            <StatTile
+              label="Out of spec"
+              value={summary.out_of_spec}
+              highlight={summary.out_of_spec > 0}
+            />
+          </div>
+
+          <Panel title="Needs attention" className="mt-6">
+            {attention.length === 0 ? (
+              <p className="text-gray-600">Nothing needs your attention right now.</p>
+            ) : (
+              <ul className="divide-y divide-gray-100">
+                {attention.map((s) => (
+                  <li key={s.id}>
+                    <Link
+                      to={`/samples/${s.id}`}
+                      className="flex flex-wrap items-center justify-between gap-2 py-3 hover:bg-gray-50"
+                    >
+                      <span className="font-medium">{s.name}</span>
+                      <span className="flex items-center gap-3 text-sm text-gray-600">
+                        <Pill status={s.test_status ?? "pending"} />
+                        {s.out_of_spec && (
+                          <span className="font-medium text-red-600">Out of spec</span>
+                        )}
+                        <span>{s.due_date ? `Due ${s.due_date}` : "No due date"}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Link
+              to="/view-samples"
+              className="mt-4 inline-block text-sm text-blue-600 hover:underline"
+            >
+              View all samples →
+            </Link>
+          </Panel>
+        </>
+      )}
+    </div>
   );
 }

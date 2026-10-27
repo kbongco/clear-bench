@@ -4,12 +4,13 @@ import type {
   NewSample,
   Sample,
   SampleCreateResponse,
+  SamplesResponse,
 } from "../types/Samples/sample";
 import type { SampleDetail } from "../types/Results/results";
 import type { EnterResults } from "../types/Specs/specs";
 
-export async function getSamples(id: string) {
-  const response = await fetch(`${API_URL}/scientists/${id}/samples`);
+export async function getSamples(scientistId: number): Promise<SamplesResponse> {
+  const response = await fetch(`${API_URL}/scientists/${scientistId}/samples`);
   if (!response.ok) {
     throw new Error("Unable to fetch samples");
   }
