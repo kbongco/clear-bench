@@ -78,7 +78,7 @@ export default function ScientistHome({ name, samples, loading, error }: Scienti
             )}
             <Link
               to="/view-samples"
-              className="mt-4 inline-block text-sm text-blue-600 hover:underline"
+              className="inline-block py-2 text-sm text-blue-600 hover:underline"
             >
               View all samples →
             </Link>

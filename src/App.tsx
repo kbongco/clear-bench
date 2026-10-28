@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="ml-64">
+      <div className="md:ml-64">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/samples/:id" element={<SampleDetailsContainer />} />

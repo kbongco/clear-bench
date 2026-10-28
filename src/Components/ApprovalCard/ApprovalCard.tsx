@@ -42,7 +42,10 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
   return (
     <article className="bg-white border border-gray-200 rounded-lg p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
-        <Link to={`/samples/${sample.id}`} className="font-semibold text-blue-600 hover:underline">
+        <Link
+          to={`/samples/${sample.id}`}
+          className="inline-block py-2 font-semibold text-blue-600 hover:underline"
+        >
           {sample.name}
         </Link>
         <Pill status={sample.test_status ?? "pending"} />
