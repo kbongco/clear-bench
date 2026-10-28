@@ -30,9 +30,9 @@ export default function NavBar() {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const closeMenu = () => {
-  setMenuOpen(false);
-  menuButtonRef.current?.focus();
-};
+    setMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -130,11 +130,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faHouse} />
-                <NavLink
-                  onClick={() => closeMenu}
-                  to="/"
-                  className="text-white text-lg font-bold"
-                >
+                <NavLink onClick={() => closeMenu} to="/" className="text-white text-lg font-bold">
                   Home
                 </NavLink>
               </div>
