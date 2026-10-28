@@ -51,7 +51,7 @@ export default function NavBar() {
       if (e.key === "Escape") setMenuOpen(false);
     };
     window.addEventListener("keydown", handleKey);
-    return () => window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, [menuOpen]);
 
   const handleViewAsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,7 +87,7 @@ export default function NavBar() {
 
       {menuOpen && (
         <div
-          className="fixed inset-0 z-35 bg-black/50 md:hidden"
+          className="fixed inset-0  z-[35] bg-black/50 md:hidden"
           onClick={() => setMenuOpen(false)}
           aria-hidden="true"
         />
@@ -103,23 +103,25 @@ export default function NavBar() {
         <div>
           <div className="m-8 flex items-center justify-between">
             <h1 className="text-2xl text-white font-bold">Clear Bench</h1>
-            <div className="m-8 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                aria-label="Close menu"
-                className="text-white text-2xl md:hidden"
-              >
-                <FontAwesomeIcon icon={faXmark} />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+              className="text-white text-2xl md:hidden"
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
           </div>
           <hr />
           <ul className="m-4 flex flex-col">
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faHouse} />
-                <NavLink to="/" className="text-white text-lg font-bold">
+                <NavLink
+                  onClick={() => setMenuOpen(false)}
+                  to="/"
+                  className="text-white text-lg font-bold"
+                >
                   Home
                 </NavLink>
               </div>
@@ -127,7 +129,11 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
-                <NavLink to="/view-samples" className="text-white text-lg font-bold">
+                <NavLink
+                  onClick={() => setMenuOpen(false)}
+                  to="/view-samples"
+                  className="text-white text-lg font-bold"
+                >
                   All Samples
                 </NavLink>
               </div>
@@ -135,7 +141,11 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
-                <NavLink to="/specs" className="text-white text-lg font-bold">
+                <NavLink
+                  onClick={() => setMenuOpen(false)}
+                  to="/specs"
+                  className="text-white text-lg font-bold"
+                >
                   Specs
                 </NavLink>
               </div>
@@ -146,7 +156,11 @@ export default function NavBar() {
               <li className="mx-8 my-4">
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
-                  <NavLink to="/submit-samples" className="text-white text-lg font-bold">
+                  <NavLink
+                    onClick={() => setMenuOpen(false)}
+                    to="/submit-samples"
+                    className="text-white text-lg font-bold"
+                  >
                     Submit Samples
                   </NavLink>
                 </div>
@@ -155,7 +169,11 @@ export default function NavBar() {
               <li className="mx-8 my-4">
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
-                  <NavLink to="/approve-samples" className="text-white text-lg font-bold">
+                  <NavLink
+                    onClick={() => setMenuOpen(false)}
+                    to="/approve-samples"
+                    className="text-white text-lg font-bold"
+                  >
                     Approve Samples
                   </NavLink>
                 </div>
