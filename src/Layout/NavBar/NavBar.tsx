@@ -98,7 +98,7 @@ export default function NavBar() {
       {menuOpen && (
         <div
           className="fixed inset-0  z-[35] bg-black/50 md:hidden"
-          onClick={() => closeMenu}
+          onClick={closeMenu}
           aria-hidden="true"
         />
       )}
@@ -118,7 +118,7 @@ export default function NavBar() {
             <button
               type="button"
               ref={closeButtonRef}
-              onClick={() => closeMenu}
+              onClick={closeMenu}
               aria-label="Close menu"
               className="text-white text-2xl md:hidden"
             >
@@ -130,7 +130,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faHouse} />
-                <NavLink onClick={() => closeMenu} to="/" className="text-white text-lg font-bold">
+                <NavLink onClick={closeMenu} to="/" className="text-white text-lg font-bold">
                   Home
                 </NavLink>
               </div>
@@ -139,7 +139,7 @@ export default function NavBar() {
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
                 <NavLink
-                  onClick={() => closeMenu}
+                  onClick={closeMenu}
                   to="/view-samples"
                   className="text-white text-lg font-bold"
                 >
@@ -151,7 +151,7 @@ export default function NavBar() {
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
                 <NavLink
-                  onClick={() => closeMenu}
+                  onClick={closeMenu}
                   to="/specs"
                   className="text-white text-lg font-bold"
                 >
@@ -166,7 +166,7 @@ export default function NavBar() {
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
                   <NavLink
-                    onClick={() => closeMenu}
+                    onClick={closeMenu}
                     to="/submit-samples"
                     className="text-white text-lg font-bold"
                   >
@@ -179,7 +179,7 @@ export default function NavBar() {
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
                   <NavLink
-                    onClick={() => closeMenu}
+                    onClick={closeMenu}
                     to="/approve-samples"
                     className="text-white text-lg font-bold"
                   >
