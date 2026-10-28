@@ -12,7 +12,7 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run format:check && npx tsc --noEmit -p tsconfig.app.json && npm test && npm run check:py",
+    "check": "npm run format:check && npm run lint && npx tsc --noEmit -p tsconfig.app.json && npm test && npm run check:py",
     "check:py": "cd backend && ./venv/bin/python -m ruff check . && ./venv/bin/python -m ruff format --check . && ./venv/bin/python -m pytest -q",
     "prepare": "husky"
   },
