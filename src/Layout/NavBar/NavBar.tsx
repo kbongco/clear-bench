@@ -101,8 +101,10 @@ export default function NavBar() {
       {/* Sidebar: a drawer below md, always shown from md up */}
       <div
         id="sidebar"
-        className={`w-64 bg-blue-500 fixed inset-y-0 left-0 z-40 overflow-y-auto flex flex-col justify-between transition-[transform,visibility] md:translate-x-0 ${
-          menuOpen ? "translate-x-0" : "-translate-x-full invisible md:visible"
+        className={`w-64 bg-blue-500 fixed inset-y-0 left-0 z-40 overflow-y-auto flex flex-col justify-between md:translate-x-0 ${
+          menuOpen
+            ? "translate-x-0 transition-transform"
+            : "-translate-x-full invisible md:visible transition-[transform,visibility]"
         }`}
       >
         <div>
