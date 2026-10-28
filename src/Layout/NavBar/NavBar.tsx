@@ -77,7 +77,7 @@ export default function NavBar() {
   const peopleLoaded = scientists.length > 0 || labTechs.length > 0;
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-white text-lg font-bold ${isActive ? "____" : ""}`;
+    `text-white text-lg font-bold ${isActive ? "underline" : ""}`;
 
   return (
     <>
