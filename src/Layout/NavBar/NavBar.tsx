@@ -76,6 +76,9 @@ export default function NavBar() {
 
   const peopleLoaded = scientists.length > 0 || labTechs.length > 0;
 
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `text-white text-lg font-bold ${isActive ? "____" : ""}`;
+
   return (
     <>
       {/* Mobile top bar */}
@@ -130,7 +133,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faHouse} />
-                <NavLink onClick={closeMenu} to="/" className="text-white text-lg font-bold">
+                <NavLink onClick={closeMenu} to="/" className={navLinkClass}>
                   Home
                 </NavLink>
               </div>
@@ -141,7 +144,7 @@ export default function NavBar() {
                 <NavLink
                   onClick={closeMenu}
                   to="/view-samples"
-                  className="text-white text-lg font-bold"
+                  className={navLinkClass}
                 >
                   All Samples
                 </NavLink>
@@ -150,7 +153,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
-                <NavLink onClick={closeMenu} to="/specs" className="text-white text-lg font-bold">
+                <NavLink onClick={closeMenu} to="/specs" className={navLinkClass}>
                   Specs
                 </NavLink>
               </div>
@@ -164,7 +167,7 @@ export default function NavBar() {
                   <NavLink
                     onClick={closeMenu}
                     to="/submit-samples"
-                    className="text-white text-lg font-bold"
+                    className={navLinkClass}
                   >
                     Submit Samples
                   </NavLink>
@@ -177,7 +180,7 @@ export default function NavBar() {
                   <NavLink
                     onClick={closeMenu}
                     to="/approve-samples"
-                    className="text-white text-lg font-bold"
+                    className={navLinkClass}
                   >
                     Approve Samples
                   </NavLink>
