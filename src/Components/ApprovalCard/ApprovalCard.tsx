@@ -44,7 +44,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
       <div className="flex items-start justify-between gap-2">
         <Link
           to={`/samples/${sample.id}`}
-          className="inline-block py-2 text-sm text-blue-600 hover:underline"
+          className="inline-block py-2 font-semibold text-blue-600 hover:underline"
         >
           {sample.name}
         </Link>
