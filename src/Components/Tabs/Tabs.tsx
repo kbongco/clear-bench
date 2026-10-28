@@ -22,7 +22,11 @@ export default function Tabs({ children, preselectedTab = 0, label }: TabCompone
     <div className="w-full">
       {/* Tab Headers */}
       <div className="relative">
-        <ul className="flex space-x-1 relative z-10" role="tablist" aria-label={label}>
+        <ul
+          className="flex space-x-1 relative z-10 overflow-x-auto"
+          role="tablist"
+          aria-label={label}
+        >
           {childrenArray.map((item, index) => (
             <TabButton
               key={index}
@@ -38,7 +42,7 @@ export default function Tabs({ children, preselectedTab = 0, label }: TabCompone
       </div>
 
       <div
-        className="bg-white border-l-2 border-r-2 border-b-2 border-gray-300 rounded-b-lg p-6"
+        className="bg-white border-l-2 border-r-2 border-b-2 border-gray-300 rounded-b-lg p-4 md:p-6"
         role="tabpanel"
         id={`panel-${safeSelectedIndex}`}
         aria-labelledby={`tab-${safeSelectedIndex}`}

@@ -150,11 +150,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
-                <NavLink
-                  onClick={closeMenu}
-                  to="/specs"
-                  className="text-white text-lg font-bold"
-                >
+                <NavLink onClick={closeMenu} to="/specs" className="text-white text-lg font-bold">
                   Specs
                 </NavLink>
               </div>
