@@ -13,7 +13,7 @@ export default function TabButton({ title, index, setSelectedTab, isActive }: Ta
         aria-controls={`panel-${index}`}
         onClick={handleOnClick}
         className={`
-  relative px-4 py-2 md:px-8 md:py-4 font-medium text-base md:text-3xl whitespace-nowrap transition-all duration-200
+  relative px-4 py-2 md:px-8 md:py-4 font-medium text-base md:text-2xl whitespace-nowrap transition-all duration-200
   border-t-2 border-l-2 border-r-2 border-b-0
   rounded-t-lg
   ${
