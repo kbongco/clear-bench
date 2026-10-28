@@ -14,6 +14,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(
     DATABASE_URL,
     connect_args={},
+    pool_pre_ping=True,  # Neon closes idle connections; reconnect instead of failing
 )
 
 # Create a configured "Session" class
