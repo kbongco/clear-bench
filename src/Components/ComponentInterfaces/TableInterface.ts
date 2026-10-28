@@ -15,6 +15,6 @@ export interface Table {
   tableTitle: string;
   data: TableRow[];
   tableHeader: string[];
-  tableBody: TableBody;
-  renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
+  tableBody?: TableBody;
+  renderRow?: (row: TableRow, rowIndex: number) => JSX.Element;
 }

@@ -1,5 +1,5 @@
-import { isValidElement, type JSX, type ReactNode } from "react";
-import type { TableRow } from "../ComponentInterfaces/TableInterface";
+import { isValidElement, type ReactNode } from "react";
+import type { Table, TableRow } from "../ComponentInterfaces/TableInterface";
 
 export default function TableBody({
   data,
@@ -8,7 +8,7 @@ export default function TableBody({
 }: {
   data: TableRow[];
   headers: string[];
-  renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
+  renderRow?: Table["renderRow"];
 }) {
   const renderCell = (value: unknown): ReactNode => {
     if (isValidElement(value)) return value;
