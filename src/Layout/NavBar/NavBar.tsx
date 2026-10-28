@@ -29,6 +29,11 @@ export default function NavBar() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  const closeMenu = () => {
+  setMenuOpen(false);
+  menuButtonRef.current?.focus();
+};
+
   useEffect(() => {
     let ignore = false;
     const fetchPeople = async () => {
@@ -52,7 +57,7 @@ export default function NavBar() {
     if (!menuOpen) return;
     closeButtonRef.current?.focus();
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") closeMenu();
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -93,7 +98,7 @@ export default function NavBar() {
       {menuOpen && (
         <div
           className="fixed inset-0  z-[35] bg-black/50 md:hidden"
-          onClick={() => setMenuOpen(false)}
+          onClick={() => closeMenu}
           aria-hidden="true"
         />
       )}
@@ -113,7 +118,7 @@ export default function NavBar() {
             <button
               type="button"
               ref={closeButtonRef}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => closeMenu}
               aria-label="Close menu"
               className="text-white text-2xl md:hidden"
             >
@@ -126,7 +131,7 @@ export default function NavBar() {
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faHouse} />
                 <NavLink
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => closeMenu}
                   to="/"
                   className="text-white text-lg font-bold"
                 >
@@ -138,7 +143,7 @@ export default function NavBar() {
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
                 <NavLink
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => closeMenu}
                   to="/view-samples"
                   className="text-white text-lg font-bold"
                 >
@@ -150,7 +155,7 @@ export default function NavBar() {
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFlask} />
                 <NavLink
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => closeMenu}
                   to="/specs"
                   className="text-white text-lg font-bold"
                 >
@@ -165,7 +170,7 @@ export default function NavBar() {
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
                   <NavLink
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => closeMenu}
                     to="/submit-samples"
                     className="text-white text-lg font-bold"
                   >
@@ -178,7 +183,7 @@ export default function NavBar() {
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
                   <NavLink
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => closeMenu}
                     to="/approve-samples"
                     className="text-white text-lg font-bold"
                   >
