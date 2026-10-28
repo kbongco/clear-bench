@@ -82,14 +82,17 @@ export default function SampleDetailView({
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h1 className="text-3xl font-semibold">{sample.name}</h1>
-          <Link className="text-sm text-blue-600 hover:underline" to="/view-samples">
+          <Link
+            className="inline-block py-2 text-sm text-blue-600 hover:underline"
+            to="/view-samples"
+          >
             Go back
           </Link>
         </div>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <Pill status={sample.test_status ?? "pending"} />
           <div>
             <SpecIndicator outOfSpec={sample.out_of_spec ?? false} />

@@ -155,7 +155,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   };
 
   return (
-    <div className="ml-4">
+    <div className="px-4 md:px-0 l-4">
       <h1 className="text-3xl">Submit your samples here</h1>
       <p>
         You are currently logged in as {scientist.name}. If this is not you, please log out and log
