@@ -463,9 +463,16 @@ product_specs_db = [
 # ------------------------
 # Seed function
 # ------------------------
-def seed_all():
-    db: Session = SessionLocal()
+def seed_all(db: Session | None = None):  # CHANGED: optional session, so tests can pass one in
+    owns_session = db is None  # NEW
+    if db is None:  # NEW
+        db = SessionLocal()  # NEW
     try:
+        # NEW: Only seed an empty database, so redeploys don't add duplicates.
+        if db.query(models.Scientist).first() is not None:
+            print("Database already has data, skipping seed.")
+            return
+
         # Scientists
         for s in scientists_db:
             db.add(models.Scientist(**s))
@@ -536,7 +543,8 @@ def seed_all():
         print("Error seeding data:", e)
 
     finally:
-        db.close()
+        if owns_session:  # CHANGED: only close a session this function opened
+            db.close()
 
 
 # ------------------------
