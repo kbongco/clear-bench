@@ -7,7 +7,7 @@ import {
   faBars,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useCurrentUserStore } from "../../store/useCurrentUserStore";
@@ -25,6 +25,9 @@ export default function NavBar() {
   const [scientists, setScientists] = useState<ScientistSummary[]>([]);
   const [labTechs, setLabTechs] = useState<LabTechSummary[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     let ignore = false;
@@ -47,6 +50,7 @@ export default function NavBar() {
 
   useEffect(() => {
     if (!menuOpen) return;
+    closeButtonRef.current?.focus();
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
@@ -75,6 +79,7 @@ export default function NavBar() {
           type="button"
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
+          ref={menuButtonRef}
           aria-expanded={menuOpen}
           aria-controls="sidebar"
           className="text-white text-2xl"
@@ -96,8 +101,8 @@ export default function NavBar() {
       {/* Sidebar: a drawer below md, always shown from md up */}
       <div
         id="sidebar"
-        className={`w-64 bg-blue-500 fixed inset-y-0 left-0 z-40 overflow-y-auto flex flex-col justify-between transition-transform md:translate-x-0 ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
+        className={`w-64 bg-blue-500 fixed inset-y-0 left-0 z-40 overflow-y-auto flex flex-col justify-between transition-[transform,visibility] md:translate-x-0 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full invisible md:visible"
         }`}
       >
         <div>
@@ -105,6 +110,7 @@ export default function NavBar() {
             <h1 className="text-2xl text-white font-bold">Clear Bench</h1>
             <button
               type="button"
+              ref={closeButtonRef}
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
               className="text-white text-2xl md:hidden"
