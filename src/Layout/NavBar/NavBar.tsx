@@ -1,5 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faFlask, faCheckSquare, faFile } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faFlask,
+  faCheckSquare,
+  faFile,
+  faBars,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -17,6 +24,7 @@ export default function NavBar() {
   // Demo only: "View as" stands in for login until real auth exists.
   const [scientists, setScientists] = useState<ScientistSummary[]>([]);
   const [labTechs, setLabTechs] = useState<LabTechSummary[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -37,6 +45,15 @@ export default function NavBar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.addEventListener("keydown", handleKey);
+  }, [menuOpen]);
+
   const handleViewAsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const picked = parsePersonValue(e.target.value);
     if (!picked) return;
@@ -51,13 +68,53 @@ export default function NavBar() {
   const peopleLoaded = scientists.length > 0 || labTechs.length > 0;
 
   return (
-    <div className="w-64 bg-blue-500 fixed h-full overflow-y-auto flex flex-col justify-between">
-      <div>
-        <div className="m-8">
-          <h1 className="text-2xl text-white font-bold">Clear Bench</h1>
-        </div>
-        <hr />
-        <ul className="m-4 flex flex-col">
+    <>
+      {/* Mobile top bar */}
+      <div className="sticky top-0 z-30 flex items-center gap-3 bg-blue-500 px-4 py-3 md:hidden">
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={menuOpen}
+          aria-controls="sidebar"
+          className="text-white text-2xl"
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+
+        <span className="text-white font-bold text-lg">Clear Bench</span>
+      </div>
+
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-35 bg-black/50 md:hidden"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar: a drawer below md, always shown from md up */}
+      <div
+        id="sidebar"
+        className={`w-64 bg-blue-500 fixed inset-y-0 left-0 z-40 overflow-y-auto flex flex-col justify-between transition-transform md:translate-x-0 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div>
+          <div className="m-8 flex items-center justify-between">
+            <h1 className="text-2xl text-white font-bold">Clear Bench</h1>
+            <div className="m-8 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                className="text-white text-2xl md:hidden"
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            </div>
+          </div>
+          <hr />
           <ul className="m-4 flex flex-col">
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
@@ -105,12 +162,10 @@ export default function NavBar() {
               </li>
             )}
           </ul>
-        </ul>
-      </div>
+        </div>
 
-      {/* View as + logout */}
-      <div className="m-4">
-        <div className="mb-4">
+        {/* View as */}
+        <div className="m-4">
           <label htmlFor="view-as" className="text-white font-semibold block mb-1">
             View as
           </label>
@@ -141,8 +196,7 @@ export default function NavBar() {
             )}
           </select>
         </div>
-        <hr />
       </div>
-    </div>
+    </>
   );
 }
