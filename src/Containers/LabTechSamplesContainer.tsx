@@ -21,7 +21,7 @@ export default function LabTechSamplesContainer() {
       try {
         const samplesData = await getAllSamples({ status, department });
         if (!ignore) setLabTechSamples(samplesData.samples);
-      } catch (err) {
+      } catch  {
         if (!ignore) setError("Could not load samples. Is the backend running?");
       } finally {
         if (!ignore) setLoading(false);

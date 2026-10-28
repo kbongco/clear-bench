@@ -1,7 +1,9 @@
-import type { JSX } from "react";
+import type { JSX, ReactNode } from 'react';
+
+export type TableRow = Record<string, ReactNode>; 
 
 export interface TableHeader {
-  header: any[];
+  header: string[];
 }
 
 export interface TableBody {
@@ -11,8 +13,8 @@ export interface TableBody {
 
 export interface Table {
   tableTitle: string;
-  data?: any[];
-  tableHeader?: any[];
-  tableBody?: TableBody;
-  renderRow?: (row: any, rowIndex: number) => JSX.Element;
+  data: TableRow[];
+  tableHeader: string[];
+  tableBody: TableBody;
+renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
 }
