@@ -1,14 +1,22 @@
 import { isValidElement, type JSX, type ReactNode } from "react";
 import type { TableRow } from "../ComponentInterfaces/TableInterface";
 
-export default function TableBody({ data, headers, renderRow }: { data: TableRow[], headers: string[];  renderRow: (row: TableRow, rowIndex: number) => JSX.Element;}) {
-  const renderCell = (value: unknown):ReactNode => {
+export default function TableBody({
+  data,
+  headers,
+  renderRow,
+}: {
+  data: TableRow[];
+  headers: string[];
+  renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
+}) {
+  const renderCell = (value: unknown): ReactNode => {
     if (isValidElement(value)) return value;
     if (value instanceof Date) return value.toLocaleDateString();
     if (typeof value === "object" && value !== null) {
-    if ("name" in value) return String(value.name);
-    if ("typeOfTest" in value) return String(value.typeOfTest);
-    return JSON.stringify(value);
+      if ("name" in value) return String(value.name);
+      if ("typeOfTest" in value) return String(value.typeOfTest);
+      return JSON.stringify(value);
     }
     return String(value);
   };

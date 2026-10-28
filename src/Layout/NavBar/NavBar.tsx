@@ -77,7 +77,7 @@ export default function NavBar() {
   const peopleLoaded = scientists.length > 0 || labTechs.length > 0;
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `text-white text-lg font-bold ${isActive ? "____" : ""}`;
+    `text-white text-lg font-bold ${isActive ? "____" : ""}`;
 
   return (
     <>
@@ -141,11 +141,7 @@ export default function NavBar() {
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
-                <NavLink
-                  onClick={closeMenu}
-                  to="/view-samples"
-                  className={navLinkClass}
-                >
+                <NavLink onClick={closeMenu} to="/view-samples" className={navLinkClass}>
                   All Samples
                 </NavLink>
               </div>
@@ -164,11 +160,7 @@ export default function NavBar() {
               <li className="mx-8 my-4">
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
-                  <NavLink
-                    onClick={closeMenu}
-                    to="/submit-samples"
-                    className={navLinkClass}
-                  >
+                  <NavLink onClick={closeMenu} to="/submit-samples" className={navLinkClass}>
                     Submit Samples
                   </NavLink>
                 </div>
@@ -177,11 +169,7 @@ export default function NavBar() {
               <li className="mx-8 my-4">
                 <div className="flex gap-4 items-center">
                   <FontAwesomeIcon className="text-2xl text-white" icon={faCheckSquare} />
-                  <NavLink
-                    onClick={closeMenu}
-                    to="/approve-samples"
-                    className={navLinkClass}
-                  >
+                  <NavLink onClick={closeMenu} to="/approve-samples" className={navLinkClass}>
                     Approve Samples
                   </NavLink>
                 </div>

@@ -1,6 +1,6 @@
-import type { JSX, ReactNode } from 'react';
+import type { JSX, ReactNode } from "react";
 
-export type TableRow = Record<string, ReactNode>; 
+export type TableRow = Record<string, ReactNode>;
 
 export interface TableHeader {
   header: string[];
@@ -16,5 +16,5 @@ export interface Table {
   data: TableRow[];
   tableHeader: string[];
   tableBody: TableBody;
-renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
+  renderRow: (row: TableRow, rowIndex: number) => JSX.Element;
 }
