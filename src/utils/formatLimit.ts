@@ -11,4 +11,4 @@ export default function formatLimit(spec: ProductSpec): string {
 }
 
 const broken: number = "not a number";
-console.log(broken)
+console.log(broken);
