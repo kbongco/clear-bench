@@ -9,3 +9,5 @@ export default function formatLimit(spec: ProductSpec): string {
   const range = formatRange(spec.min_value, spec.max_value);
   return spec.unit ? `${range} ${spec.unit}` : range;
 }
+
+const broken: number = "not a number";
