@@ -6,6 +6,7 @@ import {
   faFile,
   faBars,
   faXmark,
+  faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -140,6 +141,14 @@ export default function NavBar() {
             </li>
             <li className="mx-8 my-4">
               <div className="flex gap-4 items-center">
+                <FontAwesomeIcon className="text-2xl text-white" icon={faQuestion} />
+                <NavLink onClick={closeMenu} to="/whats-next" className={navLinkClass}>
+                  What's next?
+                </NavLink>
+              </div>
+            </li>
+            <li className="mx-8 my-4">
+              <div className="flex gap-4 items-center">
                 <FontAwesomeIcon className="text-2xl text-white" icon={faFile} />
                 <NavLink onClick={closeMenu} to="/view-samples" className={navLinkClass}>
                   All Samples
@@ -177,7 +186,6 @@ export default function NavBar() {
             )}
           </ul>
         </div>
-
         {/* View as */}
         <div className="m-4">
           <label htmlFor="view-as" className="text-white font-semibold block mb-1">

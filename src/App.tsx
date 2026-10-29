@@ -6,6 +6,7 @@ import AllSamplesContainer from "./Containers/AllSamplesContainer";
 import SampleDetailsContainer from "./Containers/SampleDetailsContainer";
 import SubmitSamplesContainer from "./Containers/SubmitSamplesContainer";
 import SpecsViewContainer from "./Containers/SpecsViewContainer";
+import WhatsNext from "./Views/WhatsNext";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/approve-samples" element={<LabTechContainer />} />
           <Route path="/view-samples" element={<AllSamplesContainer />} />
           <Route path="/specs" element={<SpecsViewContainer />} />
+          <Route path="/whats-next" element={<WhatsNext />} />
         </Routes>
       </div>
     </>
