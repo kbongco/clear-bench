@@ -3,7 +3,6 @@ import { ROADMAP } from "../constants/roadmap";
 
 export default function WhatsNext() {
   const next = ROADMAP.filter((item) => item.stage === "next");
-  const later = "later";
 
   return (
     <div className="p-4">
