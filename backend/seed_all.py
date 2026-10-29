@@ -215,7 +215,24 @@ samples_db = [
         "totalBottles": 1,
         "test_types": ["ph", "viscosity"],
     },
+    {
+        "name": "Sample I1",
+        "temperature": ["25C", "40C"],
+        "scientist_id": 8,
+        "lab_tech_id": 2,
+        "sample_type": "Cosmetics",
+        "test_status": "rejected",
+        "test_start": date(2025, 8, 12),
+        "due_date": date(2025, 8, 26),
+        "test_duration": "2-week",
+        "totalBottles": 2,
+        "test_types": ["viscosity", "visual"],
+    },
 ]
+
+rejection_reasons_db = {
+    "Sample I1": "Label missing batch number. Please relabel and resubmit.",
+}
 
 # Results for completed samples, keyed by sample name.
 # Only the measured values are typed in: the seed looks up each spec and
@@ -520,6 +537,19 @@ def seed_all(db: Session | None = None):
                     from_status="pending",
                     to_status="in_progress",
                 )
+
+                if sample.test_status == "rejected":
+                    log_event(
+                        db,
+                        sample,
+                        action="rejected",
+                        actor_role="lab_tech",
+                        actor_id=sample.lab_tech.id,
+                        actor_name=sample.lab_tech.name,
+                        from_status="pending",
+                        to_status="rejected",
+                        note=rejection_reasons_db[sample.name],
+                    )
 
             if sample.test_status == "completed":
                 note = add_results(db, sample, completed_results_db[sample.name], specs)
