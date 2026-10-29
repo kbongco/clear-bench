@@ -463,10 +463,10 @@ product_specs_db = [
 # ------------------------
 # Seed function
 # ------------------------
-def seed_all(db: Session | None = None):  # CHANGED: optional session, so tests can pass one in
-    owns_session = db is None  # NEW
-    if db is None:  # NEW
-        db = SessionLocal()  # NEW
+def seed_all(db: Session | None = None):
+    owns_session = db is None
+    if db is None:
+        db = SessionLocal()
     try:
         # NEW: Only seed an empty database, so redeploys don't add duplicates.
         if db.query(models.Scientist).first() is not None:
@@ -543,7 +543,7 @@ def seed_all(db: Session | None = None):  # CHANGED: optional session, so tests 
         print("Error seeding data:", e)
 
     finally:
-        if owns_session:  # CHANGED: only close a session this function opened
+        if owns_session:
             db.close()
 
 
