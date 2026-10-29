@@ -16,6 +16,7 @@ import SpecsList from "../Components/SpecsList/SpecsList";
 import formatMeasured from "../utils/formatMeasured";
 import { useCurrentUserStore } from "../store/useCurrentUserStore";
 import EnterResultsForm from "../Components/EnterResultsForm/EnterResultsForm";
+import formatTestType from "../utils/formatTestType";
 
 export default function SampleDetailView({
   sample,
@@ -35,7 +36,7 @@ export default function SampleDetailView({
     { label: "Team", value: sample.scientist.department },
     { label: "Lab tech", value: sample.lab_tech?.name },
     { label: "Sample type", value: sample.sample_type },
-    { label: "Test types", value: sample.test_types.join(", ") },
+    { label: "Test types", value: sample.test_types.map(formatTestType).join(", ") },
     { label: "Start", value: sample.test_start },
     { label: "Due", value: sample.due_date },
     { label: "Duration", value: sample.test_duration },
@@ -48,7 +49,7 @@ export default function SampleDetailView({
     { label: "Owner", value: sample.scientist.name },
     { label: "Due", value: sample.due_date },
     { label: "Lab tech", value: sample.lab_tech?.name },
-    { label: "Test types", value: sample.test_types.join(", ") },
+    { label: "Test types", value: sample.test_types.map(formatTestType).join(", ") },
   ];
 
   const resultItems = (result: Result) => [
