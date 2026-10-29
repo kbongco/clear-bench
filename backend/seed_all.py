@@ -538,18 +538,18 @@ def seed_all(db: Session | None = None):
                     to_status="in_progress",
                 )
 
-                if sample.test_status == "rejected":
-                    log_event(
-                        db,
-                        sample,
-                        action="rejected",
-                        actor_role="lab_tech",
-                        actor_id=sample.lab_tech.id,
-                        actor_name=sample.lab_tech.name,
-                        from_status="pending",
-                        to_status="rejected",
-                        note=rejection_reasons_db[sample.name],
-                    )
+            if sample.test_status == "rejected":
+                log_event(
+                    db,
+                    sample,
+                    action="rejected",
+                    actor_role="lab_tech",
+                    actor_id=sample.lab_tech.id,
+                    actor_name=sample.lab_tech.name,
+                    from_status="pending",
+                    to_status="rejected",
+                    note=rejection_reasons_db[sample.name],
+                )
 
             if sample.test_status == "completed":
                 note = add_results(db, sample, completed_results_db[sample.name], specs)
