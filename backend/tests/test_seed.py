@@ -21,6 +21,7 @@ def test_seed_skips_a_database_that_has_data(db, capsys):
     assert "skipping seed" in capsys.readouterr().out
     assert db.query(models.Scientist).count() == scientists
 
+
 def test_seed_includes_a_rejected_sample_with_its_reason(db):
     seed_all(db)
 
