@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import type { ApprovalCardProps } from "../ComponentInterfaces/ApprovalCardInterface";
 import Pill from "../Pill/Pill";
 import { useState } from "react";
+import formatTestType from "../../utils/formatTestType";
 
 export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCardProps) {
   const [isRejecting, setIsRejecting] = useState<boolean>(false);
@@ -55,7 +56,7 @@ export default function ApprovalCard({ sample, onApprove, onReject }: ApprovalCa
         {sample.scientist.name} · {sample.scientist.department}
       </p>
       <p className="text-sm text-gray-700">
-        {sample.sample_type} · {sample.test_types.join(", ")}
+        {sample.sample_type} · {sample.test_types.map(formatTestType).join(", ")}
       </p>
       <p className="text-sm text-gray-500">Due {sample.due_date}</p>
 

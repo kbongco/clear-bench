@@ -8,6 +8,7 @@ import Input from "../Input/Input";
 import ResultCell from "./ResultCell";
 import { enterResults } from "../../services/samples";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
+import formatTestType from "../../utils/formatTestType";
 
 type EnterResultsFormProps = {
   sample: SampleDetail;
@@ -27,7 +28,8 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
   const [error, setError] = useState<string | null>(null);
 
   const specFor = (testType: string) => specs.find((s) => s.test_type === testType);
-  const nameFor = (testType: string) => specFor(testType)?.parameter_name ?? testType;
+  const nameFor = (testType: string) =>
+    specFor(testType)?.parameter_name ?? formatTestType(testType);
   const limitFor = (testType: string) => {
     const spec = specFor(testType);
     return spec ? formatLimit(spec) : "";
