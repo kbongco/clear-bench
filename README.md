@@ -2,7 +2,7 @@
 
 _Modern sample tracking for laboratory teams — built for visibility, accountability, and peace of mind._
 
-**[Live demo →](https://YOUR-APP.vercel.app)** · [What's next](https://YOUR-APP.vercel.app/whats-next) · [Issues](https://github.com/kbongco/clear-bench/issues)
+**[Live demo →](https://clear-bench.vercel.app/)** · [What's next](https://clear-bench.vercel.app/whats-next) · [Issues](https://github.com/kbongco/clear-bench/issues)
 
 ![ClearBench home page](docs/screenshots/home.png)
 
@@ -178,4 +178,4 @@ ClearBench is a **live MVP** (v1). Coming next:
 - **Certificate of analysis reports** for a sample's results
 - **Editable specs**, notifications, and manager dashboards
 
-See the in-app [What's next](https://YOUR-APP.vercel.app/whats-next) page, and the [open issues](https://github.com/kbongco/clear-bench/issues) for bugs and polish in progress.
+See the in-app [What's next](https://clear-bench.vercel.app/whats-next) page, and the [open issues](https://github.com/kbongco/clear-bench/issues) for bugs and polish in progress.
