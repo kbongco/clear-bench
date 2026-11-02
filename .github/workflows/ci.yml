@@ -1,8 +1,7 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [develop, main]
+  pull_request: # every PR, whatever branch it targets
   push:
     branches: [develop, main]
 
@@ -38,3 +37,9 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
       - run: pytest
+      - name: Migrations match the models
+        env:
+          DATABASE_URL: sqlite:///./ci.db
+        run: |
+          alembic upgrade head
+          alembic check
