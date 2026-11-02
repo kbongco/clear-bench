@@ -30,15 +30,10 @@ from utils.audit import log_event
 from utils.dates import calculate_due_date
 from utils.spec import check_value
 
-
 # Create tables on startup
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
