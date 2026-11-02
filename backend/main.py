@@ -1,5 +1,4 @@
 import os
-from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import List, Optional
 
@@ -10,7 +9,7 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
-from database import Base, engine, get_db
+from database import get_db
 from schemas import (
     AllSamplesResponse,
     ApproveSample,
