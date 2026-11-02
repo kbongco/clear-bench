@@ -1,5 +1,5 @@
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, time, timedelta
 
 from sqlalchemy.orm import Session
 
@@ -10,6 +10,20 @@ from utils.spec import check_value
 
 # Ensure all tables exist
 Base.metadata.create_all(bind=engine)
+
+# Demo dates are relative to the day the seed runs, so the demo never looks stale.
+TODAY = date.today()
+
+
+def days_from_today(days: int) -> date:
+    """Negative = in the past, positive = in the future."""
+    return TODAY + timedelta(days=days)
+
+
+def at(days: int, hour: int, minute: int = 0) -> datetime:
+    """A date relative to today, at a specific time."""
+    return datetime.combine(days_from_today(days), time(hour, minute))
+
 
 # ------------------------
 # Seed data
@@ -92,8 +106,8 @@ samples_db = [
         "lab_tech_id": 1,
         "sample_type": "Food",
         "test_status": "in_progress",
-        "test_start": date(2025, 8, 1),
-        "due_date": date(2025, 8, 15),
+        "test_start": days_from_today(-10),
+        "due_date": days_from_today(4),
         "test_duration": "2-week",
         "totalBottles": 5,
         "test_types": ["ph", "microbial"],
@@ -105,8 +119,8 @@ samples_db = [
         "lab_tech_id": 2,
         "sample_type": "Food",
         "test_status": "completed",
-        "test_start": date(2025, 7, 20),
-        "due_date": date(2025, 8, 3),
+        "test_start": days_from_today(-24),
+        "due_date": days_from_today(-10),
         "test_duration": "2-week",
         "totalBottles": 3,
         "test_types": ["ph", "visual"],
@@ -118,8 +132,8 @@ samples_db = [
         "lab_tech_id": 3,
         "sample_type": "Cosmetics",
         "test_status": "pending",
-        "test_start": date(2025, 8, 10),
-        "due_date": date(2025, 8, 24),
+        "test_start": days_from_today(2),
+        "due_date": days_from_today(16),
         "test_duration": "2-week",
         "totalBottles": 4,
         "test_types": ["viscosity", "visual"],
@@ -131,8 +145,8 @@ samples_db = [
         "lab_tech_id": 1,
         "sample_type": "Environmental",
         "test_status": "in_progress",
-        "test_start": date(2025, 8, 5),
-        "due_date": date(2025, 8, 19),
+        "test_start": days_from_today(-16),
+        "due_date": days_from_today(-2),
         "test_duration": "2-week",
         "totalBottles": 2,
         "test_types": ["microbial"],
@@ -144,8 +158,8 @@ samples_db = [
         "lab_tech_id": 2,
         "sample_type": "Food",
         "test_status": "completed",
-        "test_start": date(2025, 7, 25),
-        "due_date": date(2025, 8, 8),
+        "test_start": days_from_today(-20),
+        "due_date": days_from_today(-6),
         "test_duration": "2-week",
         "totalBottles": 6,
         "test_types": ["microbial", "waterActivity"],
@@ -157,8 +171,8 @@ samples_db = [
         "lab_tech_id": 3,
         "sample_type": "Food",
         "test_status": "in_progress",
-        "test_start": date(2025, 8, 2),
-        "due_date": date(2025, 8, 16),
+        "test_start": days_from_today(-6),
+        "due_date": days_from_today(8),
         "test_duration": "2-week",
         "totalBottles": 4,
         "test_types": ["sensory"],
@@ -170,8 +184,8 @@ samples_db = [
         "lab_tech_id": 1,
         "sample_type": "Supplement",
         "test_status": "pending",
-        "test_start": date(2025, 8, 12),
-        "due_date": date(2025, 8, 26),
+        "test_start": days_from_today(1),
+        "due_date": days_from_today(15),
         "test_duration": "2-week",
         "totalBottles": 3,
         "test_types": ["ph", "waterActivity", "microbial"],
@@ -183,8 +197,8 @@ samples_db = [
         "lab_tech_id": 2,
         "sample_type": "Food",
         "test_status": "completed",
-        "test_start": date(2025, 7, 28),
-        "due_date": date(2025, 8, 11),
+        "test_start": days_from_today(-18),
+        "due_date": days_from_today(-4),
         "test_duration": "2-week",
         "totalBottles": 5,
         "test_types": ["waterActivity"],
@@ -196,8 +210,8 @@ samples_db = [
         "lab_tech_id": 3,
         "sample_type": "Food",
         "test_status": "in_progress",
-        "test_start": date(2025, 8, 3),
-        "due_date": date(2025, 8, 17),
+        "test_start": days_from_today(-12),
+        "due_date": days_from_today(2),
         "test_duration": "2-week",
         "totalBottles": 2,
         "test_types": ["visual", "sensory"],
@@ -209,8 +223,8 @@ samples_db = [
         "lab_tech_id": 1,
         "sample_type": "Food",
         "test_status": "pending",
-        "test_start": date(2025, 8, 14),
-        "due_date": date(2025, 8, 28),
+        "test_start": days_from_today(3),
+        "due_date": days_from_today(17),
         "test_duration": "2-week",
         "totalBottles": 1,
         "test_types": ["ph", "viscosity"],
@@ -222,8 +236,8 @@ samples_db = [
         "lab_tech_id": 2,
         "sample_type": "Cosmetics",
         "test_status": "rejected",
-        "test_start": date(2025, 8, 12),
-        "due_date": date(2025, 8, 26),
+        "test_start": days_from_today(-5),
+        "due_date": days_from_today(9),
         "test_duration": "2-week",
         "totalBottles": 2,
         "test_types": ["viscosity", "visual"],
@@ -241,9 +255,9 @@ rejection_reasons_db = {
 completed_results_db = {
     "Sample A2": {
         "result": {
-            "test_completed_date": datetime(2025, 8, 3, 14, 30),
+            "test_completed_date": at(-11, 14, 30),
             "reviewed_by": 1,
-            "reviewed_date": datetime(2025, 8, 4, 10, 0),
+            "reviewed_date": at(-10, 10, 0),
             "test_method": "pH meter",
             "instrument_used": "Mettler Toledo SevenCompact",
             "batch_number": "BATCH-2025-08-01",
@@ -259,9 +273,9 @@ completed_results_db = {
     },
     "Sample D1": {
         "result": {
-            "test_completed_date": datetime(2025, 8, 8, 16, 0),
+            "test_completed_date": at(-7, 16, 0),
             "reviewed_by": 4,
-            "reviewed_date": datetime(2025, 8, 9, 9, 30),
+            "reviewed_date": at(-6, 9, 30),
             "test_method": "Plate count + water activity meter",
             "instrument_used": "AquaLab 4TE",
             "batch_number": "BATCH-2025-07-25",
@@ -277,9 +291,9 @@ completed_results_db = {
     },
     "Sample F1": {
         "result": {
-            "test_completed_date": datetime(2025, 8, 11, 13, 45),
+            "test_completed_date": at(-5, 13, 45),
             "reviewed_by": 6,
-            "reviewed_date": datetime(2025, 8, 12, 11, 15),
+            "reviewed_date": at(-4, 11, 15),
             "test_method": "Water activity meter",
             "instrument_used": "AquaLab 4TE",
             "batch_number": "BATCH-2025-07-28",
