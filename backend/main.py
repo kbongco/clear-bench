@@ -29,9 +29,6 @@ from utils.audit import log_event
 from utils.dates import calculate_due_date
 from utils.spec import check_value
 
-# Create tables on startup
-
-
 app = FastAPI()
 
 
