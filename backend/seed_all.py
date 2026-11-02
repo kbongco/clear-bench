@@ -8,9 +8,6 @@ from database import Base, SessionLocal, engine
 from utils.audit import log_event
 from utils.spec import check_value
 
-# Ensure all tables exist
-Base.metadata.create_all(bind=engine)
-
 # Demo dates are relative to the day the seed runs, so the demo never looks stale.
 TODAY = date.today()
 
