@@ -219,3 +219,14 @@ class EnterResults(BaseModel):
     batch_number: Optional[str] = None
     analyst_comments: Optional[str] = None
     values: List[ResultValue] = Field(min_length=1)
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class CurrentUser(BaseModel):
+    role: Literal["scientist", "labtech"]
+    id: int
+    name: str
