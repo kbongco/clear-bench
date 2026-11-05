@@ -8,9 +8,8 @@ Create Date: 2026-11-05 10:16:36.509500
 
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = "2663ae115c12"
@@ -37,7 +36,8 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.CheckConstraint(
-            "(role = 'scientist' AND scientist_id IS NOT NULL AND lab_tech_id IS NULL) OR (role = 'lab_tech' AND lab_tech_id IS NOT NULL AND scientist_id IS NULL)",
+            "(role = 'scientist' AND scientist_id IS NOT NULL AND lab_tech_id IS NULL)"
+            " OR (role = 'lab_tech' AND lab_tech_id IS NOT NULL AND scientist_id IS NULL)",
             name="ck_users_role_matches_link",
         ),
         sa.ForeignKeyConstraint(
