@@ -1,3 +1,4 @@
+import os
 import sys
 from datetime import date, datetime, time, timedelta
 
@@ -5,6 +6,7 @@ from sqlalchemy.orm import Session
 
 import models
 from database import Base, SessionLocal, engine
+from security import hash_password
 from utils.audit import log_event
 from utils.spec import check_value
 
@@ -588,6 +590,53 @@ def seed_all(db: Session | None = None):
             db.close()
 
 
+def email_for(name: str) -> str:
+    """'Dr. Sarah Lin' -> 'sarah.lin@example.com' (lab techs have no email column)."""
+    parts = name.replace("Dr. ", "").lower().split()
+    return ".".join(parts) + "@example.com"
+
+
+def seed_demo_users(db: Session | None = None):
+    """Give every scientist and lab tech without a login a demo user.
+
+    Safe to run on every deploy: people who already have a user are skipped.
+    """
+    owns_session = db is None
+    if db is None:
+        db = SessionLocal()
+    try:
+        demo_password = os.getenv("DEMO_PASSWORD", "clearbench-demo")
+
+        has_login = {u.scientist_id for u in db.query(models.User) if u.scientist_id}
+        for scientist in db.query(models.Scientist).all():
+            if scientist.id not in has_login:
+                db.add(
+                    models.User(
+                        email=scientist.email,
+                        password_hash=hash_password(demo_password),
+                        role="scientist",
+                        scientist_id=scientist.id,
+                    )
+                )
+
+        has_login = {u.lab_tech_id for u in db.query(models.User) if u.lab_tech_id}
+        for lab_tech in db.query(models.LabTech).all():
+            if lab_tech.id not in has_login:
+                db.add(
+                    models.User(
+                        email=email_for(lab_tech.name),
+                        password_hash=hash_password(demo_password),
+                        role="lab_tech",
+                        lab_tech_id=lab_tech.id,
+                    )
+                )
+
+        db.commit()
+    finally:
+        if owns_session:
+            db.close()
+
+
 # ------------------------
 # Run the seed
 # ------------------------
@@ -597,3 +646,4 @@ if __name__ == "__main__":
         Base.metadata.create_all(bind=engine)
         print("Dropped and recreated all tables.")
     seed_all()
+    seed_demo_users()
