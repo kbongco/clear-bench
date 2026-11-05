@@ -498,7 +498,6 @@ def seed_all(db: Session | None = None):
     if db is None:
         db = SessionLocal()
     try:
-        # NEW: Only seed an empty database, so redeploys don't add duplicates.
         if db.query(models.Scientist).first() is not None:
             print("Database already has data, skipping seed.")
             return
