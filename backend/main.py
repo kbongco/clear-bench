@@ -1,5 +1,4 @@
 import os
-from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import List, Optional
 
@@ -10,7 +9,8 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
-from database import Base, engine, get_db
+from auth_routes import router as auth_router
+from database import get_db
 from schemas import (
     AllSamplesResponse,
     ApproveSample,
@@ -30,15 +30,8 @@ from utils.audit import log_event
 from utils.dates import calculate_due_date
 from utils.spec import check_value
 
-
-# Create tables on startup
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
+app.include_router(auth_router)
 
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
