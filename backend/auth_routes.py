@@ -24,7 +24,7 @@ def get_current_user(
     user_id = decode_access_token(access_token) if access_token else None
     user = db.get(models.User, user_id) if user_id is not None else None
     if user is None:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        raise HTTPException(status_code=401, detail="Not logged in")
     return user
 
 

@@ -84,6 +84,7 @@ def test_me_without_cookie(client, auth_data):
     response = client.get("/auth/me")
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "Not logged in"
 
 
 # 7. A tampered token is rejected.
