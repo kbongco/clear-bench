@@ -17,6 +17,7 @@ COOKIE_SECURE = os.getenv("COOKIE_SECURE", "true").lower() != "false"
 # Checked when the email doesn't exist, so a wrong email takes as long as a wrong password.
 _DUMMY_HASH = hash_password("not-a-real-password")
 
+
 def get_current_user(
     access_token: str | None = Cookie(default=None), db: Session = Depends(get_db)
 ) -> models.User:
@@ -26,11 +27,13 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="Invalid email or password")
     return user
 
+
 def to_current_user(user: models.User) -> CurrentUser:
     """The same shape the frontend's useCurrentUser() uses: role, id, name."""
     if user.role == "scientist":
         return CurrentUser(role="scientist", id=user.scientist.id, name=user.scientist.name)
     return CurrentUser(role="labtech", id=user.lab_tech.id, name=user.lab_tech.name)
+
 
 @router.post("/login", response_model=CurrentUser)
 def login(body: LoginRequest, response: Response, db: Session = Depends(get_db)):
@@ -50,6 +53,7 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
         max_age=8 * 60 * 60,
     )
     return to_current_user(user)
+
 
 @router.post("/logout", status_code=204)
 def logout(response: Response):
