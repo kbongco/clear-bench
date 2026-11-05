@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
+from auth_routes import router as auth_router
 from database import get_db
 from schemas import (
     AllSamplesResponse,
@@ -30,6 +31,7 @@ from utils.dates import calculate_due_date
 from utils.spec import check_value
 
 app = FastAPI()
+app.include_router(auth_router)
 
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
