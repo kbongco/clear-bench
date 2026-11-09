@@ -208,7 +208,6 @@ class ResultValue(BaseModel):
 
 class EnterResults(BaseModel):
     model_config = {"str_strip_whitespace": True}
-    lab_tech_id: int
     test_method: Optional[str] = None
     instrument_used: Optional[str] = None
     batch_number: Optional[str] = None

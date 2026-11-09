@@ -252,14 +252,17 @@ def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(ge
 
 
 @app.post("/samples/{sample_id}/results", response_model=SampleDetail)
-def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_db)):
+def enter_results(
+    sample_id: int,
+    body: EnterResults,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
+    lab_tech = user.lab_tech
     if sample.test_status != "in_progress":
         raise HTTPException(
             status_code=400, detail="Results can only be entered for samples in progress"
