@@ -207,12 +207,17 @@ def approve_sample(
 
 
 @app.post("/samples/{sample_id}/reject", response_model=Sample)
-def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_db)):
+def reject_sample(
+    sample_id: int,
+    body: RejectSample,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
+    lab_tech = user.lab_tech
     if not lab_tech:
         raise HTTPException(status_code=404, detail="Lab tech not found")
 

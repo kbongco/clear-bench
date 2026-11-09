@@ -181,13 +181,8 @@ class SampleDetail(SampleWithOwner):
     events: List[AuditEvent] = Field(default_factory=list)
 
 
-class ApproveSample(BaseModel):
-    lab_tech_id: int
-
-
 class RejectSample(BaseModel):
     model_config = {"str_strip_whitespace": True}
-    lab_tech_id: int
     reason: str = Field(min_length=1)
 
 

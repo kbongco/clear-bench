@@ -1,4 +1,12 @@
+import pytest
+
 import models
+
+
+@pytest.fixture(autouse=True)
+def logged_in_as_sarah(login_as, db, sample_data):
+    """Every test in this file runs as the lab tech Sarah."""
+    return login_as(db.query(models.LabTech).filter_by(name="Sarah").one())
 
 
 def test_reject_pending_sample_works(client, sample_data):
@@ -67,19 +75,6 @@ def test_reject_unknown_sample_returns_404(client, sample_data):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Sample not found"
-
-
-def test_reject_with_unknown_lab_tech_returns_404(client, sample_data):
-    response = client.post(
-        "/samples/1/reject",
-        json={
-            "lab_tech_id": 999,
-            "reason": "Bottle cracked",
-        },
-    )
-
-    assert response.status_code == 404
-    assert response.json()["detail"] == "Lab tech not found"
 
 
 def test_reject_with_blank_reason_returns_422(client, sample_data):
