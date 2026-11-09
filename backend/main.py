@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
-from auth_routes import router as auth_router
+from auth_routes import get_current_user, require_role, router as auth_router
 from database import get_db
 from schemas import (
     AllSamplesResponse,
@@ -173,14 +173,16 @@ def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session =
 
 
 @app.post("/samples/{sample_id}/approve", response_model=Sample)
-def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(get_db)):
+def approve_sample(
+    sample_id: int,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
+    lab_tech = user.lab_tech
 
     if sample.test_status != "pending":
         raise HTTPException(status_code=400, detail="Only pending samples can be approved")
