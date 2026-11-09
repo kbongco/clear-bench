@@ -13,7 +13,6 @@ def test_reject_pending_sample_works(client, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "Bottle cracked",
         },
     )
@@ -30,7 +29,6 @@ def test_reject_sample_logs_event_with_reason(client, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "Bottle cracked",
         },
     )
@@ -55,7 +53,6 @@ def test_reject_non_pending_sample_returns_400(client, sample_data):
     response = client.post(
         "/samples/2/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "Bottle cracked",
         },
     )
@@ -68,7 +65,6 @@ def test_reject_unknown_sample_returns_404(client, sample_data):
     response = client.post(
         "/samples/999/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "Bottle cracked",
         },
     )
@@ -81,7 +77,6 @@ def test_reject_with_blank_reason_returns_422(client, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "",
         },
     )
@@ -93,7 +88,6 @@ def test_reject_with_whitespace_reason_returns_422(client, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "   ",
         },
     )
@@ -116,7 +110,6 @@ def test_reject_reason_is_trimmed_when_saved(client, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "  Bottle cracked  ",
         },
     )
@@ -138,7 +131,6 @@ def test_failed_reject_does_not_change_sample(client, db, sample_data):
     response = client.post(
         "/samples/1/reject",
         json={
-            "lab_tech_id": 1,
             "reason": "",
         },
     )
