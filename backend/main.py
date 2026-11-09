@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
-from auth_routes import require_role
+from auth_routes import get_current_user, require_role
 from auth_routes import router as auth_router
 from database import get_db
 from schemas import (
@@ -55,7 +55,11 @@ def get_scientists(db: Session = Depends(get_db)):
     return db.query(models.Scientist).all()
 
 
-@app.get("/scientists/{scientist_id}/samples", response_model=SamplesResponse)
+@app.get(
+    "/scientists/{scientist_id}/samples",
+    response_model=SamplesResponse,
+    dependencies=[Depends(get_current_user)],
+)  # noqa: E501
 def get_scientist_samples(
     scientist_id: int,
     status: Optional[str] = Query(None),
@@ -69,7 +73,7 @@ def get_scientist_samples(
 
 # TODO: once auth exists, scope results to the current user's access
 # instead of trusting the status/department query params.
-@app.get("/samples", response_model=AllSamplesResponse)
+@app.get("/samples", response_model=AllSamplesResponse, dependencies=[Depends(get_current_user)])
 def get_all_samples(
     status: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
@@ -89,20 +93,24 @@ def get_all_samples(
     return {"total": len(samples), "samples": samples}
 
 
-@app.get("/lab-techs", response_model=List[LabTech])
+@app.get("/lab-techs", response_model=List[LabTech], dependencies=[Depends(get_current_user)])
 def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
 
 
 @app.get("/samples/results/{sample_id}")
-def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
+def get_sample_results(
+    sample_id: int, db: Session = Depends(get_db), dependencies=[Depends(get_current_user)]
+):
     result = db.query(models.Result).filter(models.Result.sample_id == sample_id).first()
     if not result:
         raise HTTPException(status_code=404, detail="Sample not found")
     return result
 
 
-@app.get("/samples/{sample_id}", response_model=SampleDetail)
+@app.get(
+    "/samples/{sample_id}", response_model=SampleDetail, dependencies=[Depends(get_current_user)]
+)
 def get_sample(sample_id: int, db: Session = Depends(get_db)):
     sample = (
         db.query(models.Sample)
@@ -218,8 +226,6 @@ def reject_sample(
         raise HTTPException(status_code=404, detail="Sample not found")
 
     lab_tech = user.lab_tech
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
 
     if sample.test_status != "pending":
         raise HTTPException(status_code=400, detail="Only pending samples can be rejected")
@@ -243,7 +249,7 @@ def reject_sample(
     return sample
 
 
-@app.get("/specs", response_model=List[ProductSpec])
+@app.get("/specs", response_model=List[ProductSpec], dependencies=[Depends(get_current_user)])
 def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(get_db)):
     query = db.query(models.ProductSpec)
     if sample_type:
