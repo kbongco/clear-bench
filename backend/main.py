@@ -121,15 +121,15 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/samples", response_model=SampleCreateResponse)
-def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
-    scientist = (
-        db.query(models.Scientist).filter(models.Scientist.id == sample.scientist_id).first()
-    )
-    if not scientist:
-        raise HTTPException(status_code=404, detail="Scientist does not exist")
+def api_create_sample(
+    sample: NewSample,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(require_role("scientist")),
+):
+    scientist = user.scientist
     new_sample = models.Sample(
         name=sample.name,
-        scientist_id=sample.scientist_id,
+        scientist_id=scientist.id,
         sample_type=sample.sample_type,
         test_start=sample.test_start,
         test_duration=sample.test_duration,
