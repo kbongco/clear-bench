@@ -35,7 +35,6 @@ class ScientistSummary(BaseModel):
 # --------------------
 class NewSample(BaseModel):
     name: str
-    scientist_id: int
     sample_type: Optional[str] = None
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
