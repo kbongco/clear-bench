@@ -9,11 +9,11 @@ from sqlalchemy.orm import Session, joinedload
 import crud
 import models
 from auth import authenticate_user
-from auth_routes import get_current_user, require_role, router as auth_router
+from auth_routes import get_current_user, require_role
+from auth_routes import router as auth_router
 from database import get_db
 from schemas import (
     AllSamplesResponse,
-    ApproveSample,
     EnterResults,
     LabTech,
     NewSample,
