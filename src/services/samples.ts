@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { apiFetch } from "./config";
 import type {
   AllSamplesResponse,
   NewSample,
@@ -10,9 +10,9 @@ import type { SampleDetail } from "../types/Results/results";
 import type { EnterResults } from "../types/Specs/specs";
 
 export async function getSamples(scientistId: number): Promise<SamplesResponse> {
-  const response = await fetch(`${API_URL}/scientists/${scientistId}/samples`);
+  const response = await apiFetch(`/scientists/${scientistId}/samples`);
   if (!response.ok) {
-    throw new Error("Unable to fetch samples");
+    throw new Error("Unable to apiFetch samples");
   }
   const data = await response.json();
   return data;
@@ -26,25 +26,25 @@ export async function getAllSamples(
   if (filters.status) params.set("status", filters.status);
   if (filters.department) params.set("department", filters.department);
 
-  const response = await fetch(`${API_URL}/samples?${params}`);
+  const response = await apiFetch(`/samples?${params}`);
   if (!response.ok) {
-    throw new Error("Unable to fetch samples");
+    throw new Error("Unable to apiFetch samples");
   }
   return response.json();
 }
 
 export async function getSample(id: number): Promise<SampleDetail | null> {
-  const response = await fetch(`${API_URL}/samples/${id}`);
+  const response = await apiFetch(`/samples/${id}`);
   if (response.status === 404) return null;
   if (!response.ok) {
-    throw new Error("Unable to fetch sample results");
+    throw new Error("Unable to apiFetch sample results");
   }
   return response.json();
 }
 
 export async function createSample(sampleData: NewSample): Promise<SampleCreateResponse> {
   try {
-    const response = await fetch(`${API_URL}/samples`, {
+    const response = await apiFetch(`/samples`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,11 +64,10 @@ export async function createSample(sampleData: NewSample): Promise<SampleCreateR
   }
 }
 
-export async function approveSample(id: number, labTechId: number): Promise<Sample> {
-  const response = await fetch(`${API_URL}/samples/${id}/approve`, {
+export async function approveSample(id: number): Promise<Sample> {
+  const response = await apiFetch(`/samples/${id}/approve`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ lab_tech_id: labTechId }),
   });
 
   if (!response.ok) {
@@ -79,13 +78,13 @@ export async function approveSample(id: number, labTechId: number): Promise<Samp
   return response.json();
 }
 
-export async function rejectSample(id: number, labTechId: number, reason: string): Promise<Sample> {
-  const response = await fetch(`${API_URL}/samples/${id}/reject`, {
+export async function rejectSample(id: number, reason: string): Promise<Sample> {
+  const response = await apiFetch(`/samples/${id}/reject`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ lab_tech_id: labTechId, reason }),
+    body: JSON.stringify({ reason }),
   });
 
   if (!response.ok) {
@@ -97,7 +96,7 @@ export async function rejectSample(id: number, labTechId: number, reason: string
 }
 
 export async function enterResults(id: number, body: EnterResults): Promise<SampleDetail> {
-  const response = await fetch(`${API_URL}/samples/${id}/results`, {
+  const response = await apiFetch(`/samples/${id}/results`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
