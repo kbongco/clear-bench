@@ -98,10 +98,8 @@ def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
 
 
-@app.get("/samples/results/{sample_id}",dependencies=[Depends(get_current_user)])
-def get_sample_results(
-    sample_id: int, db: Session = Depends(get_db)
-):
+@app.get("/samples/results/{sample_id}", dependencies=[Depends(get_current_user)])
+def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
     result = db.query(models.Result).filter(models.Result.sample_id == sample_id).first()
     if not result:
         raise HTTPException(status_code=404, detail="Sample not found")
