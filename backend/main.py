@@ -50,7 +50,7 @@ def read_root():
     return {"message": "Hello from FastAPI backend!"}
 
 
-@app.get("/scientists", response_model=List[Scientist])
+@app.get("/scientists", response_model=List[Scientist], dependencies=[Depends(get_current_user)])
 def get_scientists(db: Session = Depends(get_db)):
     return db.query(models.Scientist).all()
 
@@ -98,9 +98,9 @@ def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
 
 
-@app.get("/samples/results/{sample_id}")
+@app.get("/samples/results/{sample_id}",dependencies=[Depends(get_current_user)])
 def get_sample_results(
-    sample_id: int, db: Session = Depends(get_db), dependencies=[Depends(get_current_user)]
+    sample_id: int, db: Session = Depends(get_db)
 ):
     result = db.query(models.Result).filter(models.Result.sample_id == sample_id).first()
     if not result:
