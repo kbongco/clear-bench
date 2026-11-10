@@ -55,6 +55,17 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
     return to_current_user(user)
 
 
+def require_role(role: str):
+    """A dependency that allows only one role: Depends(require_role("lab_tech"))."""
+
+    def check_role(user: models.User = Depends(get_current_user)) -> models.User:
+        if user.role != role:
+            raise HTTPException(status_code=403, detail="Not allowed for your role")
+        return user
+
+    return check_role
+
+
 @router.post("/logout", status_code=204)
 def logout(response: Response):
     response.delete_cookie(COOKIE_NAME, httponly=True, secure=COOKIE_SECURE, samesite="lax")

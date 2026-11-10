@@ -3,6 +3,12 @@ import pytest
 import models
 
 
+@pytest.fixture(autouse=True)
+def logged_in_as_sarah(db, sample_data, login_as):
+    sarah = db.query(models.LabTech).filter(models.LabTech.name.contains("Sarah")).first()
+    login_as(sarah)
+
+
 def names(response):
     return [sample["name"] for sample in response.json()["samples"]]
 

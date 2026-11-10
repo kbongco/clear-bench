@@ -35,7 +35,6 @@ class ScientistSummary(BaseModel):
 # --------------------
 class NewSample(BaseModel):
     name: str
-    scientist_id: int
     sample_type: Optional[str] = None
     test_start: Optional[date] = None
     test_duration: Optional[str] = None
@@ -76,11 +75,6 @@ class SampleStatus(str, Enum):
     completed = "completed"
     reviewed = "reviewed"
     archived = "archived"
-
-
-class UpdateSample(BaseModel):
-    lab_tech_id: Optional[int] = None
-    notes: Optional[str] = None
 
 
 class SamplesResponse(BaseModel):
@@ -181,13 +175,8 @@ class SampleDetail(SampleWithOwner):
     events: List[AuditEvent] = Field(default_factory=list)
 
 
-class ApproveSample(BaseModel):
-    lab_tech_id: int
-
-
 class RejectSample(BaseModel):
     model_config = {"str_strip_whitespace": True}
-    lab_tech_id: int
     reason: str = Field(min_length=1)
 
 
@@ -213,7 +202,6 @@ class ResultValue(BaseModel):
 
 class EnterResults(BaseModel):
     model_config = {"str_strip_whitespace": True}
-    lab_tech_id: int
     test_method: Optional[str] = None
     instrument_used: Optional[str] = None
     batch_number: Optional[str] = None

@@ -15,6 +15,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 import models
+from auth_routes import get_current_user
 from database import Base, get_db
 from main import app
 from security import hash_password
@@ -50,6 +51,30 @@ def client(db):
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def login_as(client, db):
+    """Log the test client in as a scientist or lab tech: login_as(sarah).
+
+    Skips the cookie and password, so each test can focus on its endpoint.
+    test_auth_routes.py covers the real login.
+    """
+
+    def _login_as(person):
+        if isinstance(person, models.Scientist):
+            user = models.User(role="scientist", scientist_id=person.id)
+        else:
+            user = models.User(role="lab_tech", lab_tech_id=person.id)
+        user.email = f"{user.role}-{person.id}@test.com"
+        user.password_hash = "not-used"
+        db.add(user)
+        db.commit()
+
+        app.dependency_overrides[get_current_user] = lambda: user
+        return client
+
+    return _login_as
 
 
 @pytest.fixture
