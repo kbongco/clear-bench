@@ -8,7 +8,6 @@ from sqlalchemy.orm import Session, joinedload
 
 import crud
 import models
-from auth import authenticate_user
 from auth_routes import get_current_user, require_role
 from auth_routes import router as auth_router
 from database import get_db
@@ -24,7 +23,6 @@ from schemas import (
     SampleDetail,
     SamplesResponse,
     Scientist,
-    UpdateSample,
 )
 from utils.audit import log_event
 from utils.dates import calculate_due_date
@@ -162,20 +160,6 @@ def api_create_sample(
     db.commit()
     db.refresh(new_sample)
     return {"message": "Sample created successfully", "sample": new_sample}
-
-
-@app.patch("/samples/{sample_id}", response_model=Sample)
-def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session = Depends(get_db)):
-    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
-    if not sample:
-        raise HTTPException(status_code=404, detail="Sample not found")
-
-    for field, value in sample_update.model_dump(exclude_unset=True).items():
-        setattr(sample, field, value)
-
-    db.commit()
-    db.refresh(sample)
-    return sample
 
 
 @app.post("/samples/{sample_id}/approve", response_model=Sample)
@@ -366,8 +350,3 @@ def enter_results(
 @app.get("/test-db")
 def test_db(db: Session = Depends(get_db)):
     return {"status": "✅ Database connection working"}
-
-
-@app.get("/protected")
-async def protected_route(current_user: str = Depends(authenticate_user)):
-    return {"message": f"Hello {current_user}, this is a protected route!"}

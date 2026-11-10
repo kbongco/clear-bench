@@ -77,11 +77,6 @@ class SampleStatus(str, Enum):
     archived = "archived"
 
 
-class UpdateSample(BaseModel):
-    lab_tech_id: Optional[int] = None
-    notes: Optional[str] = None
-
-
 class SamplesResponse(BaseModel):
     total: int
     samples: List[Sample]
