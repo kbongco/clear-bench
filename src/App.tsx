@@ -9,6 +9,7 @@ import SpecsViewContainer from "./Containers/SpecsViewContainer";
 import WhatsNext from "./Views/WhatsNext";
 import { useEffect } from "react";
 import { useCurrentUserStore } from "./store/useCurrentUserStore";
+import LoginContainer from "./Containers/LoginContainer";
 
 function App() {
   const status = useCurrentUserStore((state) => state.status);
@@ -20,7 +21,7 @@ function App() {
   }, [loadCurrentUser]);
 
   if (status === "loading") return <p className="p-6">Loading…</p>;
-  if (!user) return <p className="p-6">Not logged in</p>; // temporary: 4d replaces this with the login page
+  if (!user) return <LoginContainer />;
   return (
     <>
       <NavBar />
