@@ -44,8 +44,7 @@ export default function NavBar() {
     try {
       await logout();
     } finally {
-      setCurrentUser(null); // clear the user in the store
-      navigate("/login", { replace: true });
+      window.location.replace("/login");
     }
   };
 
