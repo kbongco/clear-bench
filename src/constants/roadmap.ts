@@ -1,7 +1,7 @@
 export type RoadmapItem = {
   title: string;
   description: string;
-  stage: "next" | "later";
+  stage: "next" | "later" | "done";
 };
 
 export const ROADMAP: RoadmapItem[] = [
@@ -9,7 +9,7 @@ export const ROADMAP: RoadmapItem[] = [
     title: "Real login",
     description:
       'Sign in as yourself instead of using the "View as" picker, so every approval and result is tied to a real account.',
-    stage: "next",
+    stage: "done",
   },
   {
     title: "Certificate of analysis reports",

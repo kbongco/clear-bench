@@ -170,12 +170,114 @@ I used [Claude](https://claude.ai) as a pair-programming partner on this project
 
 ---
 
+<!--
+README changes for the auth release (#84).
+Each section below REPLACES the section with the same heading in README.md.
+Sections not listed here stay as they are.
+Small one-line edits are listed at the bottom.
+-->
+
+## 🎬 Try the demo
+
+Open the [live demo](https://clear-bench.vercel.app/) and click **Try as a scientist** or **Try as a lab tech**. There's no sign-up: the buttons log you in as one of the demo accounts. You can also type them in yourself:
+
+| Role      | Email                      | Password          |
+| --------- | -------------------------- | ----------------- |
+| Scientist | `alice.nguyen@example.com` | `clearbench-demo` |
+| Lab tech  | `sarah.lin@example.com`    | `clearbench-demo` |
+
+1. **As a scientist** (Dr. Alice Nguyen): open **Submit Samples** and submit one.
+2. **Log out** (bottom of the sidebar, behind ☰ on a phone) and **try as a lab tech** (Sarah Lin): open **Approve Samples** and approve it.
+3. **Open the sample**, go to the **Results** tab, and enter results for each test and storage condition.
+4. Check the **History** tab: every step is recorded under the person who was logged in.
+
+---
+
+### 🧾 For everyone
+
+- **Real accounts:** log in as a scientist or a lab tech; each role sees only the actions it's allowed to take
+- An **audit trail** on every sample: submitted, approved or rejected, results entered — who, when, and why. "Who" always comes from the login, never from the browser.
+- Works on phones: a menu drawer, scrolling tabs, and layouts checked at 375px
+
+---
+
+## 🛠 How it's built
+
+| Layer    | Tech                                                      | Why                                                                   |
+| -------- | --------------------------------------------------------- | --------------------------------------------------------------------- |
+| Frontend | React 19, TypeScript, Tailwind CSS, Zustand, React Router | Typed components; Tailwind for fast, mobile-first layouts             |
+| Backend  | FastAPI, SQLAlchemy 2, Pydantic, Alembic                  | Request validation and typed responses; migrations for schema changes |
+| Auth     | JWT in an httpOnly cookie, Argon2 password hashing        | The browser can't read or forge the session; passwords never stored   |
+| Database | PostgreSQL (Neon) in production, SQLite locally and in CI | Real relational data; tests run in memory with no setup               |
+| Testing  | Vitest, React Testing Library, user-event, pytest         | Unit and component tests on both sides                                |
+| CI/CD    | GitHub Actions, branch protection                         | Every PR must pass both suites before it can merge                    |
+| Hosting  | Vercel (frontend), Render (API), Neon (database)          | Free tiers; `main` deploys automatically                              |
+
+```
+Browser ──► Vercel ──┬── React app
+                     └── /api/* ──► Render (FastAPI) ──► Neon (Postgres)
+```
+
+The browser only ever talks to Vercel. Vercel forwards `/api` requests to Render, so the login cookie is first-party — which Safari requires.
+
+The frontend uses a **container / view** split: containers fetch data and handle loading and errors, views only render. The current user lives in one Zustand store behind a `useCurrentUser()` hook. When real login replaced the old View-as menu, only what's behind that hook changed; the pages that use it didn't.
+
+---
+
+## 🧠 Engineering highlights
+
+- **The server decides who you are.** Logging in sets an `httpOnly`, `Secure`, `SameSite=Lax` cookie holding a signed token that JavaScript can't read. Every endpoint checks it: no login → 401, wrong role → 403. Request bodies no longer carry a `scientist_id` or `lab_tech_id`, so nobody can act as someone else by editing a request — and a test suite proves it, end to end through the real login.
+- **Spec limits are snapshotted onto each result.** If a product's spec changes later, past results still show the limits they were judged against — important for audits.
+- **Status changes and their audit events are saved in one transaction.** A sample can't change status without its history entry, and vice versa.
+- **Results entry validates everything before writing anything:** the sample's status, every test and condition present, numeric vs pass/fail values — then saves results, out-of-spec flags and the audit event together.
+- **Schema changes go through migrations** (Alembic), run automatically on every deploy.
+- **Accessible, mobile-first UI:** labelled form fields, keyboard-friendly menu drawer with focus management, tap targets sized for phones.
+- **Guard rails:** a pre-push hook runs formatting, linting, type checks and both test suites; CI runs the same checks, and `develop` and `main` can't merge a red PR.
+
+---
+
+## 🚀 Running it locally
+
+**You'll need:** Node 22 (see `.nvmrc`) and Python 3.10+.
+
+### Backend (API on http://localhost:8000)
+
+```bash
+git clone https://github.com/kbongco/clear-bench.git
+cd clear-bench/backend
+python -m venv venv
+source venv/bin/activate            # Windows: venv\Scripts\activate
+pip install -r requirements-dev.txt
+cp .env.example .env                # SQLite and local settings; see the comments inside
+alembic upgrade head                # creates the tables
+python seed_all.py                  # demo data and demo accounts
+uvicorn main:app --reload
+```
+
+To use Postgres instead of SQLite, change `DATABASE_URL` in `backend/.env`.
+
+### Frontend (app on http://localhost:5173)
+
+In a second terminal, from the repo root:
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:5173 and use a demo button, or log in with the accounts in [Try the demo](#-try-the-demo).
+
+The app talks to `http://localhost:8000` by default. To point it somewhere else, copy `.env.example` to `.env.local` and change `VITE_API_URL`.
+
+---
+
 ## 📍 Status and what's next
 
-ClearBench is a **live MVP** (v1). Coming next:
+ClearBench is a **live MVP** with real login (v1). Coming next:
 
-- **Real login** in place of the View-as menu, with the server — not the browser — deciding who you are
 - **Certificate of analysis reports** for a sample's results
 - **Editable specs**, notifications, and manager dashboards
 
 See the in-app [What's next](https://clear-bench.vercel.app/whats-next) page, and the [open issues](https://github.com/kbongco/clear-bench/issues) for bugs and polish in progress.
+
+---
