@@ -32,7 +32,7 @@ beforeEach(() => {
   useCurrentUserStore.setState({ user: null });
 });
 
-function renderLogin(initialEntries: MemoryRouterProps["initialEntries"]= ["/login"]) {
+function renderLogin(initialEntries: MemoryRouterProps["initialEntries"] = ["/login"]) {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>
