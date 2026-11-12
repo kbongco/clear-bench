@@ -15,6 +15,11 @@ type LoginInterface = {
 export default function Login({ onLogin, error, submitting }: LoginInterface) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    onLogin(email, password);
+  }
   return (
     <>
       <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
@@ -27,8 +32,7 @@ export default function Login({ onLogin, error, submitting }: LoginInterface) {
 
           {/* Card */}
           <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <form className="flex flex-col">
-              {/* your email Input */}
+            <form className="flex flex-col" onSubmit={handleSubmit}>
               <Input
                 id="email"
                 name="email"
@@ -38,7 +42,6 @@ export default function Login({ onLogin, error, submitting }: LoginInterface) {
                 onChange={(event) => setEmail(event.target.value)}
                 required
               />
-              {/* your password Input */}
               <Input
                 id="password"
                 name="password"
@@ -46,9 +49,10 @@ export default function Login({ onLogin, error, submitting }: LoginInterface) {
                 label="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
               {error && (
-                <p role="alert" className="text-sm text-red-600">
+                <p role="alert" className="mb-4 text-sm text-red-600">
                   {error}
                 </p>
               )}

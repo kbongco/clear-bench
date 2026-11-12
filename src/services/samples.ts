@@ -12,7 +12,7 @@ import type { EnterResults } from "../types/Specs/specs";
 export async function getSamples(scientistId: number): Promise<SamplesResponse> {
   const response = await apiFetch(`/scientists/${scientistId}/samples`);
   if (!response.ok) {
-    throw new Error("Unable to apiFetch samples");
+    throw new Error("Unable to fetch samples");
   }
   const data = await response.json();
   return data;
@@ -28,7 +28,7 @@ export async function getAllSamples(
 
   const response = await apiFetch(`/samples?${params}`);
   if (!response.ok) {
-    throw new Error("Unable to apiFetch samples");
+    throw new Error("Unable to fetch samples");
   }
   return response.json();
 }
@@ -37,7 +37,7 @@ export async function getSample(id: number): Promise<SampleDetail | null> {
   const response = await apiFetch(`/samples/${id}`);
   if (response.status === 404) return null;
   if (!response.ok) {
-    throw new Error("Unable to apiFetch sample results");
+    throw new Error("Unable to fetch sample results");
   }
   return response.json();
 }

@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import ApproveSamples from "../Views/ApproveSamples";
 import { approveSample, getAllSamples, rejectSample } from "../services/samples";
 import type { ApprovalFilter, SampleWithOwner } from "../types/Samples/sample";
-// import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function LabTechContainer() {
   const [pendingSamples, setPendingSamples] = useState<SampleWithOwner[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState<ApprovalFilter>("pending");
-  // const { id: labTechId } = useCurrentUser();
 
   async function handleApprove(id: number) {
     const updated = await approveSample(id);
