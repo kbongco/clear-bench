@@ -3,7 +3,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes, type MemoryRouterProps } from "react-router-dom";
 
 import LoginContainer from "./LoginContainer";
 import { login } from "../services/auth";
@@ -32,7 +32,7 @@ beforeEach(() => {
   useCurrentUserStore.setState({ user: null });
 });
 
-function renderLogin(initialEntries: any[] = ["/login"]) {
+function renderLogin(initialEntries: MemoryRouterProps["initialEntries"]= ["/login"]) {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>
