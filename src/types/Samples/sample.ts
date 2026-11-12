@@ -71,7 +71,6 @@ export interface SampleAPI {
 
 export interface NewSample {
   name: string;
-  scientist_id: number;
   sample_type?: string;
   test_start?: string;
   test_duration?: TestDuration;

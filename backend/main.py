@@ -1,5 +1,4 @@
 import os
-from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import List, Optional
 
@@ -9,11 +8,11 @@ from sqlalchemy.orm import Session, joinedload
 
 import crud
 import models
-from auth import authenticate_user
-from database import Base, engine, get_db
+from auth_routes import get_current_user, require_role
+from auth_routes import router as auth_router
+from database import get_db
 from schemas import (
     AllSamplesResponse,
-    ApproveSample,
     EnterResults,
     LabTech,
     NewSample,
@@ -24,21 +23,13 @@ from schemas import (
     SampleDetail,
     SamplesResponse,
     Scientist,
-    UpdateSample,
 )
 from utils.audit import log_event
 from utils.dates import calculate_due_date
 from utils.spec import check_value
 
-
-# Create tables on startup
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
+app.include_router(auth_router)
 
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
@@ -57,12 +48,16 @@ def read_root():
     return {"message": "Hello from FastAPI backend!"}
 
 
-@app.get("/scientists", response_model=List[Scientist])
+@app.get("/scientists", response_model=List[Scientist], dependencies=[Depends(get_current_user)])
 def get_scientists(db: Session = Depends(get_db)):
     return db.query(models.Scientist).all()
 
 
-@app.get("/scientists/{scientist_id}/samples", response_model=SamplesResponse)
+@app.get(
+    "/scientists/{scientist_id}/samples",
+    response_model=SamplesResponse,
+    dependencies=[Depends(get_current_user)],
+)  # noqa: E501
 def get_scientist_samples(
     scientist_id: int,
     status: Optional[str] = Query(None),
@@ -76,7 +71,7 @@ def get_scientist_samples(
 
 # TODO: once auth exists, scope results to the current user's access
 # instead of trusting the status/department query params.
-@app.get("/samples", response_model=AllSamplesResponse)
+@app.get("/samples", response_model=AllSamplesResponse, dependencies=[Depends(get_current_user)])
 def get_all_samples(
     status: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
@@ -96,12 +91,12 @@ def get_all_samples(
     return {"total": len(samples), "samples": samples}
 
 
-@app.get("/lab-techs", response_model=List[LabTech])
+@app.get("/lab-techs", response_model=List[LabTech], dependencies=[Depends(get_current_user)])
 def get_labtechs(db: Session = Depends(get_db)):
     return db.query(models.LabTech).all()
 
 
-@app.get("/samples/results/{sample_id}")
+@app.get("/samples/results/{sample_id}", dependencies=[Depends(get_current_user)])
 def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
     result = db.query(models.Result).filter(models.Result.sample_id == sample_id).first()
     if not result:
@@ -109,7 +104,9 @@ def get_sample_results(sample_id: int, db: Session = Depends(get_db)):
     return result
 
 
-@app.get("/samples/{sample_id}", response_model=SampleDetail)
+@app.get(
+    "/samples/{sample_id}", response_model=SampleDetail, dependencies=[Depends(get_current_user)]
+)
 def get_sample(sample_id: int, db: Session = Depends(get_db)):
     sample = (
         db.query(models.Sample)
@@ -128,15 +125,15 @@ def get_sample(sample_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/samples", response_model=SampleCreateResponse)
-def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
-    scientist = (
-        db.query(models.Scientist).filter(models.Scientist.id == sample.scientist_id).first()
-    )
-    if not scientist:
-        raise HTTPException(status_code=404, detail="Scientist does not exist")
+def api_create_sample(
+    sample: NewSample,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(require_role("scientist")),
+):
+    scientist = user.scientist
     new_sample = models.Sample(
         name=sample.name,
-        scientist_id=sample.scientist_id,
+        scientist_id=scientist.id,
         sample_type=sample.sample_type,
         test_start=sample.test_start,
         test_duration=sample.test_duration,
@@ -165,29 +162,17 @@ def api_create_sample(sample: NewSample, db: Session = Depends(get_db)):
     return {"message": "Sample created successfully", "sample": new_sample}
 
 
-@app.patch("/samples/{sample_id}", response_model=Sample)
-def api_update_sample(sample_id: int, sample_update: UpdateSample, db: Session = Depends(get_db)):
-    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
-    if not sample:
-        raise HTTPException(status_code=404, detail="Sample not found")
-
-    for field, value in sample_update.model_dump(exclude_unset=True).items():
-        setattr(sample, field, value)
-
-    db.commit()
-    db.refresh(sample)
-    return sample
-
-
 @app.post("/samples/{sample_id}/approve", response_model=Sample)
-def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(get_db)):
+def approve_sample(
+    sample_id: int,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
+    lab_tech = user.lab_tech
 
     if sample.test_status != "pending":
         raise HTTPException(status_code=400, detail="Only pending samples can be approved")
@@ -212,14 +197,17 @@ def approve_sample(sample_id: int, body: ApproveSample, db: Session = Depends(ge
 
 
 @app.post("/samples/{sample_id}/reject", response_model=Sample)
-def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_db)):
+def reject_sample(
+    sample_id: int,
+    body: RejectSample,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
+    lab_tech = user.lab_tech
 
     if sample.test_status != "pending":
         raise HTTPException(status_code=400, detail="Only pending samples can be rejected")
@@ -243,7 +231,7 @@ def reject_sample(sample_id: int, body: RejectSample, db: Session = Depends(get_
     return sample
 
 
-@app.get("/specs", response_model=List[ProductSpec])
+@app.get("/specs", response_model=List[ProductSpec], dependencies=[Depends(get_current_user)])
 def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(get_db)):
     query = db.query(models.ProductSpec)
     if sample_type:
@@ -252,14 +240,17 @@ def get_specs(sample_type: Optional[str] = Query(None), db: Session = Depends(ge
 
 
 @app.post("/samples/{sample_id}/results", response_model=SampleDetail)
-def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_db)):
+def enter_results(
+    sample_id: int,
+    body: EnterResults,
+    user: models.User = Depends(require_role("lab_tech")),
+    db: Session = Depends(get_db),
+):
     sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
 
-    lab_tech = db.query(models.LabTech).filter(models.LabTech.id == body.lab_tech_id).first()
-    if not lab_tech:
-        raise HTTPException(status_code=404, detail="Lab tech not found")
+    lab_tech = user.lab_tech
     if sample.test_status != "in_progress":
         raise HTTPException(
             status_code=400, detail="Results can only be entered for samples in progress"
@@ -359,8 +350,3 @@ def enter_results(sample_id: int, body: EnterResults, db: Session = Depends(get_
 @app.get("/test-db")
 def test_db(db: Session = Depends(get_db)):
     return {"status": "✅ Database connection working"}
-
-
-@app.get("/protected")
-async def protected_route(current_user: str = Depends(authenticate_user)):
-    return {"message": f"Hello {current_user}, this is a protected route!"}

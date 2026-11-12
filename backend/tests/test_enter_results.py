@@ -4,7 +4,7 @@ import models
 
 
 @pytest.fixture
-def setup_sample(db, sample_data):
+def setup_sample(db, sample_data, login_as):
     """An in-progress Food sample with pH (numeric) and visual (pass/fail) at 25C and 40C."""
     db.add_all(
         [
@@ -36,13 +36,13 @@ def setup_sample(db, sample_data):
     db.add(sample)
     db.commit()
     lab_tech = db.query(models.LabTech).first()
+    login_as(lab_tech)
     return {"sample": sample, "lab_tech": lab_tech}
 
 
-def valid_payload(lab_tech_id):
+def valid_payload():
     """Every cell in spec: pH 5 and 6, appearance passes at both conditions."""
     return {
-        "lab_tech_id": lab_tech_id,
         "test_method": "Internal SOP",
         "values": [
             {"test_type": "ph", "condition": "25C", "measured_value": 5},
@@ -71,7 +71,7 @@ def result_counts(db, sample_id):
 
 def test_all_cells_in_spec_pass(client, db, setup_sample):
     sample = setup_sample["sample"]
-    response = post_results(client, sample.id, valid_payload(setup_sample["lab_tech"].id))
+    response = post_results(client, sample.id, valid_payload())
 
     assert response.status_code == 200
     data = response.json()
@@ -87,7 +87,7 @@ def test_all_cells_in_spec_pass(client, db, setup_sample):
 
 def test_one_cell_out_of_spec_at_40c_fails(client, db, setup_sample):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     payload["values"][1]["measured_value"] = 8  # pH at 40C, limit is 7
 
     response = post_results(client, sample.id, payload)
@@ -114,7 +114,7 @@ def test_one_cell_out_of_spec_at_40c_fails(client, db, setup_sample):
 
 def test_pass_fail_rows_are_saved(client, db, setup_sample):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     payload["values"][3]["passed"] = False  # appearance fails at 40C
 
     response = post_results(client, sample.id, payload)
@@ -131,22 +131,18 @@ def test_pass_fail_rows_are_saved(client, db, setup_sample):
 
 
 @pytest.mark.parametrize(
-    ("sample_state", "tech_exists", "expected_status", "message"),
+    ("sample_state", "expected_status", "message"),
     [
-        ("in_progress", False, 404, "Lab tech not found"),
-        ("pending", True, 400, "in progress"),
-        ("completed", True, 400, "in progress"),
+        ("pending", 400, "in progress"),
+        ("completed", 400, "in progress"),
     ],
 )
-def test_400_and_404_errors(
-    client, db, setup_sample, sample_state, tech_exists, expected_status, message
-):
+def test_400_errors(client, db, setup_sample, sample_state, expected_status, message):
     sample = setup_sample["sample"]
     sample.test_status = sample_state
     db.commit()
-    lab_tech_id = setup_sample["lab_tech"].id if tech_exists else 999
 
-    response = post_results(client, sample.id, valid_payload(lab_tech_id))
+    response = post_results(client, sample.id, valid_payload())
 
     assert response.status_code == expected_status
     assert message.lower() in response.json()["detail"].lower()
@@ -154,7 +150,7 @@ def test_400_and_404_errors(
 
 
 def test_sample_not_found_returns_404(client, setup_sample):
-    response = post_results(client, 999, valid_payload(setup_sample["lab_tech"].id))
+    response = post_results(client, 999, valid_payload())
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Sample not found"
@@ -165,7 +161,7 @@ def test_no_storage_conditions_returns_400(client, db, setup_sample):
     sample.temperature = []
     db.commit()
 
-    response = post_results(client, sample.id, valid_payload(setup_sample["lab_tech"].id))
+    response = post_results(client, sample.id, valid_payload())
 
     assert response.status_code == 400
     assert "storage conditions" in response.json()["detail"]
@@ -177,7 +173,7 @@ def test_missing_spec_returns_400(client, db, setup_sample):
     sample.test_types = ["ph", "microbial"]
     db.commit()
 
-    response = post_results(client, sample.id, valid_payload(setup_sample["lab_tech"].id))
+    response = post_results(client, sample.id, valid_payload())
 
     assert response.status_code == 400
     assert response.json()["detail"] == "No spec for Food: microbial"
@@ -200,7 +196,7 @@ def test_missing_spec_returns_400(client, db, setup_sample):
 )
 def test_wrong_grid_returns_422(client, db, setup_sample, mutate, message):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     mutate(payload)
 
     response = post_results(client, sample.id, payload)
@@ -212,7 +208,7 @@ def test_wrong_grid_returns_422(client, db, setup_sample, mutate, message):
 
 def test_numeric_without_value_returns_422(client, db, setup_sample):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     del payload["values"][0]["measured_value"]
 
     response = post_results(client, sample.id, payload)
@@ -223,7 +219,7 @@ def test_numeric_without_value_returns_422(client, db, setup_sample):
 
 def test_pass_fail_without_passed_returns_422(client, db, setup_sample):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     del payload["values"][2]["passed"]
 
     response = post_results(client, sample.id, payload)
@@ -235,7 +231,7 @@ def test_pass_fail_without_passed_returns_422(client, db, setup_sample):
 def test_failed_request_changes_nothing(client, db, setup_sample):
     """The last cell fails in stage D, after every other cell was judged."""
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
     del payload["values"][3]["passed"]
 
     response = post_results(client, sample.id, payload)
@@ -249,7 +245,7 @@ def test_failed_request_changes_nothing(client, db, setup_sample):
 
 def test_cannot_enter_results_twice(client, db, setup_sample):
     sample = setup_sample["sample"]
-    payload = valid_payload(setup_sample["lab_tech"].id)
+    payload = valid_payload()
 
     assert post_results(client, sample.id, payload).status_code == 200
     assert post_results(client, sample.id, payload).status_code == 400

@@ -7,7 +7,6 @@ import TextArea from "../Textarea/Textarea";
 import Input from "../Input/Input";
 import ResultCell from "./ResultCell";
 import { enterResults } from "../../services/samples";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
 import formatTestType from "../../utils/formatTestType";
 
 type EnterResultsFormProps = {
@@ -34,7 +33,6 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
     const spec = specFor(testType);
     return spec ? formatLimit(spec) : "";
   };
-  const { id: labTechId } = useCurrentUser();
 
   const setCell = (testType: string, condition: string, value: string) =>
     setCells((prev) => ({ ...prev, [cellKey(testType, condition)]: value }));
@@ -54,7 +52,6 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
     setError(null);
     try {
       const updated = await enterResults(sample.id, {
-        lab_tech_id: labTechId,
         ...details,
         values: buildResultValues(cells, sample.test_types, sample.temperature, specs),
       });
