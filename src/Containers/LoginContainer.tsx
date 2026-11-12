@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useCurrentUserStore } from "../store/useCurrentUserStore";
 import { login } from "../services/auth";
 import Login from "../Views/Login/Login";
+import { useLocation, Navigate } from "react-router-dom";
+import type { Location } from "react-router-dom";
 
 export default function LoginContainer() {
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
@@ -20,6 +22,12 @@ export default function LoginContainer() {
       setSubmitting(false);
     }
   }
+
+  const user = useCurrentUserStore((state) => state.user);
+  const location = useLocation();
+  const from = (location.state as { from?: Location } | null)?.from?.pathname ?? "/";
+
+  if (user) return <Navigate to={from} replace />;
 
   return <Login onLogin={handleLogin} error={error} submitting={submitting} />;
 }

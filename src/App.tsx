@@ -10,6 +10,8 @@ import WhatsNext from "./Views/WhatsNext";
 import { useEffect } from "react";
 import { useCurrentUserStore } from "./store/useCurrentUserStore";
 import LoginContainer from "./Containers/LoginContainer";
+import RequireAuth from "./Layout/NavBar/RequireAuth";
+import AppLayout from "./Layout/NavBar/AppLayout";
 
 function App() {
   const status = useCurrentUserStore((state) => state.status);
@@ -27,13 +29,18 @@ function App() {
       <NavBar />
       <div className="md:ml-64">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/samples/:id" element={<SampleDetailsContainer />} />
-          <Route path="/submit-samples" element={<SubmitSamplesContainer />} />
-          <Route path="/approve-samples" element={<LabTechContainer />} />
-          <Route path="/view-samples" element={<AllSamplesContainer />} />
-          <Route path="/specs" element={<SpecsViewContainer />} />
-          <Route path="/whats-next" element={<WhatsNext />} />
+          <Route path="/login" element={<LoginContainer />} />
+          <Route element={<AppLayout />}>
+            <Route path="/whats-next" element={<WhatsNext />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/samples/:id" element={<SampleDetailsContainer />} />
+              <Route path="/submit-samples" element={<SubmitSamplesContainer />} />
+              <Route path="/approve-samples" element={<LabTechContainer />} />
+              <Route path="/view-samples" element={<AllSamplesContainer />} />
+              <Route path="/specs" element={<SpecsViewContainer />} />
+            </Route>
+          </Route>
         </Routes>
       </div>
     </>
