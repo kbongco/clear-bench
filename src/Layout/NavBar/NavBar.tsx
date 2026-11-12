@@ -15,7 +15,7 @@ import { useCurrentUserStore } from "../../store/useCurrentUserStore";
 import { logout } from "../../services/auth";
 
 export default function NavBar() {
-  const { role, id, name } = useCurrentUser();
+  const { role, name } = useCurrentUser();
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
 
   const [menuOpen, setMenuOpen] = useState(false);
