@@ -3,6 +3,12 @@ import pytest
 import models
 
 
+@pytest.fixture(autouse=True)
+def logged_in_as_sarah(db, sample_data, login_as):
+    sarah = db.query(models.LabTech).filter(models.LabTech.name.contains("Sarah")).first()
+    login_as(sarah)
+
+
 @pytest.fixture
 def sample_with_results(db, sample_data):
     """Yogurt (id 1) gets one result with two test values."""

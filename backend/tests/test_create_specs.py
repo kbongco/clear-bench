@@ -4,6 +4,12 @@ from sqlalchemy.exc import IntegrityError
 import models
 
 
+@pytest.fixture(autouse=True)
+def logged_in_as_sarah(db, sample_data, login_as):
+    sarah = db.query(models.LabTech).filter(models.LabTech.name.contains("Sarah")).first()
+    login_as(sarah)
+
+
 def test_get_all_specs(client, db):
     """All product specs are returned."""
     db.add_all(

@@ -37,3 +37,4 @@ venv/
 
 .vscode/*
 !.vscode/extensions.json
+*.db

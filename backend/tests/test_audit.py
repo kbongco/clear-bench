@@ -1,9 +1,18 @@
-from models import AuditEvent, Sample
+import pytest
+
+import models
+from models import Sample
 from utils.audit import log_event
+
+
+@pytest.fixture(autouse=True)
+def logged_in_as_alice(db, sample_data, login_as):
+    alice = db.query(models.Scientist).filter(models.Scientist.name.contains("Alice")).first()
+    login_as(alice)
+
 
 VALID = {
     "name": "Test Sample",
-    "scientist_id": 1,
     "sample_type": "Food",
     "totalBottles": 2,
     "test_types": ["ph"],
@@ -76,16 +85,3 @@ def test_sample_with_no_events_returns_empty_list(client, db, sample_data):
 
     assert response.status_code == 200
     assert response.json()["events"] == []
-
-
-def test_rejected_post_leaves_no_history(client, db, sample_data):
-    invalid_sample = {
-        **VALID,
-        "scientist_id": 999,
-    }
-
-    response = client.post("/samples", json=invalid_sample)
-
-    assert response.status_code == 404
-
-    assert db.query(AuditEvent).count() == 0
