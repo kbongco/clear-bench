@@ -11,19 +11,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { useCurrentUserStore } from "../../store/useCurrentUserStore";
 import { logout } from "../../services/auth";
 
 export default function NavBar() {
   const { role, name } = useCurrentUser();
-  const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-  const navigate = useNavigate();
 
   const closeMenu = () => {
     setMenuOpen(false);
