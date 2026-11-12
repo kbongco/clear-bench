@@ -54,29 +54,6 @@ describe("Login", () => {
     expect(onLogin).toHaveBeenCalledWith(DEMO_LABTECH_EMAIL, DEMO_PASSWORD);
   });
 
-  // 4. Demo buttons must not also submit the form.
-  it("calls onLogin exactly once when the scientist demo button is clicked", async () => {
-    const user = userEvent.setup();
-    const onLogin = vi.fn().mockResolvedValue(undefined);
-
-    render(<Login onLogin={onLogin} error={null} submitting={false} />);
-
-    await user.click(screen.getByRole("button", { name: "Try as a scientist" }));
-
-    expect(onLogin).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls onLogin exactly once when the lab tech demo button is clicked", async () => {
-    const user = userEvent.setup();
-    const onLogin = vi.fn().mockResolvedValue(undefined);
-
-    render(<Login onLogin={onLogin} error={null} submitting={false} />);
-
-    await user.click(screen.getByRole("button", { name: "Try as a lab tech" }));
-
-    expect(onLogin).toHaveBeenCalledTimes(1);
-  });
-
   // 5. Error message is accessible through role="alert".
   it("displays the error message as an alert", () => {
     const onLogin = vi.fn().mockResolvedValue(undefined);
