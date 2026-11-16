@@ -19,7 +19,6 @@ export interface ResultValue {
 }
 
 export interface EnterResults {
-  lab_tech_id: number;
   test_method?: string;
   instrument_used?: string;
   batch_number?: string;

@@ -1,8 +1,8 @@
 import type { LabTechSummary } from "../types/Results/results";
-import { API_URL } from "./config";
+import { apiFetch } from "./config";
 
 export async function getLabTechs(): Promise<LabTechSummary[]> {
-  const response = await fetch(`${API_URL}/lab-techs`);
+  const response = await apiFetch(`/lab-techs`);
   if (!response.ok) {
     throw new Error("Unable to fetch lab techs");
   }

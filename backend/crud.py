@@ -3,7 +3,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 
 import models
-from schemas import LabTech, NewSample, Sample, Scientist, UpdateSample
+from schemas import LabTech, Sample, Scientist
 
 
 def get_scientists(db: Session) -> List[Scientist]:
@@ -60,41 +60,6 @@ def get_samples_by_scientist(
 def get_sample_by_id(sample_id: int, db: Session) -> Optional[Sample]:
     s = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
     return Sample.model_validate(s) if s else None
-
-
-def create_sample(sample_data: NewSample, db: Session) -> Sample:
-    new_sample = models.Sample(
-        name=sample_data.name,
-        scientist_id=sample_data.scientist_id,
-        lab_tech_id=getattr(sample_data, "lab_tech_id", None),
-        sample_type=sample_data.sample_type,
-        test_status="pending",
-        test_start=sample_data.test_start,
-        due_date=getattr(sample_data, "due_date", None),
-        test_duration=sample_data.test_duration,
-        totalBottles=sample_data.totalBottles,
-        temperature=getattr(sample_data, "temperature", None),
-        notes=getattr(sample_data, "notes", None),
-        out_of_spec=False,
-    )
-    db.add(new_sample)
-    db.commit()
-    db.refresh(new_sample)
-    return Sample.model_validate(new_sample)
-
-
-def update_sample(sample_id: int, sample_update: UpdateSample, db: Session) -> Optional[Sample]:
-    sample = db.query(models.Sample).filter(models.Sample.id == sample_id).first()
-    if not sample:
-        return None
-
-    update_data = sample_update.model_dump(exclude_unset=True)
-    for field, value in update_data.items():
-        setattr(sample, field, value)
-
-    db.commit()
-    db.refresh(sample)
-    return Sample.model_validate(sample)
 
 
 def get_samples_result_by_id(sample_id: int, db: Session) -> Optional[List[dict]]:

@@ -16,11 +16,9 @@ import type { NewSample, ScientistSummary, TestDuration } from "../types/Samples
 import formatDate from "../utils/formatDate";
 import { applyAllOption } from "../utils/applyAll";
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function SubmitSamples({ scientist }: { scientist: ScientistSummary }) {
   const today = new Date();
-  const { id: scientistId } = useCurrentUser();
   const formattedToday = formatDate(today);
   const initialFormData = {
     sampleName: "",
@@ -112,7 +110,6 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     try {
       const payload: NewSample = {
         name: formData.sampleName,
-        scientist_id: scientistId,
         sample_type: formData.sampleType,
         totalBottles: parseInt(formData.totalSamples, 10) || 1,
         test_types: formData.testTypes,

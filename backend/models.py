@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import (
     Boolean,
+    CheckConstraint,
     Column,
     Date,
     DateTime,
@@ -170,3 +171,27 @@ class ProductSpec(Base):
     unit = Column(String, nullable=True)
     min_value = Column(Float, nullable=True)
     max_value = Column(Float, nullable=True)
+
+
+class User(Base):
+    """A login. Each user is exactly one scientist or one lab tech."""
+
+    __tablename__ = "users"
+    __table_args__ = (
+        CheckConstraint(
+            "(role = 'scientist' AND scientist_id IS NOT NULL AND lab_tech_id IS NULL)"
+            " OR (role = 'lab_tech' AND lab_tech_id IS NOT NULL AND scientist_id IS NULL)",
+            name="ck_users_role_matches_link",
+        ),
+    )
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    role = Column(String, nullable=False)
+    scientist_id = Column(Integer, ForeignKey("scientists.id"), unique=True, nullable=True)
+    lab_tech_id = Column(Integer, ForeignKey("lab_techs.id"), unique=True, nullable=True)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+
+    scientist = relationship("Scientist")
+    lab_tech = relationship("LabTech")

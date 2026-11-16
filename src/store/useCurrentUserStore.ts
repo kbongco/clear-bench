@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { getMe } from "../services/auth";
 
 export type Role = "scientist" | "labtech";
 
@@ -10,16 +10,22 @@ export interface CurrentUser {
 }
 
 interface CurrentUserStore {
-  user: CurrentUser;
-  setCurrentUser: (user: CurrentUser) => void;
+  user: CurrentUser | null;
+  status: "loading" | "ready";
+  setCurrentUser: (user: CurrentUser | null) => void;
+  loadCurrentUser: () => Promise<void>;
 }
 
-export const useCurrentUserStore = create<CurrentUserStore>()(
-  persist(
-    (set) => ({
-      user: { role: "scientist", id: 1, name: "Dr. Alice Nguyen" }, // the default
-      setCurrentUser: (user) => set({ user }),
-    }),
-    { name: "current-user" },
-  ),
-);
+export const useCurrentUserStore = create<CurrentUserStore>()((set) => ({
+  user: null,
+  status: "loading",
+  setCurrentUser: (user) => set({ user }),
+  loadCurrentUser: async () => {
+    try {
+      const user = await getMe();
+      set({ user, status: "ready" });
+    } catch {
+      set({ user: null, status: "ready" });
+    }
+  },
+}));

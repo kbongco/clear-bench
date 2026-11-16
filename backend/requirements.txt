@@ -4,3 +4,6 @@ sqlalchemy>=2.0
 pydantic>=2.0
 python-dotenv
 psycopg[binary]
+alembic
+pwdlib[argon2]
+pyjwt

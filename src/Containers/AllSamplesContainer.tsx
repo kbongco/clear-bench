@@ -1,9 +1,9 @@
-import { useCurrentUserStore } from "../store/useCurrentUserStore";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import LabTechSamplesContainer from "./LabTechSamplesContainer";
 import ScientistSamplesContainer from "./ScientistSamplesContainer";
 
 export default function AllSamplesContainer() {
-  const role = useCurrentUserStore((state) => state.user.role);
+  const { role } = useCurrentUser();
 
   if (role === "labtech") return <LabTechSamplesContainer />;
   return <ScientistSamplesContainer />;
