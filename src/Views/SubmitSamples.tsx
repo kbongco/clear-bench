@@ -164,16 +164,16 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <ol className="list-decimal list-inside">
           <li>All samples must be labeled properly before submission.</li>
           <li>
-            Please submit a paper copy of your testing sheet and upload your sheet so we have a copy
-            of your data. (Upload feature is currently a planned feature, please disregard this)
+            Please submit a paper copy of your testing sheet with your samples. (Upload feature is
+            currently a planned feature)
           </li>
           <li>
             Testing will not begin unless all required documents and items have been received.
             Please account for this on your testing sheets.
           </li>
           <li>
-            Once all required items have been received, you will receive a notification from the lab
-            tech who picks up your samples.
+            Once all required items have been received, a lab tech will approve your samples. You
+            can follow their status on All Samples.
           </li>
         </ol>
       </div>
