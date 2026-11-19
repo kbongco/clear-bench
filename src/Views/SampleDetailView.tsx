@@ -96,7 +96,10 @@ export default function SampleDetailView({
         <div className="flex items-center gap-4">
           <Pill status={sample.test_status ?? "pending"} />
           <div>
-            <SpecIndicator outOfSpec={sample.out_of_spec ?? false} />
+            <SpecIndicator
+              outOfSpec={sample.out_of_spec ?? false}
+              hasResults={sample.results.length > 0}
+            />
           </div>
         </div>
       </div>
