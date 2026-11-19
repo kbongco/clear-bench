@@ -8,7 +8,7 @@ export default function WhatsNext() {
     <div className="p-4">
       <h1 className="text-2xl font-bold">What's next</h1>
       <p className="mt-2 text-gray-600">
-        This version of Clear Bench is a working demo which demonstrates the basic features.
+        This version of ClearBench is a working demo which demonstrates the basic features.
       </p>
 
       <div className="mt-6 grid gap-6 md:grid-cols-2">

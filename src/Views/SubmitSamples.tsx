@@ -165,7 +165,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           <li>All samples must be labeled properly before submission.</li>
           <li>
             Please submit a paper copy of your testing sheet and upload your sheet so we have a copy
-            of your data.
+            of your data. (Upload feature is currently a planned feature, please disregard this)
           </li>
           <li>
             Testing will not begin unless all required documents and items have been received.

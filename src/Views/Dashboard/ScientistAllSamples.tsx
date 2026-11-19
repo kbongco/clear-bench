@@ -40,7 +40,6 @@ export default function ScientistAllSamples({
   }));
   return (
     <div className="flex justify-around flex-col pt-4">
-      <h1>{department}</h1>
       <div className="flex flex-col md:flex-row md:justify-around gap-3 px-4 md:px-0">
         <Input
           type={"text"}
