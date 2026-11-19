@@ -17,6 +17,7 @@ import formatMeasured from "../utils/formatMeasured";
 import EnterResultsForm from "../Components/EnterResultsForm/EnterResultsForm";
 import formatTestType from "../utils/formatTestType";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import formatConditions from "../utils/formatConditions";
 
 export default function SampleDetailView({
   sample,
@@ -41,7 +42,10 @@ export default function SampleDetailView({
     { label: "Due", value: sample.due_date },
     { label: "Duration", value: sample.test_duration },
     { label: "Bottles", value: sample.totalBottles },
-    { label: "Storage", value: sample.temperature.join(", ") },
+    {
+      label: "Storage",
+      value: sample.temperature.map((temp) => formatConditions(temp)).join(", "),
+    },
     { label: "Notes", value: sample.notes },
   ];
 
@@ -96,7 +100,10 @@ export default function SampleDetailView({
         <div className="flex items-center gap-4">
           <Pill status={sample.test_status ?? "pending"} />
           <div>
-            <SpecIndicator outOfSpec={sample.out_of_spec ?? false} />
+            <SpecIndicator
+              outOfSpec={sample.out_of_spec ?? false}
+              hasResults={sample.results.length > 0}
+            />
           </div>
         </div>
       </div>

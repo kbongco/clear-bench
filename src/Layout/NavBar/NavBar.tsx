@@ -63,7 +63,7 @@ export default function NavBar() {
           <FontAwesomeIcon icon={faBars} />
         </button>
 
-        <span className="text-white font-bold text-lg">Clear Bench</span>
+        <span className="text-white font-bold text-lg">ClearBench</span>
       </div>
 
       {menuOpen && (
@@ -85,7 +85,7 @@ export default function NavBar() {
       >
         <div>
           <div className="m-8 flex items-center justify-between">
-            <h1 className="text-2xl text-white font-bold">Clear Bench</h1>
+            <h1 className="text-2xl text-white font-bold">ClearBench</h1>
             <button
               type="button"
               ref={closeButtonRef}
