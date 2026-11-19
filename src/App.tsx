@@ -11,6 +11,7 @@ import { useCurrentUserStore } from "./store/useCurrentUserStore";
 import LoginContainer from "./Containers/LoginContainer";
 import RequireAuth from "./Layout/NavBar/RequireAuth";
 import AppLayout from "./Layout/NavBar/AppLayout";
+import NotFound from "./Views/NotFound";
 
 function App() {
   const status = useCurrentUserStore((state) => state.status);
@@ -27,6 +28,7 @@ function App() {
       <Route path="/login" element={<LoginContainer />} />
       <Route element={<AppLayout />}>
         <Route path="/whats-next" element={<WhatsNext />} />
+        <Route path="*" element={<NotFound />} />
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
           <Route path="/samples/:id" element={<SampleDetailsContainer />} />

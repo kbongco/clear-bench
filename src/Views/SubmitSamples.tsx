@@ -55,6 +55,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     { label: "1 year", value: "1-year" },
   ];
 
+  const [submitting, setSubmitting] = useState(false);
+
   const validateForm = () => {
     const newErrors = {
       sampleName: "",
@@ -99,6 +101,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (submitting) return;
+
     if (!validateForm()) {
       setToast({
         message: "Please complete all required fields.",
@@ -107,6 +111,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
       return;
     }
 
+    setSubmitting(true);
     try {
       const payload: NewSample = {
         name: formData.sampleName,
@@ -148,6 +153,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         message: "Failed to submit sample.",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -164,16 +171,16 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <ol className="list-decimal list-inside">
           <li>All samples must be labeled properly before submission.</li>
           <li>
-            Please submit a paper copy of your testing sheet and upload your sheet so we have a copy
-            of your data.
+            Please submit a paper copy of your testing sheet with your samples. (Upload feature is
+            currently a planned feature)
           </li>
           <li>
             Testing will not begin unless all required documents and items have been received.
             Please account for this on your testing sheets.
           </li>
           <li>
-            Once all required items have been received, you will receive a notification from the lab
-            tech who picks up your samples.
+            Once all required items have been received, a lab tech will approve your samples. You
+            can follow their status on All Samples.
           </li>
         </ol>
       </div>
@@ -285,9 +292,10 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <div className="col-span-full">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            disabled={submitting}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Submit Samples
+            {submitting ? "Submitting…" : "Submit Samples"}
           </button>
         </div>
       </form>
