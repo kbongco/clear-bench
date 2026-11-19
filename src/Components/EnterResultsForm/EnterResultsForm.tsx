@@ -8,6 +8,7 @@ import Input from "../Input/Input";
 import ResultCell from "./ResultCell";
 import { enterResults } from "../../services/samples";
 import formatTestType from "../../utils/formatTestType";
+import formatConditions from "../../utils/formatConditions";
 
 type EnterResultsFormProps = {
   sample: SampleDetail;
@@ -40,7 +41,7 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
   const renderCell = (testType: string, condition: string) => (
     <ResultCell
       spec={specFor(testType)}
-      label={`${nameFor(testType)} at ${condition}`}
+      label={`${nameFor(testType)} at ${formatConditions(condition)}`}
       value={cells[cellKey(testType, condition)] ?? ""}
       onChange={(value) => setCell(testType, condition, value)}
     />
@@ -78,7 +79,7 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
                 scope="col"
                 className="py-2 pr-4 text-sm font-semibold text-gray-600"
               >
-                {condition}
+                {formatConditions(condition)}
               </th>
             ))}
           </tr>
@@ -106,7 +107,7 @@ export default function EnterResultsForm({ sample, specs, onSaved }: EnterResult
       <div className="space-y-4 md:hidden">
         {sample.temperature.map((condition) => (
           <section key={condition} className="rounded-lg border border-gray-200 p-4">
-            <h3 className="mb-3 font-semibold">{condition}</h3>
+            <h3 className="mb-3 font-semibold">{formatConditions(condition)}</h3>
             <ul className="divide-y divide-gray-100">
               {sample.test_types.map((testType) => (
                 <li
