@@ -15,7 +15,7 @@ export default function ScientistAllSamples({
   status,
 }: {
   status: string;
-  department: string;
+  department?: string;
   samples: SampleWithOwner[];
   onStatusChange: (value: string) => void;
 }) {
