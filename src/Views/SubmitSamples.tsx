@@ -55,6 +55,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
     { label: "1 year", value: "1-year" },
   ];
 
+  const [submitting, setSubmitting] = useState(false);
+
   const validateForm = () => {
     const newErrors = {
       sampleName: "",
@@ -99,6 +101,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (submitting) return;
+
     if (!validateForm()) {
       setToast({
         message: "Please complete all required fields.",
@@ -107,6 +111,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
       return;
     }
 
+    setSubmitting(true);
     try {
       const payload: NewSample = {
         name: formData.sampleName,
@@ -148,6 +153,8 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         message: "Failed to submit sample.",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -285,9 +292,10 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         <div className="col-span-full">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            disabled={submitting}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Submit Samples
+            {submitting ? "Submitting…" : "Submit Samples"}
           </button>
         </div>
       </form>
