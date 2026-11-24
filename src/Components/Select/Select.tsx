@@ -11,7 +11,9 @@ export default function SelectComponent({
 }: SelectInterface) {
   return (
     <div className="flex flex-col">
-      <label className="font-bold">{label}</label>
+      <label className="font-bold" htmlFor={id}>
+        {label}
+      </label>
 
       <select
         id={id}
