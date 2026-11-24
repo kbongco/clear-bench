@@ -12,6 +12,7 @@ import LoginContainer from "./Containers/LoginContainer";
 import RequireAuth from "./Layout/NavBar/RequireAuth";
 import AppLayout from "./Layout/NavBar/AppLayout";
 import NotFound from "./Views/NotFound";
+import RequireRole from "./Layout/NavBar/RequireRole";
 
 function App() {
   const status = useCurrentUserStore((state) => state.status);
@@ -32,8 +33,12 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
           <Route path="/samples/:id" element={<SampleDetailsContainer />} />
-          <Route path="/submit-samples" element={<SubmitSamplesContainer />} />
-          <Route path="/approve-samples" element={<LabTechContainer />} />
+          <Route element={<RequireRole role="scientist" />}>
+            <Route path="/submit-samples" element={<SubmitSamplesContainer />} />
+          </Route>
+          <Route element={<RequireRole role="labtech" />}>
+            <Route path="/approve-samples" element={<LabTechContainer />} />
+          </Route>
           <Route path="/view-samples" element={<AllSamplesContainer />} />
           <Route path="/specs" element={<SpecsViewContainer />} />
         </Route>
