@@ -5,7 +5,7 @@ export interface SelectInterface {
   value: string;
   options: Options[];
   placeholder?: string;
-  id: string; 
+  id: string;
   error?: string;
 }
 

@@ -43,7 +43,7 @@ export default function ScientistAllSamples({
       <h1 className="px-4 text-2xl font-bold md:px-0">{department}</h1>
       <div className="flex flex-col md:flex-row md:justify-around gap-3 px-4 md:px-0">
         <Input
-          id='sample-search'
+          id="sample-search"
           type={"text"}
           placeholder={"Search by name or scientist"}
           value={search}
@@ -54,7 +54,7 @@ export default function ScientistAllSamples({
           label="Search Items"
         />
         <SelectComponent
-          id='status-filter'
+          id="status-filter"
           label={"Status"}
           name={"Status"}
           onChange={(e) => {

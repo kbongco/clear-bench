@@ -53,7 +53,7 @@ export default function LabTechAllSamples({
       <div className="flex justify-around flex-col pt-4">
         <div className="flex flex-col md:flex-row md:justify-around gap-3 px-4 md:px-0">
           <Input
-            id='sample-search'
+            id="sample-search"
             type={""}
             placeholder={""}
             value={search}
@@ -64,7 +64,7 @@ export default function LabTechAllSamples({
             label="Search Items"
           />
           <SelectComponent
-            id='team-filter'
+            id="team-filter"
             label={"Team"}
             name={"Team"}
             onChange={(e) => {
@@ -74,7 +74,7 @@ export default function LabTechAllSamples({
             options={teamOptions}
           />
           <SelectComponent
-            id='status-filter'
+            id="status-filter"
             label={"Status"}
             name={"Status"}
             value={status}

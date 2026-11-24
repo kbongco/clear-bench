@@ -189,7 +189,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4" onSubmit={handleSubmit}>
         <Input
-          id='sample-name'
+          id="sample-name"
           label="Sample Name"
           type="text"
           placeholder="Enter sample name"
@@ -200,7 +200,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <Input
-          id='sample-owner'
+          id="sample-owner"
           label="Sample Owner"
           type="text"
           placeholder=""
@@ -211,7 +211,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <Input
-          id='team-name'
+          id="team-name"
           label="Team Name"
           type="text"
           value={scientist.department ?? ""}
@@ -221,7 +221,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <Input
-          id='total-samples'
+          id="total-samples"
           label="Total Number of Samples"
           type="number"
           placeholder=""
@@ -231,7 +231,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <Input
-          id='start-date'
+          id="start-date"
           label="Start Date"
           type="date"
           value={formData.startDate}
@@ -267,7 +267,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <SelectComponent
-          id='test-duration'
+          id="test-duration"
           label="Test Duration"
           options={testDuration}
           value={formData.testDuration}
@@ -279,7 +279,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
           error={errors.testDuration}
         />
         <SelectComponent
-          id='sample-type'
+          id="sample-type"
           label="Type of Sample"
           placeholder="Select a sample type"
           options={typeOfSample}
@@ -290,7 +290,7 @@ export default function SubmitSamples({ scientist }: { scientist: ScientistSumma
         />
 
         <TextArea
-          id='notes'
+          id="notes"
           label="Other notes, please write in specifications here"
           name="notes"
           value={formData.notes}
